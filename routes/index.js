@@ -1,8 +1,13 @@
 
+
+//var apis    = require('./apis')
+//  , website = require('./website');
+
 /*
  * GET home page.
  */
 
-exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+exports.guiding = function (app) {
+//  apis.guiding(app);
+//  website.guiding(app);
 };

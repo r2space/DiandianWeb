@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <title><%= title %></title>
+    <% include common/required.html %>
+
+    <link rel='stylesheet' href='/stylesheets/login.css'/>
+    <script type='text/javascript' src='/javascripts/login/browser.js'></script>
+    <script type='text/javascript' src='/javascripts/login/login.js'></script>
+
+  </head>
+  <body>
+    
+    <section>
+      <article id="area" style="position: absolute;">
+        <header>
+          <hgroup>
+            <h1></h1>
+            <h2></h2>
+          </hgroup>
+        </header>
+      </article>
+    </section>
+
+    <div id="container-demo">
+      <div class="bubble">
+        <h4 class="rectangle">YUKARi</h4>
+        <div class="triangle-l"></div>
+        <div class="triangle-r"></div>
+
+        <form id="loginform" method="post" action="/login">
+          <input type="hidden" id="_csrf" name="_csrf" value="<%= csrftoken %>" />
+          <input type="hidden" name="_method" value="post" />
+
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="icon-building"></i></span>
+              <input type="text" class="form-control" placeholder="Company Id" id="path" name="path" value="apple">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="icon-envelope"></i></span>
+              <input type="text" class="form-control" placeholder="E-mail" id="name" name="name" value="apple01@apple.com.cn">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon "><i class="icon-key"></i></span>
+              <input type="password" class="form-control" placeholder="Password" id="pass" name="pass" value="apple01" >
+            </div>
+          </div>
+          <div class="form-group">
+            <div>
+              <button class="btn btn-block" onclick="javascript:login(); return false;">サインイン</button>
+            </div>
+          </div>
+        </form>
+
+      </div>    
+    </div>
+    
+    <footer>
+      <p>Copyright © 2013, DA Corporation. All Rights Reserved.</p>
+    </footer>
+  </body>
+</html>

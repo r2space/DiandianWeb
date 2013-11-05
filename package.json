@@ -1,12 +1,26 @@
 {
-  "name": "application-name",
+  "name": "Diandian",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node app.js"
   },
   "dependencies": {
-    "express": "3.3.2",
-    "ejs": "*"
+      "express": "3.3.2"
+    , "ejs": "0.8.4"
+    , "mongodb": "1.2.7"
+    , "mongoose": "3.6.x"
+    , "connect-mongo": "0.3.3"
+    , "config": "0.4.32"
+    , "async": "0.2.9"
+    , "validator": "2.0.0"
+    , "underscore": "1.5.2"
+    , "i18n": "0.4.1"
+    , "smartcore": "0.0.4"
+  },
+  "devDependencies": {
+      "less": "1.5.0"
+    , "csv": "0.3.6"
+    , "should": "2.0.2"
   }
 }

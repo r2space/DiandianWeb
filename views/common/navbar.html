@@ -1,0 +1,104 @@
+<input type="hidden" id="_csrf" name="_csrf" value="<%= csrftoken %>" />
+<input type="hidden" id="userid" name="userid" value="<%= user._id %>" />
+<input type="hidden" id="timezone" name="timezone" value="<%= user.timezone %>" />
+
+<script type='text/javascript'>
+  var i18n = "<%= i18n %>";
+  i18n = i18n.replace(/'/g,"\"");
+  i18n = JSON.parse(i18n);
+</script>
+
+<div class="navbar">
+  <div class="navbar-inner">
+      <a href="/yukari" class="brand"><img height="20px" src="/images/YUKARiW.png"></a>
+      <ul class="nav pull-right userinfo">
+        <li>
+          <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+            <img width="23" height="23" src="/images/ico_144px.png"/>
+            <span><%= user.name.name_zh %></span>
+            <i class="icon-chevron-down"></i>
+          </a>
+          <ul class="dropdown-menu pull-right">
+            <li>
+              <a href="/customer/user/edit/<%= user._id %>"><i class="icon-user"></i>&nbsp;Profile</a>
+            </li>
+
+            <li class="divider"></li>
+
+            <li>
+              <a href="/simplelogout" id="_logout"><i class="icon-off"></i>&nbsp;Logout</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+  </div><!--/.navbar-inner-->
+</div>
+
+<!-- 检索结果 -->
+<script type="text/template" id="tmpl_findresult">
+  <div id="{{id}}" class="{{classname}}">
+    <ul class="search"></ul>
+  </div>
+</script>
+
+<!-- 翻页 -->
+<script type="text/template" id="tmpl_pagination">
+  <ul class="pagination">
+    <$ if (canPrev) { $>
+    <li><a href="#" activePage = "prev"><%= i('js.public.info.page.prev')%></a></li>
+    <$ } else { $>
+    <li class="disabled" ><a href="#" activePage = "prev"><%= i('js.public.info.page.prev')%></a></li>
+    <$ } $>
+
+    <$ for (var i = start; i < start + limit; i++) { $>
+    <$ if (i == active) { $>
+    <li class="active" ><a href="#" activePage = {{i}}>{{i}}</a></li>
+    <$ } else { $>
+    <li><a href="#" activePage = {{i}}>{{i}}</a></li>
+    <$ } $>
+    <$ } $>
+
+    <$ if (canNext) { $>
+    <li><a href="#" activePage = "next"><%= i('js.public.info.page.next')%></a></li>
+    <$ } else { $>
+    <li class="disabled"><a href="#" activePage = "next"><%= i('js.public.info.page.next')%></a></li>
+    <$ } $>
+  </ul>
+</script>
+
+<!-- 用户检索 -->
+<script type="text/template" id="_user_list_template">
+  <li class="user">
+    <a uid="{{ id }}" uname="{{ name }}" type="{{ type }}">
+      <img src="{{ photo }}" />
+      <span style="text-align:left;">{{ name }}</span>
+      <span style="text-align:left;" class="addition">{{ addition }}</span>
+    </a>
+  </li>
+</script>
+
+<script type="text/template" id="_user_box_template">
+  <ol>
+    <li uid="{{uid}}" type="{{type}}">
+      <span>{{uname}}</span><a uid="{{uid}}"><i class="icon-remove"></i></a>
+    </li>
+  </ol>
+</script>
+
+<!-- Tag检索 -->
+<script type="text/template" id="_tag_list_template">
+  <li class="user">
+    <a tagname="{{ name }}">
+      <span style="text-align:left;">{{ name }}</span>
+    </a>
+  </li>
+</script>
+
+<script type="text/template" id="_tag_box_template">
+  <ol>
+    <li tagname="{{name}}">
+      <span>{{name}}</span><a tagname="{{name}}"><i class="icon-remove"></i></a>
+    </li>
+  </ol>
+</script>
+
