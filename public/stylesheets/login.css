@@ -1,0 +1,124 @@
+body {
+  border-top: 4px solid black;
+  margin: 0;
+  padding: 0;
+}
+footer {
+  border: 0;
+}
+footer p {
+  text-align: center;
+  margin: 0;
+  padding: 40px 0 0 0;
+  font-style: italic;
+  font-family: Times New Roman;
+  font-size: 11px;
+}
+article p {
+  background: #f8f8f8;
+  width: 300px;
+  height: 50px;
+  border: 1px solid #e0dfe3;
+}
+article p label {
+  float: left;
+  width: 100px;
+  padding: 20px 0 0 20px;
+  color: #666;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: right;
+}
+#login {
+  width: 80px;
+  height: 30px;
+}
+#login:hover {
+  background-position: left bottom;
+}
+#container-demo .bubble {
+  margin: 0 auto;
+  margin-top: 30px;
+  clear: both;
+  width: 440px;
+  background: #fff;
+  -moz-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+  -khtml-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 90;
+  padding: 50px;
+}
+#container-demo h4.rectangle {
+  margin: 0;
+  line-height: 50px;
+  background: #92d43e;
+  height: 50px;
+  width: 470px;
+  position: relative;
+  left: -65px;
+  top: 10px;
+  float: left;
+  -moz-box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.4);
+  -khtml-box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.4);
+  z-index: 100;
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 -1px rgba(0, 0, 0, 0.4);
+}
+#container-demo .menu li:hover {
+  background: rgba(255, 105, 180, 0.75);
+}
+#container-demo .triangle-l {
+  border-color: transparent #388117 transparent transparent;
+  border-style: solid;
+  border-width: 15px;
+  height: 0px;
+  width: 0px;
+  position: relative;
+  left: -79px;
+  top: 45px;
+  z-index: -1;
+}
+#container-demo .triangle-r {
+  border-color: transparent transparent transparent #388117;
+  border-style: solid;
+  border-width: 15px;
+  height: 0px;
+  width: 0px;
+  position: relative;
+  left: 390px;
+  top: 16px;
+  z-index: -1;
+}
+#container-demo .info {
+  margin: 20px 0 0;
+}
+#container-demo .info {
+  margin: 20px 0 0;
+}
+#detail {
+  text-align: center;
+  width: 240px;
+  padding: 2px;
+  margin-left: 50px;
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+input::-webkit-input-placeholder {
+  text-indent: 3px;
+  text-shadow: none;
+}
+a {
+  color: #000;
+}
+#loginform {
+  padding-top: 50px;
+}
