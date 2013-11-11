@@ -57,7 +57,7 @@ article p label {
 #container-demo h4.rectangle {
   margin: 0;
   line-height: 50px;
-  background: #92d43e;
+  background: #0080FF;
   height: 50px;
   width: 470px;
   position: relative;
@@ -77,7 +77,7 @@ article p label {
   background: rgba(255, 105, 180, 0.75);
 }
 #container-demo .triangle-l {
-  border-color: transparent #388117 transparent transparent;
+  border-color: transparent #0000FF transparent transparent;
   border-style: solid;
   border-width: 15px;
   height: 0px;
@@ -88,7 +88,7 @@ article p label {
   z-index: -1;
 }
 #container-demo .triangle-r {
-  border-color: transparent transparent transparent #388117;
+  border-color: transparent transparent transparent #0000FF;
   border-style: solid;
   border-width: 15px;
   height: 0px;

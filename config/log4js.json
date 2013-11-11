@@ -1,6 +1,9 @@
 {
   "appenders": [
     {
+      "type": "console"
+    },
+    {
       "category": "operation"
       , "type": "dateFile"
       , "filename": "logs/operation.log"
