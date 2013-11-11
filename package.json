@@ -6,7 +6,7 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "smartcore": "0.0.7"
+    "smartcore": "0.0.8"
   },
   "devDependencies": {
       "less": "1.5.0"
