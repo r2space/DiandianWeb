@@ -1,11 +1,9 @@
 <div class="sidebar" id="sidebar">
   <ul class="nav nav-list">
-    <% if (user.type == 0) {%>
-      <% if (user.authority && user.authority.contents ==1) {%>
-        <li>
-        <a href="#">
-          <span class="menu-text"><%= i('html.label.sidebar.content') %></span>
-        </a>
+    <li>
+      <a href="#">
+        <span class="menu-text"><%= i('html.label.sidebar.content') %></span>
+      </a>
         <ul class="submenu" style="display: block;">
           <li>
             <a href="/content/material" class="dropdown-toggle">
@@ -37,7 +35,6 @@
           </li>
         </ul>
       </li>
-      <% } else if (user.authority && user.authority.approve ==1) {%>
         <li>
         <a href="#">
           <span class="menu-text"><%= i('html.label.sidebar.content') %></span>
@@ -58,7 +55,6 @@
           </li>
         </ul>
       </li>
-      <% } %>
       <li>
         <a href="#" class="dropdown-toggle">
           <span class="menu-text"><%= i('html.label.sidebar.personal.setup') %></span>
@@ -78,7 +74,6 @@
           <% }%>
         </ul>
       </li>
-      <% if (user.authority && user.authority.contents ==1) {%>
         <li>
         <a href="#" class="dropdown-toggle">
           <span class="menu-text"><%= i('html.label.sidebar.appset') %></span>
@@ -96,9 +91,6 @@
           </li>
         </ul>
       </li>
-      <% }%>
-    <% }%>
-    <% if (user.type == 1) {%>
     <li>
         <a href="/customer/user" class="dropdown-toggle">
           <span class="menu-text"><%= i('html.label.sidebar.system.customer.user') %></span>
@@ -150,9 +142,6 @@
         </li>
       </ul>
     </li>
-    <% }%>
-
-    <% if (user.type == 2) {%>
     <li>
       <a href="#" class="dropdown-toggle">
         <span class="menu-text"><%= i('html.label.sidebar.da.system') %></span>
@@ -182,9 +171,6 @@
         </li>
       </ul>
     </li>
-    <% }%>
-
-    <% if (user.type == 3) {%>
     <li>
       <a href="#">
         <span class="menu-text"><%= i('html.label.sidebar.content') %></span>
@@ -310,7 +296,6 @@
         </li>
       </ul>
     </li>
-    <% }%>
   </ul><!--/.nav-list-->
 </div>
 

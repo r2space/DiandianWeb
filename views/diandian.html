@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <% include common/required.html %>
+  <link href="/stylesheets/diandian.css" rel="stylesheet" media="screen">
+</head>
+<body>
+
+  <% include common/navbar.html %>
+
+  <div class="main-container container-fluid">
+    <a class="menu-toggler" id="menu-toggler" href="#">
+      <span class="menu-text"></span>
+    </a>
+
+    <% include common/sidebar.html %>
+
+    <div class="main-content">
+      <div class="breadcrumbs" id="breadcrumbs">
+        <ul class="breadcrumb">
+          <li>
+            <i class="icon-home icon-large"></i>
+            <a href="#"><%= i('html.label.common.home') %><!-- ホーム--></a>
+          </li>
+        </ul><!--.breadcrumb-->
+      </div>
+
+    </div><!--/.main-content-->
+
+  </div><!--/.main-container-->
+</body>
+</html>

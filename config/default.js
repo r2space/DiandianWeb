@@ -3,7 +3,7 @@ module.exports = {
   "db": {
     "host": "mongo"
     , "port": 27017
-    , "dbname": "yukari"
+    , "dbname": "diandian"
     , "pool": 5
   },
 

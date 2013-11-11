@@ -41,13 +41,13 @@ function getConn(dbname) {
 
   // 无连接
   if (!conn) {
-    log.out('info', 'Create a connection. ');
+    log.info('Create a connection. ');
     return createConnection(host, port, dbname, poolSize);
   }
 
   // 连接被断开
   if (conn.readyState == 0) {
-    log.out('info', 'Re-new the connection');
+    log.info('Re-new the connection');
     return createConnection(host, port, dbname, poolSize);
   }
 
@@ -63,7 +63,7 @@ function createConnection(host, port, dbname, poolSize) {
   );
   connectionMap[dbname] = conn;
 
-  log.out('info', 'Database name "' + dbname + '". The connection pool size of ' + poolSize);
+  log.info('Database name "' + dbname + '". The connection pool size of ' + poolSize);
   return conn;
 }
 

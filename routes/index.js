@@ -1,7 +1,10 @@
 
-
+var core = smart.core
+  log = smart.framework.log;
 //var apis    = require('./apis')
 //  , website = require('./website');
+
+
 
 /*
  * GET home page.
@@ -18,8 +21,20 @@ exports.guiding = function (app) {
     res.render("login", {"title": "login"});
   });
 
-//  app.get("", function(req, res) {
-//
-//  });
+  app.get("/diandian",function(req, res) {
+    res.render("diandian", {"title": "diandian", user: req.session.user});
+  });
+
+  // 登陆
+  app.get('/simplelogin', function (req, res) {
+    log.audit("login");
+    core.user.login(req, res, function(){}, "diandian");
+  });
+
+  // 注销
+  app.get("/simplelogout", function (req, res) {
+    log.audit("logout");
+    core.user.logout(req, res);
+  });
 
 };
