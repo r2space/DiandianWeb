@@ -20,7 +20,7 @@
   border-radius: 0;
   margin: 0;
   position: relative;
-  background: #92d43e;
+  background: #c0c704;
   line-height: 50px;
 }
 .brand {
@@ -29,7 +29,7 @@
   text-shadow: none;
 }
 .userinfo {
-  background: #388117;
+  background: #7d801a;
 }
 .navbar .nav > li > a,
 .navbar .nav > li > a:hover,
@@ -37,7 +37,7 @@
   font-size: 13px;
   text-shadow: none;
   color: #fff;
-  background-color: #388117;
+  background-color: #7d801a;
 }
 .nav > li > a {
   position: relative;
@@ -391,7 +391,7 @@ input[type="color"] {
   padding-top: 5px;
   padding-right: 5px;
   margin-bottom: 1px;
-  border-bottom: 5px solid #92d43e;
+  border-bottom: 5px solid #c0c704;
 }
 h4 {
   font-size: 24px;
@@ -927,8 +927,8 @@ ol.popular-tags li a {
 }
 .btn-default {
   color: #ffffff;
-  background-color: #92d43e;
-  border-color: #92d43e;
+  background-color: #c0c704;
+  border-color: #c0c704;
 }
 .btn-default:hover,
 .btn-default:focus,
@@ -936,8 +936,8 @@ ol.popular-tags li a {
 .btn-default.active,
 .open .dropdown-toggle.btn-default {
   color: #ffffff;
-  background-color: #92d43e;
-  border-color: #92d43e;
+  background-color: #c0c704;
+  border-color: #c0c704;
 }
 .btn-default.disabled,
 .btn-default[disabled],

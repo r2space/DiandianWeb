@@ -57,7 +57,7 @@ article p label {
 #container-demo h4.rectangle {
   margin: 0;
   line-height: 50px;
-  background: #FFEE33;
+  background: #e9ee5c;
   height: 50px;
   width: 470px;
   position: relative;
@@ -70,14 +70,14 @@ article p label {
   box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.4);
   z-index: 100;
   text-align: center;
-  color: #D14DB7;
+  color: #FFFFFF;
   text-shadow: 0 0 rgba(0, 0, 0, 0.4);
 }
 #container-demo .menu li:hover {
   background: rgba(255, 105, 180, 0.75);
 }
 #container-demo .triangle-l {
-  border-color: transparent #FFEE00 transparent transparent;
+  border-color: transparent #e9ee5c transparent transparent;
   border-style: solid;
   border-width: 15px;
   height: 0px;
@@ -88,7 +88,7 @@ article p label {
   z-index: -1;
 }
 #container-demo .triangle-r {
-  border-color: transparent transparent transparent #FFEE00;
+  border-color: transparent transparent transparent #e9ee5c;
   border-style: solid;
   border-width: 15px;
   height: 0px;
