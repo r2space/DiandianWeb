@@ -42,4 +42,9 @@ exports.guiding = function (app) {
     res.render("menu_item_list", {"title": "item", user: req.session.user});
   });
 
+  //桌台
+  app.get("/shop/desk/list", function(req, res) {
+    res.render("shop_desk_list", {"title": "desk", user: req.session.user});
+  });
+
 };
