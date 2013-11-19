@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <title><%= title %></title>
+  <% include common/required.html %>
+  <link href="/stylesheets/diandian.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="/javascripts/shop_desk_add.js"></script>
+</head>
+<body>
+
+<% include common/navbar.html %>
+
+<div class="main-container container-fluid">
+  <% include common/sidebar.html %>
+
+  <div class="main-content">
+    <div class="breadcrumbs" id="breadcrumbs">
+      <ul class="breadcrumb">
+        <li>
+          <i class="icon-home icon-large"></i>
+          <a href="/diandian"><%= i('html.label.common.home') %></a>
+              <span class="divider">
+                <i class="icon-chevron-right arrow-icon"></i>
+              </span>
+        </li>
+        <li class="active"><%= i('html.label.shop.desk') %></li>
+      </ul><!--.breadcrumb-->
+    </div>
+
+    <div class="page-content">
+      <div class="row tableheader">
+
+        <div class="pull-right">
+          <button id="addDesk" type="button" class="btn btn-default">
+            <i class="icon-plus icon-white"></i>
+            <span><%= i('html.button.desk.add') %></span>
+          </button>
+        </div>
+
+        <div class="pull-right" style="width: 300px">
+          <form class="search-form" onsubmit="return false;">
+            <div class="input-group">
+              <input id="txt_search" type="text" placeholder="<%= i('html.label.common.search') %>(<%= i('html.label.desk.name') %>)" class="form-control"  autocomplete="off" />
+                <span id="doSearch" class="input-group-addon">
+                  <i class="icon-search"></i>
+                </span>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- 一览表示 -->
+      <div id="list" class="row">
+        <div class="col-lg-12">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th><%= i('html.label.desk.no') %></th>
+              <th><%= i('html.label.desk.name') %></th>
+              <th><%= i('html.label.desk.type') %></th>
+              <th><%= i('html.label.common.updateat') %></th>
+              <th><%= i('html.label.common.updateby') %></th>
+              <th><%= i('html.label.common.operation') %></th>
+            </tr>
+            </thead>
+            <tbody id="desk_list"></tbody>
+          </table>
+        </div><!--/span-->
+      </div>
+
+      <div class="pagination-area" id="pagination_area"></div>
+
+    </div>
+  </div>
+
+</div><!--/.main-container-->
+
+<script type="text/template" id="tmpl_desk_list">
+  <tr>
+    <td>{{index}}</td>
+    <td>{{name}}</td>
+    <td>{{type}}</td>
+    <td>{{editat}}</td>
+    <td>{{editby}}</td>
+    <td>
+      <a href="#" class="btn btn-default btn-sm" index={{index}} rowid="{{id}}" operation="edit"><%= i('html.button.common.edit') %><!-- 編集--></a>
+      <a href="#" class="btn btn-default btn-sm" index={{index}} rowid="{{id}}" operation="delete"><%= i('html.button.common.delete') %><!--删除--></a>
+    </td>
+  </tr>
+</script>
+
+</body>
+</html>
