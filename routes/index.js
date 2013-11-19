@@ -1,6 +1,7 @@
 
-var core = smart.core
-  log = smart.framework.log;
+var core     = smart.core
+  ,log        = smart.framework.log
+  , desk  = require("../apis/desk")
 //var apis    = require('./apis')
 //  , website = require('./website');
 
@@ -40,6 +41,15 @@ exports.guiding = function (app) {
   //菜品
   app.get("/menu/item/list", function(req, res) {
     res.render("menu_item_list", {"title": "item", user: req.session.user});
+  });
+
+  //桌台
+  app.get("/shop/desk/list", function(req, res) {
+    res.render("shop_desk_list", {"title": "desk", user: req.session.user});
+  });
+
+  app.post('/desk/add.json', function(req, res){
+    desk.add(req, res);
   });
 
   //菜单
