@@ -27,6 +27,10 @@
 	"html.label.menu.type": "类别",
   "html.label.shop.desk": "桌台",
 	"html.label.common.home": "主页",
+  "html.button.desk.add": "增加桌台",
+  "html.label.desk.name": "桌台名",
+  "html.label.desk.no": "号码",
+  "html.label.desk.type": "类型"
 	"html.label.sidebar.content": "html.label.sidebar.content",
 	"html.label.sidebar.content.material": "html.label.sidebar.content.material",
 	"html.label.sidebar.content.synthetic": "html.label.sidebar.content.synthetic",
