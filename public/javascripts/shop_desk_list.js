@@ -12,7 +12,7 @@ $(function () {
 
   // add layout
   $("#addDesk").bind("click", function(event){
-    window.location = "/shop/desk/add";
+    window.location = "desk/add";
   });
 
   // show layout list
