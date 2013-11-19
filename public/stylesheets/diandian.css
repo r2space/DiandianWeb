@@ -23,7 +23,7 @@ body {
   border-radius: 0;
   margin: 0;
   position: relative;
-  background: #c0c704;
+  background: #e9ee5c;
   line-height: 50px;
 }
 .brand {
@@ -32,7 +32,7 @@ body {
   text-shadow: none;
 }
 .userinfo {
-  background: #7d801a;
+  background: #f4c834;
 }
 .navbar .nav > li > a,
 .navbar .nav > li > a:hover,
@@ -40,7 +40,7 @@ body {
   font-size: 13px;
   text-shadow: none;
   color: #fff;
-  background-color: #7d801a;
+  background-color: #f4c834;
 }
 .nav > li > a {
   position: relative;
@@ -394,7 +394,7 @@ input[type="color"] {
   padding-top: 5px;
   padding-right: 5px;
   margin-bottom: 1px;
-  border-bottom: 5px solid #c0c704;
+  border-bottom: 5px solid #e9ee5c;
 }
 h4 {
   font-size: 24px;
@@ -852,13 +852,13 @@ ol.popular-tags li a {
 .btn-warning.active,
 .open .dropdown-toggle.btn-warning {
   color: #ffffff;
-  background-color: #92d43e;
-  border-color: #92d43e;
+  background-color: #e9ee5c;
+  border-color: #e9ee5c;
 }
 .btn-warning {
   color: #ffffff;
-  background-color: #92d43e;
-  border-color: #92d43e;
+  background-color: #e9ee5c;
+  border-color: #e9ee5c;
   font-weight: 900;
 }
 a:hover,
@@ -876,8 +876,8 @@ a {
 }
 .btn-info {
   color: #ffffff;
-  background-color: #92d43e;
-  border-color: #92d43e;
+  background-color: #e9ee5c;
+  border-color: #e9ee5c;
 }
 .btn-info:hover,
 .btn-info:focus,
@@ -885,8 +885,8 @@ a {
 .btn-info.active,
 .open .dropdown-toggle.btn-info {
   color: #ffffff;
-  background-color: #92d43e;
-  border-color: #92d43e;
+  background-color: #e9ee5c;
+  border-color: #e9ee5c;
 }
 .btn {
   border-radius: 0px;
@@ -930,8 +930,8 @@ ol.popular-tags li a {
 }
 .btn-default {
   color: #ffffff;
-  background-color: #c0c704;
-  border-color: #c0c704;
+  background-color: #e9ee5c;
+  border-color: #e9ee5c;
 }
 .btn-default:hover,
 .btn-default:focus,
@@ -939,8 +939,8 @@ ol.popular-tags li a {
 .btn-default.active,
 .open .dropdown-toggle.btn-default {
   color: #ffffff;
-  background-color: #c0c704;
-  border-color: #c0c704;
+  background-color: #e9ee5c;
+  border-color: #e9ee5c;
 }
 .btn-default.disabled,
 .btn-default[disabled],
@@ -957,8 +957,8 @@ fieldset[disabled] .btn-default:active,
 .btn-default.disabled.active,
 .btn-default[disabled].active,
 fieldset[disabled] .btn-default.active {
-  background-color: #92d43e;
-  border-color: #92d43e;
+  background-color: #e9ee5c;
+  border-color: #e9ee5c;
 }
 .btn-white {
   color: #858585;

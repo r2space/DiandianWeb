@@ -32,7 +32,7 @@
       <div class="row tableheader">
 
         <div class="pull-right">
-          <button id="selectFile" type="button" class="btn btn-default">
+          <button id="addFile" type="button" class="btn btn-default">
             <i class="icon-plus icon-white"></i>
             <span><%= i('html.button.item.add') %><!--菜品追加--></span>
           </button>
@@ -43,7 +43,7 @@
         <div class="pull-right" style="width: 300px">
           <form class="search-form" onsubmit="return false;">
             <div class="input-group">
-              <input id="txt_search" type="text" placeholder="<%= i('html.label.common.search') %>(<%= i('html.label.menu.filename') %>)" class="form-control"  autocomplete="off" />
+              <input id="txt_search" type="text" placeholder="<%= i('html.label.common.search') %>(<%= i('html.label.item.filename') %>)" class="form-control"  autocomplete="off" />
                 <span id="doSearch" class="input-group-addon">
                   <i class="icon-search"></i>
                 </span>
@@ -58,15 +58,40 @@
           <table class="table table-hover">
             <thead>
             <tr>
-              <th><%= i('html.label.menu.no') %><!--号码--></th>
-              <th><%= i('html.label.menu.filename') %><!--文件名字--></th>
-              <th><%= i('html.label.menu.type') %><!--类别--></th>
-              <!--<th><%= i('html.label.material.size') %>&lt;!&ndash; サイズ&ndash;&gt;</th>-->
+              <th><%= i('html.label.item.no') %><!--号码--></th>
+              <th><%= i('html.label.item.filename') %><!--菜品名字--></th>
+              <th><%= i('html.label.item.type') %><!--类别--></th>
+              <th><%= i('html.label.item.price') %><!--价格--></th>
               <th><%= i('html.label.common.updateat') %><!--更新时间--></th>
               <th><%= i('html.label.common.operation') %><!-- 操作--></th>
             </tr>
             </thead>
-            <tbody id="material_list"></tbody>
+            <tbody id="material_list">
+            <tr>
+              <td>01</td>
+              <td>test</td>
+              <td>川菜</td>
+              <td>100元</td>
+              <td>2013/11/12</td>
+              <td>
+                <a href="#" class="btn btn-default btn-sm {{class1}}" rowid="{{id}}" operation="edit"><%= i('html.button.common.edit') %><!--編集 --></a>
+                <a href="#" class="btn btn-default btn-sm {{class2}}" rowid="{{id}}" operation="detailed"><%= i('html.button.common.detailed') %><!--详细--></a>
+                <a href="#" class="btn btn-default btn-sm {{class4}}" rowid="{{id}}" operation="delete"><%= i('html.button.common.delete') %><!--削除 --></a>
+              </td>
+            </tr>
+            <tr>
+              <td>02</td>
+              <td>test02</td>
+              <td>东北菜</td>
+              <td>500元</td>
+              <td>2013/11/12</td>
+              <td>
+                <a href="#" class="btn btn-default btn-sm {{class1}}" rowid="{{id}}" operation="edit"><%= i('html.button.common.edit') %><!--編集 --></a>
+                <a href="#" class="btn btn-default btn-sm {{class2}}" rowid="{{id}}" operation="detailed"><%= i('html.button.common.detailed') %><!--详细--></a>
+                <a href="#" class="btn btn-default btn-sm {{class4}}" rowid="{{id}}" operation="delete"><%= i('html.button.common.delete') %><!--削除 --></a>
+              </td>
+            </tr>
+            </tbody>
           </table>
         </div><!--/span-->
       </div>

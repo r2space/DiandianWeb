@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><%= title %></title>
+<% include common/required.html %>
+<link href="/stylesheets/diandian.css" rel="stylesheet" media="screen">
+<script type="text/javascript" src="/javascripts/menu_item_add.js"></script>
+
+</head>
+<body>
+
+<% include common/navbar.html %>
+<div class="main-container container-fluid row">
+<% include common/sidebar.html %>
+
+<div class="main-content">
+  <div class="breadcrumbs" id="breadcrumbs">
+    <ul class="breadcrumb">
+      <li>
+        <i class="icon-home home-icon"></i>
+        <a href="/diandian"><%= i('html.label.common.home') %><!--主页--></a>
+          <span class="divider">
+            <i class="icon-chevron-right arrow-icon"></i>
+          </span>
+      </li>
+      <li>
+        <i class="icon-th icon-large"></i>
+        <a href="/menu/item/add"><%= i('html.label.menu.item') %><!--菜品--></a>
+          <span class="divider">
+            <i class="icon-chevron-right arrow-icon"></i>
+          </span>
+      </li>
+      <li class="active"><%= title %><!--增加菜品--></li>
+    </ul>
+    <!--.breadcrumb-->
+  </div>
+  <div class="page-content">
+    <!--
+    <div class="row tableheader" style="margin-left: 30px">
+      <div class="pull-right" style="padding-bottom: 5px">
+        <a href="#" class="btn btn-default" id="inputInfo"><i class="icon-font">&nbsp;</i>情報入力</a>
+        <a href="#" class="btn btn-default" id="saveitem"><i class="icon-save">&nbsp;</i>保存</a>
+        <a href="#" class="btn btn-default" id="saveAndApply"><i class="icon-save">&nbsp;</i>保存して申請</a>
+      </div>
+    </div>
+    -->
+    <div class="row tableheader col-lg-8 col-md-12">
+      <div class="pull-left">
+        <h4><%= i('html.label.item.info') %><!--菜品录入--></h4>
+      </div>
+    </div>
+    <div class="row col-lg-8 col-md-12" style="border:solid 0px #e3e3e3;margin-bottom: 30px">
+      <form class="form-horizontal" role="form">
+        <div class="form-group" style="margin-top: 15px">
+          <label for="itemName" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.title') %><!--菜名--></label>
+          <div class="col-lg-8 col-md-8">
+            <input type="text" name="itemName" class="form-control" id="itemName" placeholder="<%= i('html.label.item.info.title') %>">
+          </div>
+        </div>
+        <div class="form-group" style="margin-top: 15px">
+          <label for="itemName" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.price') %><!--价格--></label>
+          <div class="col-lg-8 col-md-8">
+            <input type="text" name="itemName" class="form-control" id="itemPrice" placeholder="<%= i('html.label.item.info.price') %>">
+          </div>
+        </div>
+        <div class="form-group" style="margin-top: 15px">
+          <label for="itemName" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.BigImg') %><!--大图--></label>
+          <div class="col-lg-8 col-md-8">
+            <input type="text" name="itemName" class="form-control" id="itemBigImg" placeholder="<%= i('html.label.item.info.BigImg') %>" style="width: 350px;">
+          </div>
+          <button class="btn btn-default btn-sm " style="margin-left: -60px;">上传</button>
+        </div>
+        <button id="test" class="btn btn-default btn-sm " style="margin-left: -60px;">上传</button> <!--test-->
+        <div class="form-group" style="margin-top: 15px">
+          <label for="itemName" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.SmaImg') %><!--小图--></label>
+          <div class="col-lg-8 col-md-8">
+            <input type="text" name="itemName" class="form-control" id="itemSmaImg" placeholder="<%= i('html.label.item.info.SmaImg') %>" style="width: 350px;">
+          </div>
+          <button class="btn btn-default btn-sm " style="margin-left: -60px;">上传</button>
+        </div>
+        <div class="form-group" style="margin-top: 15px">
+          <label for="itemName" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.type') %><!--类型--></label>
+          <div class="col-lg-8 col-md-8">
+            <input type="text" name="itemName" class="form-control" id="itemType" placeholder="<%= i('html.label.item.info.type') %>">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="itemComment" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.comment') %><!--描述--></label>
+          <div class="col-lg-8 col-md-8">
+            <textarea class="form-control" name="itemComment" id="itemComment" placeholder="<%= i('html.label.item.info.comment') %>"
+                      rows="4"></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="itemComment" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.material') %><!--材料--></label>
+          <div class="col-lg-8 col-md-8">
+            <textarea class="form-control" name="itemComment" id="itemMaterial" placeholder="<%= i('html.label.item.info.material') %>"
+                      rows="4"></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="itemComment" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.method') %><!--作法--></label>
+          <div class="col-lg-8 col-md-8">
+            <textarea class="form-control" name="itemComment" id="itemMethod" placeholder="<%= i('html.label.item.info.method') %>"
+                      rows="4"></textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!--<div class="row col-lg-8 col-md-12 tableheader" style="margin-top: 30px">-->
+      <!--<div class="pull-left">-->
+        <!--<h4><%= i('html.label.item.x') %>&lt;!&ndash; 横&ndash;&gt;</h4>-->
+      <!--</div>-->
+      <!--<div class="pull-right">-->
+        <!--&lt;!&ndash; TODO ysl&ndash;&gt;-->
+        <!--<a data-toggle="modal"  href="#" class="btn btn-default" id="additemScreen"><i class="icon-plus">&nbsp;</i><%= i('html.button.item.screenadd') %>&lt;!&ndash; 追加スクリーン&ndash;&gt;</a>-->
+      <!--</div>-->
+    <!--</div>-->
+    <div class="col-lg-8 col-md-12" style="margin-bottom: 30px;padding: 0px;">
+      <div id="saveitem" name="saveitem" class="col-lg-4 col-md-4 btn btn-warning btn-lg">
+        <%= i('html.button.common.save') %><!-- 保存-->
+      </div>
+    </div>
+  </div>
+ </div>
+</div>
+<!--/.main-container-->
+
+
+
+</body>
+</html>

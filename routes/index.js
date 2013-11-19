@@ -5,6 +5,8 @@ var core     = smart.core
 //var apis    = require('./apis')
 //  , website = require('./website');
 
+
+
 /*
  * GET home page.
  */
@@ -48,6 +50,21 @@ exports.guiding = function (app) {
 
   app.post('/desk/add.json', function(req, res){
     desk.add(req, res);
+  });
+
+  //菜单
+  app.get("/menu/menu/list", function(req, res) {
+    res.render("menu_menu_list", {"title": "menu", user: req.session.user});
+  });
+
+  //菜品增加
+  app.get("/menu/item/add", function(req, res) {
+    res.render("menu_item_add", {"title": "新增菜品", user: req.session.user});
+  });
+
+  //菜单增加
+  app.get("/menu/menu/add", function(req, res) {
+    res.render("menu_menu_add", {"title": "新增菜单", user: req.session.user});
   });
 
 };
