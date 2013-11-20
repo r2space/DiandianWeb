@@ -58,7 +58,7 @@ exports.get = function(code_, user_, deskId_, callback_){
     if (err) {
       return callback_(new error.InternalServer(err));
     }
-
+    callback_(err, result);
   });
 };
 
@@ -81,9 +81,7 @@ exports.list = function(code_, condition_, start_, limit_, callback_) {
         return callback_(new error.InternalServer(err));
       }
 
-      //user.appendUser(code_, result, "editby", function (err) {
-      callback_(err, {items: result, totalItems: count});
-      //});
+      return callback_(err, {items: result, totalItems: count});
     });
   });
 };

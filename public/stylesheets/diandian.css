@@ -843,8 +843,8 @@ ol.popular-tags li a {
   z-index: 2;
   color: #000000;
   cursor: default;
-  background-color: #92d43e;
-  border-color: #92d43e;
+  background-color: #e9ee5c;
+  border-color: #e9ee5c;
 }
 .btn-warning:hover,
 .btn-warning:focus,
@@ -971,13 +971,13 @@ fieldset[disabled] .btn-default.active {
   border-color: #e3e3e3;
 }
 .form-control:focus {
-  border-color: #92d43e;
+  border-color: #e9ee5c;
 }
 .alertify-button-cancel,
 .alertify-button-cancel:hover,
 .alertify-button-cancel:focus,
 .alertify-button-cancel:active {
-  background-color: #92d43e;
+  background-color: #e9ee5c;
 }
 .alertify-button,
 .alertify-button:hover,
@@ -991,9 +991,9 @@ fieldset[disabled] .btn-default.active {
 .alertify-button-ok:focus,
 .alertify-button-ok:active {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0);
-  background-color: #92d43e;
-  border: 1px solid #92d43e;
-  border-color: #92d43e #92d43e #92d43e;
+  background-color: #e9ee5c;
+  border: 1px solid #e9ee5c;
+  border-color: #e9ee5c #e9ee5c #e9ee5c;
 }
 .alertify-button-cancel,
 .alertify-button-cancel:hover,
@@ -1001,11 +1001,11 @@ fieldset[disabled] .btn-default.active {
 .alertify-button-cancel:active {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0);
   background-color: #92d43e;
-  background-image: -webkit-linear-gradient(top, #92d43e, #92d43e);
-  background-image: -moz-linear-gradient(top, #92d43e, #92d43e);
-  background-image: -ms-linear-gradient(top, #92d43e, #92d43e);
-  background-image: -o-linear-gradient(top, #92d43e, #92d43e);
-  background-image: linear-gradient(top, #92d43e, #92d43e);
+  background-image: -webkit-linear-gradient(top, #e9ee5c, #e9ee5c);
+  background-image: -moz-linear-gradient(top, #e9ee5c, #e9ee5c);
+  background-image: -ms-linear-gradient(top, #e9ee5c, #e9ee5c);
+  background-image: -o-linear-gradient(top, #e9ee5c, #e9ee5c);
+  background-image: linear-gradient(top, #e9ee5c, #e9ee5c);
   color: #FFF;
 }
 .alertify-dialog {

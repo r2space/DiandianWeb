@@ -9,6 +9,9 @@
 $(function () {
   'use strict';
 
+  var deskId = $('#deskId').val();
+  render(deskId);
+
   $("#addDesk").bind("click", function(event){
 
     var desk = {
@@ -17,21 +20,30 @@ $(function () {
       , type: $("#inputType").attr("value")
     };
 
-    //if (!check_desk(desk)) {
+    if (!check_desk(desk)) {
 
-      smart.dopost("/desk/add.json", desk, function(err, result) {
-        if (err) {
-          smart.error(err,i18n["js.common.add.error"],false);
-        } else {
-          window.location = "/shop/desk/list";
-        }
-      });
+      if (deskId) {
 
-    //}
+        desk.id = deskId;
+
+        smart.dopost("/desk/update.json", desk, function(err, result) {
+          if (err) {
+            smart.error(err,i18n["js.common.add.error"],false);
+          } else {
+            window.location = "/shop/desk/list";
+          }
+        });
+      } else {
+        smart.dopost("/desk/add.json", desk, function(err, result) {
+          if (err) {
+            smart.error(err,i18n["js.common.add.error"],false);
+          } else {
+            window.location = "/shop/desk/list";
+          }
+        });
+      }
+    }
   });
-
-  var deskId = $('#deskId').val();
-  render(deskId);
 
 });
 
@@ -43,7 +55,10 @@ function render(deskId) {
       if (err) {
         smart.error(err,i18n["js.common.search.error"],false);
       } else {
-        new ButtonGroup("inputType", "0").init();
+
+        $("#name").val(result.name);
+        $("#capacity").val(result.capacity);
+        new ButtonGroup("inputType", result.type).init();
       }
     });
   } else {
@@ -51,15 +66,15 @@ function render(deskId) {
   }
 }
 
-function check_desk(desk_) {
+function check_desk(desk) {
   var flag = 0;
-  if (desk_.name == "") {
+  if (desk.name == "") {
     Alertify.log.error(i18n["js.public.check.desk.name"]);
     flag = 1;
-  } else if (desk_.capacity == "") {
+  } else if (desk.capacity == "") {
     Alertify.log.error(i18n["js.public.check.desk.capacity"]);
     flag = 1;
-  } else if (desk_.type == "") {
+  } else if (desk.type == "") {
     Alertify.log.error(i18n["js.public.check.desk.type"]);
     flag = 1;
   }

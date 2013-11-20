@@ -72,5 +72,15 @@
   "html.label.desk.type": "桌台类型",
   "html.label.desk.table": "桌台",
   "html.label.desk.room": "包间",
-  "html.label.desk.capacity": "容纳人数"
+  "html.label.desk.capacity": "容纳人数",
+  "js.public.info.page.prev": "向前",
+  "js.public.info.page.next": "向后",
+  "js.public.check.desk.name": "请输入桌台名称",
+  "js.public.check.desk.capacity": "请输入容纳人数",
+  "js.public.check.desk.type": "请输入桌台类型",
+  "js.common.dialog.ok":"确定",
+  "js.common.dialog.cancel":"取消",
+  "js.common.delete.confirm":"确定删除吗?",
+  "js.common.delete.success":"删除成功",
+  "js.common.delete.error":"删除失败"
 }

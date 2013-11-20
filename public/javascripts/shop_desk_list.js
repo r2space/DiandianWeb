@@ -12,9 +12,8 @@ $(function () {
   // add desk
   $("#addDesk").bind("click", function(event){
     window.location = "add";
-  });
-
-  // show layout list
+  })
+  // show list
   render(0, 20);
   // get the events for buttons
   events();
@@ -50,8 +49,10 @@ function render(start, count,keyword) {
 
       container.append(_.template(tmpl, {
         "id": row._id
-        , "index": index++ + start
+        , "index": index++
         , "name": row.name
+        , "capacity": row.capacity
+        , "type" : row.type == 1 ? i18n["html.label.desk.table"] : i18n["html.label.desk.room"]
         , "editat": smart.date(row.editat)
         , "editby": row.editby
       }));
@@ -89,7 +90,7 @@ function events() {
       , rowId = target.attr("rowId");
 
     if (operation == "edit") {
-      window.location = "/shop/desk/add/" + rowId;
+      window.location = "/shop/desk/edit/" + rowId;
     }
 
     if (operation == "delete") {
@@ -97,7 +98,6 @@ function events() {
       Alertify.dialog.labels.cancel = i18n["js.common.dialog.cancel"];
       Alertify.dialog.confirm(i18n["js.common.delete.confirm"], function () {
 
-        // OK
         smart.dodelete("/desk/remove.json", {"id": rowId}, function(err, result){
           if (smart.error(err,i18n["js.common.delete.error"], false)) {
 

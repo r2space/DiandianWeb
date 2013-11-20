@@ -51,7 +51,11 @@ exports.guiding = function (app) {
 
   // 增加桌台
   app.get('/shop/desk/add', function(req, res){
-    res.render("shop_desk_add", {"title": "desk", user: req.session.user}); //, deskId: req.params.id
+    res.render("shop_desk_add", {"title": "desk", user: req.session.user, deskId: 0});
+  });
+
+  app.get('/shop/desk/edit/:id', function (req, res) {
+    res.render("shop_desk_add", {"title": "desk", user: req.session.user, deskId:req.params.id});
   });
 
   // APIs
