@@ -1,5 +1,5 @@
 {
-	"html.label.menu.item": "菜品",
+  "html.label.menu.item": "菜品",
 	"html.label.sidebar.menu": "菜单管理",
 	"html.label.sidebar.menu.item": "菜品",
 	"html.label.sidebar.menu.menu": "菜单",
@@ -67,7 +67,10 @@
 	"html.label.menu.contents.select": "选择",
 	"html.button.menu.contents.select": "选择",
   "html.button.desk.add": "增加桌台",
-  "html.label.desk.name": "桌台名",
+  "html.label.desk.name": "桌台名称",
   "html.label.desk.no": "号码",
-  "html.label.desk.type": "类型"
+  "html.label.desk.type": "桌台类型",
+  "html.label.desk.table": "桌台",
+  "html.label.desk.room": "包间",
+  "html.label.desk.capacity": "容纳人数"
 }

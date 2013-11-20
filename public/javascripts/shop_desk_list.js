@@ -83,12 +83,13 @@ function events() {
 
   // list events
   $("#desk_list").on("click", "a", function(event){
+
     var target = $(event.target);
     var operation = target.attr("operation")
-      , rowid = target.attr("rowid");
+      , rowId = target.attr("rowId");
 
     if (operation == "edit") {
-      window.location = "/shop/desk/edit/" + rowid;
+      window.location = "/shop/desk/add/" + rowId;
     }
 
     if (operation == "delete") {
@@ -97,7 +98,7 @@ function events() {
       Alertify.dialog.confirm(i18n["js.common.delete.confirm"], function () {
 
         // OK
-        smart.dodelete("/layout/remove.json", {"id": rowid}, function(err, result){
+        smart.dodelete("/desk/remove.json", {"id": rowId}, function(err, result){
           if (smart.error(err,i18n["js.common.delete.error"], false)) {
 
           } else {
