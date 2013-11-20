@@ -103,12 +103,14 @@ exports.remove = function (code, uid, deskId, callback) {
  * @param {object} condition 条件
  * @param {function} callback 返回桌台一览
  */
-exports.getList = function(code, condition, callback) {
+exports.getList = function(code, condition, start, limit, callback) {
 
   var desk = model(code);
 
   desk.find(condition)
-    .sort({sort_level: 1})
+    .skip(start || 0)
+    .limit(limit || 20)
+    .sort({editat: -1})
     .exec(function(err, result) {
       callback(err, result);
     });

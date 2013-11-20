@@ -17,7 +17,7 @@ $(function () {
       , type: $("#inputType").attr("value")
     };
 
-    if (1) {
+    //if (!check_desk(desk)) {
 
       smart.dopost("/desk/add.json", desk, function(err, result) {
         if (err) {
@@ -27,7 +27,7 @@ $(function () {
         }
       });
 
-    }
+    //}
   });
 
   var deskId = $('#deskId').val();

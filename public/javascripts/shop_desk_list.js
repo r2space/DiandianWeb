@@ -51,9 +51,9 @@ function render(start, count,keyword) {
       container.append(_.template(tmpl, {
         "id": row._id
         , "index": index++ + start
-        , "name": active.layout.name
-        , "editat": smart.date(active.editat)
-        , "editby": active.user.name.name_zh
+        , "name": row.name
+        , "editat": smart.date(row.editat)
+        , "editby": row.editby
       }));
     });
 

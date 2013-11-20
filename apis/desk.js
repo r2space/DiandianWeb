@@ -1,5 +1,6 @@
 var smart  = require("smartcore")
   , response    = smart.framework.response
+  , util    = smart.framework.util
   , errors  = smart.core.errors
   , desk    = require('../controllers/ctrl_desk');
 
@@ -11,7 +12,7 @@ exports.findOne = function(req_, res_) {
     , deskId = req_.query.deskId;
 
   desk.get(code, uid, deskId, function(err, result) {
-    response.send(res, err, result);
+    response.send(res_, err, result);
   });
 };
 
@@ -19,16 +20,20 @@ exports.findOne = function(req_, res_) {
 exports.list = function(req_, res_) {
 
   var code = req_.session.user.companycode
-    , start = req_.query.start
-    , limit = req_.query.count
+    , start = req_.query.start || 0
+    , limit = req_.query.count || 20
     , keyword = req_.query.keyword
+    , condition = {
+      valid: 1
+    };
 
-  desk.list(code, start, limit, keyword , function(err, result) {
-    if (err) {
-      return res_.send(err.code, json.errorSchema(err.code, err.message));
-    } else {
-      return res_.send(json.dataSchema(result));
-    }
+  if (keyword) {
+    keyword = util.quoteRegExp(keyword);
+    condition.name = new RegExp(keyword.toLowerCase(), "i");
+  }
+
+  desk.list(code, condition, start, limit , function(err, result) {
+    response.send(res_, err, result);
   });
 };
 
@@ -39,11 +44,7 @@ exports.add = function(req_, res_) {
     , uid = req_.session.user._id;
 
   desk.add(code, uid, req_.body, function(err, result) {
-    if (err) {
-      return res_.send(err.code, json.errorSchema(err.code, err.message));
-    } else {
-      return res_.send(json.dataSchema(result));
-    }
+    response.send(res_, err, result);
   });
 };
 
@@ -54,11 +55,7 @@ exports.update = function(req_, res_) {
     , uid = req_.session.user._id;
 
   desk.update(code, uid, req_.body, function(err, result) {
-      if (err) {
-          return res_.send(err.code, json.errorSchema(err.code, err.message));
-      } else {
-          return res_.send(json.dataSchema(result));
-      }
+    response.send(res_, err, result);
   });
 };
 
@@ -69,11 +66,7 @@ exports.remove = function(req_, res_) {
     , uid = req_.session.user._id;
 
   desk.remove(code, uid, req_.body, function(err, result) {
-    if (err) {
-      return res_.send(err.code, json.errorSchema(err.code, err.message));
-    } else {
-      return res_.send(json.dataSchema(result));
-    }
+    response.send(res_, err, result);
   });
 };
 
