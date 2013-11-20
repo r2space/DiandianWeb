@@ -11,7 +11,7 @@ exports.findOne = function(req_, res_) {
     , uid = req_.session.user._id
     , deskId = req_.query.deskId;
 
-  desk.get(code, uid, deskId, function(err, result) {
+  desk.get(code, uid, deskId, function(err, result) {         console.log(result);
     response.send(res_, err, result);
   });
 };
@@ -54,7 +54,7 @@ exports.update = function(req_, res_) {
   var code = req_.session.user.companycode
     , uid = req_.session.user._id;
 
-  desk.update(code, uid, req_.body, function(err, result) {
+  desk.add(code, uid, req_.body, function(err, result) {
     response.send(res_, err, result);
   });
 };
@@ -65,7 +65,7 @@ exports.remove = function(req_, res_) {
   var code = req_.session.user.companycode
     , uid = req_.session.user._id;
 
-  desk.remove(code, uid, req_.body, function(err, result) {
+  desk.remove(code, uid, req_.body.id, function(err, result) {
     response.send(res_, err, result);
   });
 };
