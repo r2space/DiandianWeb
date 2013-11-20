@@ -1,5 +1,8 @@
 $(function () {
   'use strict';
+
+  var itemId = $("#itemId").val();
+  render(itemId);
   events();
 
 });
@@ -23,17 +26,28 @@ function events() {
 
     var item = getItemData();
 
-    if($("#itemName").val()) {
-      smart.dopost("/item/add.json", item, function(err, result) {
-        if(smart.error(err, i18n["js.common.update.error"], false)){
+    if (!check_item(item)) {
 
-        } else {
-          window.location = "/menu/item/list"
-        }
-      });
-    } else {
-      //  $('#material_detail_dlg').modal("hide");
-      Alertify.log.error(i18n["js.common.update.error"]);
+      if (itemId) {
+
+        item.id = itemId;
+
+        smart.dopost("/item/update.json", item, function(err, result) {
+          if (err) {
+            smart.error(err,i18n["js.common.add.error"],false);
+          } else {
+            window.location = "/menu/item/list";
+          }
+        });
+      } else {
+        smart.dopost("/item/add.json", item, function(err, result) {
+          if (err) {
+            smart.error(err,i18n["js.common.add.error"],false);
+          } else {
+            window.location = "/menu/item/list";
+          }
+        });
+      }
     }
   });
 
@@ -62,7 +76,7 @@ function updateItem(item) {
       smart.error(err,i18n["js.common.update.error"],false);
     } else {
       //更新成功返回列表
-        window.location = "/menu/item/user";
+        window.location = "/menu/item/list";
     }
   });
 }
@@ -96,4 +110,34 @@ function uploadFiles(files) {
       $("#upload_progress_bar").css("width", progress + "%");
     }
   );
+}
+
+function render(itemId) {
+
+  if (itemId) {
+
+    smart.doget("/item/findOne.json?itemId=" + itemId , function(err, result) {
+      if (err) {
+        smart.error(err,i18n["js.common.search.error"],false);
+      } else {
+      $("#itemName").val(result.itemName);
+      $("#itemPrice").val(result.itemPrice);
+      $("#itemType").val(result.itemType);
+      $("#itemComment").val(result.itemComment);
+      $("#itemMaterial").val(result.itemMaterial);
+      $("#itemMethod").val(result.itemMethod);
+
+      }
+    });
+  }
+}
+
+function check_item(item) {
+  var flag = 0;
+  if (item.itemName == "") {
+    Alertify.log.error(i18n["js.public.check.desk.name"]);
+    flag = 1;
+  }
+
+  return flag;
 }

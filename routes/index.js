@@ -44,6 +44,16 @@ exports.guiding = function (app) {
     res.render("menu_item_list", {"title": "item", user: req.session.user});
   });
 
+  //菜品增加
+  app.get("/menu/item/add", function(req, res) {
+    res.render("menu_item_add", {"title": "新增菜品", user: req.session.user, itemId: 0});
+  });
+
+
+  app.get('/menu/item/edit/:id', function (req, res) {
+    res.render("menu_item_add", {"title": "item", user: req.session.user, itemId:req.params.id});
+  });
+
   // 桌台
   app.get("/shop/desk/list", function(req, res) {
     res.render("shop_desk_list", {"title": "desk", user: req.session.user});
@@ -63,9 +73,6 @@ exports.guiding = function (app) {
     desk.list(req, res);
   });
 
-  app.post("/item/add.json", function(req, res){
-     item.add(req, res);
-  });
 
   app.post('/desk/add.json', function(req, res){
     desk.add(req, res);
@@ -73,6 +80,10 @@ exports.guiding = function (app) {
 
   app.post('/desk/update.json', function(req, res){
     desk.update(req, res);
+  });
+
+  app.post('/item/update.json', function(req, res){
+    item.update(req, res);
   });
 
   app.delete('/desk/remove.json', function (req, res) {
@@ -83,14 +94,13 @@ exports.guiding = function (app) {
     desk.findOne(req,res);
   });
 
+  app.get('/item/findOne.json', function (req, res) {
+    item.findOne(req,res);
+  });
+
   //菜单
   app.get("/menu/menu/list", function(req, res) {
     res.render("menu_menu_list", {"title": "menu", user: req.session.user});
-  });
-
-  //菜品增加
-  app.get("/menu/item/add", function(req, res) {
-    res.render("menu_item_add", {"title": "新增菜品", user: req.session.user});
   });
 
   //菜单增加
@@ -107,5 +117,10 @@ exports.guiding = function (app) {
   app.get('/item/list.json', function(req, res){
     item.list(req, res);
   });
+
+  app.post("/item/add.json", function(req, res){
+    item.add(req, res);
+  });
+
 
 };

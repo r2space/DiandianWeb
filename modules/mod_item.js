@@ -25,6 +25,7 @@ var Item = new schema({
  , itemComment   : { type: String, description: "菜品介绍" }
  , itemType :  { type: String, description: "菜品类型" }
  , itemMaterial        : { type: String, description: "菜品材料" }
+ , valid       : {type: Number, description: "删除 0:无效 1:有效", default: 1}
 });
 
 /**
@@ -32,9 +33,9 @@ var Item = new schema({
  * @param {string} code
  * @returns {model} item model
  */
-function model(code) {
+function model(dbname) {
 
-  return conn(code).model("Item", Item);
+  return conn(dbname).model("Item", Item);
 }
 
 /**
@@ -74,11 +75,11 @@ exports.add = function(code, newItem, callback) {
  * @param {object} conditions 素材更新条件
  * @param {function} callback 返回素材更新结果
  */
-exports.update = function(code, fileid, conditions, callback) {
+exports.update = function(code, itemId, newItem, callback) {
 
-  var file = model(code);
+  var item = model(code);
 
-  file.findByIdAndUpdate(fileid, conditions, function(err, result) {
+  item.findByIdAndUpdate(itemId, newItem, function(err, result) {
     callback(err, result);
   });
 };
@@ -106,11 +107,11 @@ exports.replace = function(code, fileid, conditions, callback) {
  * @param {string} fileid 素材ID
  * @param {function} callback 返回指定素材
  */
-exports.get = function(code, fileid, callback) {
+exports.get = function(code, itemId, callback) {
 
-  var file = model(code);
+  var item = model(code);
 
-  file.findById(fileid, function(err, result) {
+  item.findOne({_id: itemId}, function(err, result) {
     callback(err, result);
   });
 };
@@ -122,11 +123,11 @@ exports.get = function(code, fileid, callback) {
  * @param {string} fileid 素材ID
  * @param {function} callback 返回素材删除结果
  */
-exports.remove = function(code, fileid, callback) {
+exports.remove = function(code, itemId, callback) {
 
-  var file = model(code);
+  var item = model(code);
 
-  file.findByIdAndRemove(fileid, function(err, result) {
+  item.findByIdAndRemove(itemId, function(err, result) {
     callback(err, result);
   });
 };
@@ -139,14 +140,14 @@ exports.remove = function(code, fileid, callback) {
  * @param {number} limit 数据件数
  * @param {function} callback 返回素材一览
  */
-exports.getList = function(condition, start, limit, callback) {
+exports.getList = function(code, condition, start, limit, callback) {
 
-  var file = model();
+  var item = model(code);
 
-  file.find(condition)
+  item.find(condition)
     .skip(start || 0)
     .limit(limit || 20)
-    .sort({ editat: -1 })
+    .sort({editat: -1})
     .exec(function(err, result) {
       callback(err, result);
     });

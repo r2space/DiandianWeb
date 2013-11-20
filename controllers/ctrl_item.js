@@ -5,6 +5,7 @@ var _         = require('underscore')
   , smart     = require("smartcore")
   , error     = smart.core.errors
   , user      = smart.ctrl.user
+  , mod_group   = smart.mod.group
   , auth      = smart.core.auth
   , item   = require('../modules/mod_item.js');
 
@@ -14,52 +15,20 @@ var _         = require('underscore')
  * @param limit_
  * @param callback
  */
-exports.list = function(start_, limit_, keyword ,callback) {
+exports.list = function(code_, condition_, start_, limit_, callback_) {
 
-  var start = start_ || 0
-    , limit = limit_ || 20
-    , condition = { valid:1 };
+  item.total(code_, condition_, function (err, count) {
 
-  if (keyword) {
-    condition.$or = [{ "name": new RegExp(keyword.toLowerCase(), "i") }];
-  }
-
-  // 获取件数
-  item.total(condition, function(err, count) {
-    if (err) {
-      return callback(new error.InternalServer(err));
-    }
-
-    // 获取一览
-    item.getList(condition, start, limit, function(err, result) {
+    item.getList(code_, condition_, start_, limit_,  function(err, result){
       if (err) {
-        return callback(new error.InternalServer(err));
+        return callback_(new error.InternalServer(err));
       }
 
-      return callback(err,  {totalItems: count, items:result});
+      return callback_(err, {items: result, totalItems: count});
     });
   });
 };
 
-exports.companyListWithDevice = function(start_, limit_, callback){
-  exports.getList(start_, limit_, function(err, comps){
-    var task_getDeviceCount = function(comp_,subCB){
-      device.deviceTotalByComId(comp_._id.toString(),function(err,count){
-        comp_._doc.deviceCount = count;
-        user.userTotalByComId(comp_._id.toString(),function(err,ucount){
-          comp_._doc.userCount = ucount;
-          subCB(err);
-        });
-
-      });
-    };
-    sync.forEach(comps.items, task_getDeviceCount, function(err){
-      callback(err, comps);
-    });
-
-
-  });
-}
 
 exports.searchOne = function( compid, callback_) {
   item.get(compid, function(err, result){
@@ -71,26 +40,7 @@ exports.searchOne = function( compid, callback_) {
 
 };
 
-// 通过公司ID获取指定公司
-exports.getByPath = function( path, callback_) {
-  item.getByPath(path, function(err, result){
-    if (err) {
-      return callback_(new error.InternalServer(err));
-    }
-    return callback_(err, result);
-  });
 
-};
-// 通过公司Code获取指定公司
-exports.getByCode = function( code, callback_) {
-  item.getByCode(code, function(err, result){
-    if (err) {
-      return callback_(new error.InternalServer(err));
-    }
-    return callback_(err, result);
-  });
-
-};
 
 exports.add = function(code_, uid_, item_, callback_){
   var now = new Date();
@@ -140,28 +90,63 @@ exports.add = function(code_, uid_, item_, callback_){
  * @param callback_
  * @returns {*}
  */
-exports.update = function(uid_, data_, callback_) {
+exports.update = function(code_, uid_, item_, callback_) {
 
-  var item_ = data_.item;
-  item_.editat = new Date();
-  item_.editby = uid_;
+  var now = new Date();
 
-  // path check
-  var pathcheck = comp_.path  ? comp_.path : "";
-  item.find({path:pathcheck}, function(err, coms){
+  var newItem = {
+      itemName : item.itemName
+   , itemPrice : item.itemPrice
+   , itemType : item.itemType
+   , itemComment : item.itemComment
+   , itemMaterial : item.itemMaterial
+   , itemMethod : item.itemMethod
+   , editat: now
+   , editby: uid_
+  };
+
+  var id = item_.id;
+
+  if (id) {
+
+    item.update(code_, id, newItem, function(err, result){
+      if (err) {
+        return callback_(new error.InternalServer(err));
+      }
+
+      callback_(err, result);
+    });
+  } else {
+    newItem.createat = now;
+    newItem.createby = uid_;
+
+    item.add(code_, newItem, function(err, result){
+      if (err) {
+        return callback_(new error.InternalServer(err));
+      }
+
+      callback_(err, result);
+    });
+
+  }
+};
+
+exports.remove = function(code_, user_, itemId_ , callback_){
+
+  item.remove(code_, user_, itemId_, function(err, result){
     if (err) {
-      return  callback_(new error.InternalServer(__("js.ctr.common.system.error")));
+      return callback_(new error.InternalServer(err));
     }
-    if (coms.length > 0) {
-      return callback_(new error.BadRequest(__("js.ctr.check.company.path")));
-    } else {
-      item.update(comp_.id, comp_, function(err, result){
-        if (err) {
-          return callback_(new error.InternalServer(err));
-        }
-        return callback_(err, result);
-      });
-    }
+    callback_(err, result);
   });
+};
 
+exports.get = function(code_, user_, itemId_, callback_){
+
+  item.get(code_, itemId_, function(err, result){
+    if (err) {
+      return callback_(new error.InternalServer(err));
+    }
+    callback_(err, result);
+  });
 };
