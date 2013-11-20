@@ -59,14 +59,6 @@ exports.get = function(code_, user_, deskId_, callback_){
       return callback_(new error.InternalServer(err));
     }
 
-    mod_group.getAllGroupByUid(code_, user_._id, function(err, groups){
-      if(err){
-        return callback_(new error.InternalServer(err));
-      }
-      //TODO
-
-    });
-
   });
 };
 
@@ -80,21 +72,18 @@ exports.remove = function(code_, user_, deskId_ , callback_){
   });
 };
 
-exports.list = function(code_, user_, callback_) {
+exports.list = function(code_, condition_, start_, limit_, callback_) {
 
-  var condition = {valid: 1};
+  desk.total(code_, condition_, function (err, count) {
 
-  mod_group.getAllGroupByUid(code_, user_._id, function(err, groups){
-    if(err){
-      return callback_(new error.InternalServer(err));
-    }
-
-    /* desk.getList(code_, condition, function(err, result){
+    desk.getList(code_, condition_, start_, limit_,  function(err, result){
       if (err) {
         return callback_(new error.InternalServer(err));
       }
 
-      callback_(err, {items:result});
-    });  */
+      //user.appendUser(code_, result, "editby", function (err) {
+      callback_(err, {items: result, totalItems: count});
+      //});
+    });
   });
 };
