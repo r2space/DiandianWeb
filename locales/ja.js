@@ -71,7 +71,7 @@
   "html.button.desk.add": "增加桌台",
   "html.label.desk.name": "桌台名",
   "html.label.desk.no": "号码",
-  "html.label.desk.type": "类型"
+  "html.label.desk.type": "类型",
 	"html.button.menu.contents.select": "选择"
 
 }

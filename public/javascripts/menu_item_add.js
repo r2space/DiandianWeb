@@ -5,14 +5,79 @@ $(function () {
 });
 
 function events() {
-  $("#test").bind("click", function(){
-    $("#itemBigImg").trigger('click');
+  $("#uploud_b").bind("click", function(){
+    $("#uploadfile_b").trigger('click');
   });
-  $("#itemBigImg").bind("change", function(event){
-    alert("dddd")
+  $("#uploadfile_b").bind("change", function(event){
     uploadFiles(event.target.files);
   });
 
+  $("#uploud_s").bind("click", function(){
+    $("#uploadfile_s").trigger('click');
+  });
+  $("#uploadfile_s").bind("change", function(event){
+    uploadFiles(event.target.files);
+  });
+
+  $("#saveitem").bind("click", function(event){
+
+    var item = getItemData()
+
+    if($("#inputName").val()) {
+      smart.doput("/item/add.json", {fid: row._id, tags: tag.join(",") , fname:inputName}, function(err, result) {
+        if(smart.error(err, i18n["js.common.update.error"], false)){
+
+        } else {
+          smart.paginationInitalized = false;
+          Alertify.log.success(i18n["js.common.update.success"]);
+          $('#material_detail_dlg').modal("hide");
+        }
+      });
+    } else {
+      //  $('#material_detail_dlg').modal("hide");
+      Alertify.log.error(i18n["js.common.update.error"]);
+    }
+  });
+
+}
+
+//取得菜品信息
+function getItemData() {
+
+  var item = {
+      itemName : $("#itemName").val()
+    , itemPrice : $("#itemPrice").val()
+    , itemType : $("#itemType").val()
+    , itemComment : $("#itemComment").val()
+    , itemMaterial : $("#itemMaterial").val()
+    , itemMethod : $("#itemMethod").val()
+  };
+
+  return item;
+}
+
+//添加菜品
+function addItem(item) {
+
+  smart.dopost("/item/add.json", item, function(err, result) {
+    if (err) {
+      smart.error(err,i18n["js.common.add.error"],false);
+    } else {
+      window.location = "/menu/item/list";
+    }
+  });
+}
+
+//更新用户
+function updateItem(item) {
+  smart.doput("/item/update.json", item, function(err, result){
+    if (err) {
+      smart.error(err,i18n["js.common.update.error"],false);
+    } else {
+      //更新成功返回列表
+        window.location = "/menu/item/user";
+    }
+  });
 }
 
 function uploadFiles(files) {

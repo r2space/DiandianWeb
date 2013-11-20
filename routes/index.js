@@ -2,6 +2,7 @@
 var core     = smart.core
   ,log        = smart.framework.log
   , desk  = require("../apis/desk")
+  , item  = require("../apis/item")
 //var apis    = require('./apis')
 //  , website = require('./website');
 
@@ -48,6 +49,10 @@ exports.guiding = function (app) {
     res.render("shop_desk_list", {"title": "desk", user: req.session.user});
   });
 
+  app.post("/item/add.json", function(req, res){
+     item.add(req, res);
+  });
+
   app.post('/desk/add.json', function(req, res){
     desk.add(req, res);
   });
@@ -65,6 +70,11 @@ exports.guiding = function (app) {
   //菜单增加
   app.get("/menu/menu/add", function(req, res) {
     res.render("menu_menu_add", {"title": "新增菜单", user: req.session.user});
+  });
+
+  // 添加菜品
+  app.post('/menu/menu/add.json', function(req, res){
+    item.add(req, res);
   });
 
 };
