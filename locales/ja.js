@@ -23,7 +23,12 @@
 	"html.label.menu.type": "类别",
   "html.label.shop.desk": "桌台",
 	"html.label.common.home": "主页",
+  "html.button.desk.add": "增加桌台",
+  "html.label.desk.name": "桌台名",
+  "html.label.desk.no": "号码",
+  "html.label.desk.type": "类型",
 	"html.button.common.save": "保存",
+	"html.button.common.close": "关闭",
 	"html.button.common.edit": "编辑",
 	"html.button.common.delete": "删除",
 	"html.button.common.detailed": "详细",
@@ -62,6 +67,11 @@
 	"html.label.menu.contents.type": "类型",
 	"html.label.menu.contents.pages": "图片数",
 	"html.label.menu.contents.select": "选择",
+	"html.button.menu.contents.select": "选择",
+  "html.button.desk.add": "增加桌台",
+  "html.label.desk.name": "桌台名",
+  "html.label.desk.no": "号码",
+  "html.label.desk.type": "类型"
 	"html.button.menu.contents.select": "选择"
 
 }
