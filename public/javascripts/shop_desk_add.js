@@ -1,7 +1,7 @@
 /**
  * Created with JetBrains WebStorm.
  * User: Sara(fyx1014@hotmail.com)
- * Date: 13/11/12
+ * Date: 19/11/12
  * Time: 15:10
  * To change this template use File | Settings | File Templates.
  */
@@ -9,106 +9,60 @@
 $(function () {
   'use strict';
 
-  // add desk
   $("#addDesk").bind("click", function(event){
-    window.location = "add";
+
+    var desk = {
+      name: $("#name").val()
+      , capacity: $("#capacity").val()
+      , type: $("#inputType").attr("value")
+    };
+
+    if (1) {
+
+      smart.dopost("/desk/add.json", desk, function(err, result) {
+        if (err) {
+          smart.error(err,i18n["js.common.add.error"],false);
+        } else {
+          window.location = "/shop/desk/list";
+        }
+      });
+
+    }
   });
 
-  // show layout list
-  render(0, 20);
-  // get the events for buttons
-  events();
+  var deskId = $('#deskId').val();
+  render(deskId);
+
 });
 
-/**
- * get list
- */
-function render(start, count,keyword) {
+function render(deskId) {
 
-  var jsonUrl = "/desk/list.json?";
-  jsonUrl += "start=" + start;
-  jsonUrl += "&count=" + count;
+  if (deskId) {
 
-  if(keyword){
-    keyword = keyword ? encodeURIComponent(keyword) : "";
-    jsonUrl += "&keyword=" + keyword;
+    smart.doget("/desk/findOne.json?deskId=" + deskId , function(err, result) {
+      if (err) {
+        smart.error(err,i18n["js.common.search.error"],false);
+      } else {
+        new ButtonGroup("inputType", "0").init();
+      }
+    });
+  } else {
+    new ButtonGroup("inputType", "0").init();
+  }
+}
+
+function check_desk(desk_) {
+  var flag = 0;
+  if (desk_.name == "") {
+    Alertify.log.error(i18n["js.public.check.desk.name"]);
+    flag = 1;
+  } else if (desk_.capacity == "") {
+    Alertify.log.error(i18n["js.public.check.desk.capacity"]);
+    flag = 1;
+  } else if (desk_.type == "") {
+    Alertify.log.error(i18n["js.public.check.desk.type"]);
+    flag = 1;
   }
 
-  smart.doget(jsonUrl, function(e, result){
-
-    if (smart.error(e, i18n["js.common.search.error"], true)) {
-      return;
-    }
-
-    var list = result.items;
-    var index = 1;
-    var tmpl = $('#tmpl_desk_list').html();
-    var container = $("#desk_list");
-    container.html("");
-
-    _.each(list, function(row){
-
-      container.append(_.template(tmpl, {
-        "id": row._id
-        , "index": index++ + start
-        , "name": active.layout.name
-        , "editat": smart.date(active.editat)
-        , "editby": active.user.name.name_zh
-      }));
-    });
-
-    // 设定翻页
-    smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
-      render.apply(window, [active, count]);
-    });
-  });
-
+  return flag;
 }
-
-function events() {
-
-  $("#txt_search").bind("change",function(){
-    var _keyword = '';
-    _keyword =  $("#txt_search").val();
-    smart.paginationInitalized = false;
-    render(0, 20,_keyword);
-  });
-
-  $("#doSearch").bind("click",function(){
-    var _keyword = '';
-    _keyword =  $("#txt_search").val();
-    smart.paginationInitalized = false;
-    render(0, 20,_keyword);
-  });
-
-  // list events
-  $("#desk_list").on("click", "a", function(event){
-    var target = $(event.target);
-    var operation = target.attr("operation")
-      , rowid = target.attr("rowid");
-
-    if (operation == "edit") {
-      window.location = "/shop/desk/edit/" + rowid;
-    }
-
-    if (operation == "delete") {
-      Alertify.dialog.labels.ok = i18n["js.common.dialog.ok"];
-      Alertify.dialog.labels.cancel = i18n["js.common.dialog.cancel"];
-      Alertify.dialog.confirm(i18n["js.common.delete.confirm"], function () {
-
-        // OK
-        smart.dodelete("/layout/remove.json", {"id": rowid}, function(err, result){
-          if (smart.error(err,i18n["js.common.delete.error"], false)) {
-
-          } else {
-            render(0, 20);
-            Alertify.log.success(i18n["js.common.delete.success"]);
-          }
-        });
-      }, function () {
-        // Cancel
-      });
-    }
-  });
-}
-

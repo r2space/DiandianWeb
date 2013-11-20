@@ -59,8 +59,6 @@
 	"html.label.menu.info.comment": "菜单描述",
 	"html.label.menu.img": "预览图",
 	"html.button.menu.screenadd": "增加菜单页",
-	"html.label.item.x": "html.label.item.x",
-	"html.button.item.screenadd": "html.button.item.screenadd",
 	"html.button.menu.tagadd": "增加标签",
 	"html.label.menu.type.title": "菜单风格",
 	"html.label.menu.contents.demo": "样式",
@@ -69,9 +67,12 @@
 	"html.label.menu.contents.select": "选择",
 	"html.button.menu.contents.select": "选择",
   "html.button.desk.add": "增加桌台",
-  "html.label.desk.name": "桌台名",
+  "html.label.desk.name": "桌台名称",
   "html.label.desk.no": "号码",
-  "html.label.desk.type": "类型",
+  "html.label.desk.type": "桌台类型",
+  "html.label.desk.table": "桌台",
+  "html.label.desk.room": "包间",
+  "html.label.desk.capacity": "容纳人数",
 	"html.button.menu.contents.select": "选择"
 
 }
