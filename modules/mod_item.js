@@ -16,15 +16,15 @@ var mongo       = require("mongoose")
  * @type {schema}
  */
 var Item = new schema({
-   fileid      : { type: String, description: "菜品ID" }
- , bigimage    : { type: String, description: "大图" }
- , smallimage  : { type: String, description: "小图" }
- , filename    : { type: String, description: "素材名" }
+   itemName      : { type: String, description: "菜品名称" }
+ , itemMethod    : { type: String, description: "菜品作法" }
+// , smallimage  : { type: String, description: "小图" }
+ , itemPrice    : { type: String, description: "菜品价格" }
  , editat      : { type: Date,   description: "修改时间" }
  , editby      : { type: String, description: "修改者" }
- , chunkSize   : { type: Number, description: "素材大小" }
- , contentType : { type: String, description: "素材类型" }
- , tags        : [String]
+ , itemComment   : { type: String, description: "菜品介绍" }
+ , itemType :  { type: String, description: "菜品类型" }
+ , itemMaterial        : { type: String, description: "菜品材料" }
 });
 
 /**
@@ -34,7 +34,7 @@ var Item = new schema({
  */
 function model(code) {
 
-  return conn(code).model("Item", Material);
+  return conn(code).model("Item", Item);
 }
 
 /**
@@ -57,11 +57,12 @@ exports.count = function(code, conditions, callback) {
  * @param {object} newFile 素材
  * @param {function} callback 返回素材添加结果
  */
-exports.add = function(code, newFile, callback) {
+exports.add = function(code, newItem, callback) {
 
-  var File = model(code);
+  console.log(newItem);
+  var item = model(code);
 
-  new File(newFile).save(function(err, result) {
+  new item(newItem).save(function(err, result) {
     callback(err, result);
   });
 };
@@ -138,9 +139,9 @@ exports.remove = function(code, fileid, callback) {
  * @param {number} limit 数据件数
  * @param {function} callback 返回素材一览
  */
-exports.getList = function(code, condition, start, limit, callback) {
+exports.getList = function(condition, start, limit, callback) {
 
-  var file = model(code);
+  var file = model();
 
   file.find(condition)
     .skip(start || 0)

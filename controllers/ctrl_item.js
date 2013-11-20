@@ -92,42 +92,47 @@ exports.getByCode = function( code, callback_) {
 
 };
 
-exports.add = function(uid_, data_, callback_) {
+exports.add = function(code_, uid_, item_, callback_){
+  var now = new Date();
 
-  var item_ = data_.item;
-  item_.createat = new Date();
-  item_.createby = uid_;
-  item_.editat = new Date();
-  item_.editby = uid_;
+  var newItem = {
+      itemName      : item_.itemName
+    , itemPrice   : item_.itemPrice
+    , itemType    : item_.itemType
+    , itemComment : item_.itemComment
+    , itemMaterial: item_.itemMaterial
+    , itemMethod  : item_.itemMethod
+//    , bigimage    : item_.bigimage
+//    , smallimage  : item_.smallimage
+    , editat: now
+    , editby: uid_
+  };
 
+  var id = item_.id;
 
-  sync.waterfall([
-    function(callback) {
-      // check path
-      item.getByPath(comp_.path, function(err, result){
-        if (err) {
-          return  callback(new error.InternalServer(__("js.ctr.common.system.error")));
-        }
-        if (result) {
-          return callback(new error.BadRequest(__("js.ctr.check.company.path")));
-        } else {
-          return callback(err);
-        }
-      });
-    },
-    // 添加菜品
-    function(callback) {
-      item.add(item_, function(err, result) {
-        callback(err, result);
+  if (id) {
 
-      });
-    }
+    item.update(code_, id, newItem, function(err, result){
+      if (err) {
+        return callback_(new error.InternalServer(err));
+      }
 
-  ], function(err, result) {
-    callback_(err, result);
-  });
+      callback_(err, result);
+    });
+  } else {
+    newItem.createat = now;
+    newItem.createby = uid_;
+
+    item.add(code_, newItem, function(err, result){
+      if (err) {
+        return callback_(new error.InternalServer(err));
+      }
+
+      callback_(err, result);
+    });
+
+  }
 };
-
 /**
  * 更新菜品
  * @param uid_
@@ -157,31 +162,6 @@ exports.update = function(uid_, data_, callback_) {
         return callback_(err, result);
       });
     }
-  });
-
-};
-exports.active= function(uid_, comp_, callback_) {
-  comp_.editat = new Date();
-  comp_.editby = uid_;
-  var dbName = comp_.code;
-
-  sync.waterfall([
-    // 更新公司
-    function(callback) {
-      company.update(comp_.id,comp_, function(err, result) {
-        callback(err, result);
-      });
-    },
-
-    // 更新用户
-    function(result,callback) {
-      user.activeByDBName(dbName,uid_, comp_.active, function(err,rtn){
-        callback(err, rtn);
-      });
-    }
-
-  ], function(err, result) {
-    callback_(err, result);
   });
 
 };

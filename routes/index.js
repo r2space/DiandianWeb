@@ -99,4 +99,9 @@ exports.guiding = function (app) {
     item.add(req, res);
   });
 
+  // 获取菜品列表
+  app.get('/item/list.json', function(req, res){
+    item.list(req, res);
+  });
+
 };

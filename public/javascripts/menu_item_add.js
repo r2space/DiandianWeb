@@ -21,16 +21,14 @@ function events() {
 
   $("#saveitem").bind("click", function(event){
 
-    var item = getItemData()
+    var item = getItemData();
 
-    if($("#inputName").val()) {
-      smart.doput("/item/add.json", {fid: row._id, tags: tag.join(",") , fname:inputName}, function(err, result) {
+    if($("#itemName").val()) {
+      smart.dopost("/item/add.json", item, function(err, result) {
         if(smart.error(err, i18n["js.common.update.error"], false)){
 
         } else {
-          smart.paginationInitalized = false;
-          Alertify.log.success(i18n["js.common.update.success"]);
-          $('#material_detail_dlg').modal("hide");
+          window.location = "/menu/item/list"
         }
       });
     } else {
@@ -56,17 +54,6 @@ function getItemData() {
   return item;
 }
 
-//添加菜品
-function addItem(item) {
-
-  smart.dopost("/item/add.json", item, function(err, result) {
-    if (err) {
-      smart.error(err,i18n["js.common.add.error"],false);
-    } else {
-      window.location = "/menu/item/list";
-    }
-  });
-}
 
 //更新用户
 function updateItem(item) {

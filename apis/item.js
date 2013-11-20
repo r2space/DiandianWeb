@@ -1,5 +1,5 @@
 var smart  = require("smartcore")
-  , json    = smart.core.json
+  , response    = smart.framework.response
   , errors  = smart.core.errors
   , item    = require("../controllers/ctrl_item");
 
@@ -22,14 +22,11 @@ exports.list = function(req_, res_) {
 // 添加
 exports.add = function(req_, res_) {
 
-  var uid = req_.session.user._id;
+  var code = req_.session.user.companycode
+    , uid = req_.session.user._id;
 
-  item.add(uid, req_.item, function(err, result) {
-    if (err) {
-      return res_.send(err.code, json.errorSchema(err.code, err.message));
-    } else {
-      return res_.send(json.dataSchema(result));
-    }
+  item.add(code,uid, req_.body, function(err, result) {
+    response.send(res_, err, result);
   });
 };
 
@@ -38,7 +35,7 @@ exports.update = function(req_, res_) {
 
   var uid = req_.session.user._id;
 
-  item.update(uid, req_.item, function(err, result) {
+  item.update(uid, req_.body, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
@@ -52,7 +49,7 @@ exports.delete = function(req_, res_) {
 
   var uid = req_.session.user._id;
 
-  item.delete(uid, req_.item, function(err, result) {
+  item.delete(uid, req_.body, function(err, result) {
     if (err) {
       return res_.send(err.code, json.errorSchema(err.code, err.message));
     } else {
