@@ -2,6 +2,7 @@
 var core     = smart.core
   ,log        = smart.framework.log
   , desk  = require("../apis/desk")
+  , menu  = require("../apis/menu")
 //var apis    = require('./apis')
 //  , website = require('./website');
 
@@ -58,6 +59,11 @@ exports.guiding = function (app) {
   });
 
   // APIs
+  app.get('/menu/list.json', function(req, res){
+    menu.list(req, res);
+  });
+
+
   app.get('/desk/list.json', function(req, res){
     desk.list(req, res);
   });
