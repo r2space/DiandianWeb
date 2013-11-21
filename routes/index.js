@@ -2,6 +2,7 @@
 var core     = smart.core
   ,log        = smart.framework.log
   , desk  = require("../apis/desk")
+  , menu  = require("../apis/menu")
   , item  = require("../apis/item")
 //var apis    = require('./apis')
 //  , website = require('./website');
@@ -69,10 +70,14 @@ exports.guiding = function (app) {
   });
 
   // APIs
+  app.get('/menu/list.json', function(req, res){
+    menu.list(req, res);
+  });
+
+
   app.get('/desk/list.json', function(req, res){
     desk.list(req, res);
   });
-
 
   app.post('/desk/add.json', function(req, res){
     desk.add(req, res);
@@ -103,24 +108,14 @@ exports.guiding = function (app) {
     res.render("menu_menu_list", {"title": "menu", user: req.session.user});
   });
 
+  //菜品增加
+  app.get("/menu/item/add", function(req, res) {
+    res.render("menu_item_add", {"title": "新增菜品", user: req.session.user});
+  });
+
   //菜单增加
   app.get("/menu/menu/add", function(req, res) {
     res.render("menu_menu_add", {"title": "新增菜单", user: req.session.user});
   });
-
-  // 添加菜品
-  app.post('/menu/menu/add.json', function(req, res){
-    item.add(req, res);
-  });
-
-  // 获取菜品列表
-  app.get('/item/list.json', function(req, res){
-    item.list(req, res);
-  });
-
-  app.post("/item/add.json", function(req, res){
-    item.add(req, res);
-  });
-
 
 };
