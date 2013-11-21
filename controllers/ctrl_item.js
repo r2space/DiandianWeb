@@ -10,8 +10,10 @@ var  ph        = require('path')
   , error     = smart.core.errors
   , user      = smart.ctrl.user
   , mod_group   = smart.mod.group
+  , confapp   = require('config').app
   , auth      = smart.core.auth
   , group     = smart.mod.group
+  , log  =smart.framework.log
   , item   = require('../modules/mod_item.js');
 
 /**
@@ -146,18 +148,18 @@ exports.addimage = function(code_, uid_, files_, callback_) {
     var path = fs.realpathSync(ph.join(confapp.tmp, ph.basename(file.path)));
     var metadata = {
       "author": uid_
-      , "tags": types(file.type)
     };
 
+
     // To save the file to GridFS
-    gridfs.save(code_, name, path, metadata, file.type, function(err, doc){
+    gridfs.save(code_, name, path, metadata, "", function(err, doc){
 
       if (err) {
         return callback(new error.InternalServer(err));
       }
 
       result = doc._id;
-
+      callback(null,result);
     });
 
   },function(err){

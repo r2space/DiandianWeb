@@ -9,22 +9,22 @@ $(function () {
 
 var bigimg;
 var smallimg;
+var tmpimg;
 
 function events(itemId) {
   $("#uploud_b").bind("click", function(){
     $("#uploadfile_b").trigger('click');
   });
   $("#uploadfile_b").bind("change", function(event){
-
-    bigimg = uploadFiles(event.target.files);
+    uploadFiles(event.target.files, "big");
   });
 
   $("#uploud_s").bind("click", function(){
+
     $("#uploadfile_s").trigger('click');
   });
   $("#uploadfile_s").bind("change", function(event){
-    smallimg = uploadFiles(event.target.files);
-    alert(smallimg)
+    uploadFiles(event.target.files, "small");
   });
 
   $("#saveitem").bind("click", function(event){
@@ -68,8 +68,8 @@ function getItemData() {
     , itemComment : $("#itemComment").val()
     , itemMaterial : $("#itemMaterial").val()
     , itemMethod : $("#itemMethod").val()
-    , bigimage: bigimg
-    , smallimage : smallimg
+    , bigimage: $("#uploadfile_big").val()
+    , smallimage : $("#uploadfile_small").val()
   };
 
   return item;
@@ -88,7 +88,7 @@ function updateItem(item) {
   });
 }
 
-function uploadFiles(files) {
+function uploadFiles(files, uploudId) {
   if (!files || files.length <= 0) {
     return false;
   }
@@ -101,15 +101,18 @@ function uploadFiles(files) {
 
 
   // 发送文件
-  smart.dopostData("/item/image/add.json", fd,
-    function(err, result){
-
+  smart.dopostData("/item/image/add.json", fd,function(err, result){
+      if (uploudId == "small"){
+        console.log("dddd")
+        $("#uploadfile_small").val(result.data);
+      } else{
+        $("#uploadfile_big").val(result.data);
+      }
       if(smart.error(err, i18n["js.common.upload.error"], false)){
         return;
-      } else {
-        Alertify.log.success(i18n["js.common.upload.success"]);
       }
     }
+
   );
 }
 

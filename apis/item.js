@@ -50,10 +50,18 @@ exports.update = function(req_, res_) {
 // uploud image
 exports.updateimage = function(req_, res_) {
 
-  var code = req_.session.user.companycode
+  var code = "diandian"
     , uid = req_.session.user._id;
 
-  item.addimage(code, uid, req_.body, function(err, result) {
+  // Get file list from the request
+  var files = [];
+  if (req_.files.files instanceof Array) {
+    files = req_.files.files;
+  } else {
+    files.push(req_.files.files);
+  }
+  item.addimage(code, uid, files , function(err, result) {
+    console.log(result);
     response.send(res_, err, result);
   });
 };

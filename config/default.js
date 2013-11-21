@@ -29,7 +29,7 @@ module.exports = {
     , "sessionSecret": "smartcore"
     , "sessionKey": "smartcore.sid"
     , "sessionTimeout": 720 // 24 * 30 一个月
-    , "tmp": "/tmp"
+    , "tmp": "d:\\"
     , "hmackey": "smartcore"
   },
 
