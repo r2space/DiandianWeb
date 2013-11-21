@@ -18,8 +18,8 @@ var mongo       = require("mongoose")
 var Item = new schema({
    itemName      : { type: String, description: "菜品名称" }
  , itemMethod    : { type: String, description: "菜品作法" }
-// , smallimage  : { type: String, description: "小图" }
-// , bigimage  : { type: String, description: "小图" }
+ , smallimage  : { type: String, description: "小图" }
+ , bigimage  : { type: String, description: "大图" }
  , itemPrice    : { type: String, description: "菜品价格" }
  , editat      : { type: Date,   description: "修改时间" }
  , editby      : { type: String, description: "修改者" }

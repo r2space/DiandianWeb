@@ -99,6 +99,10 @@ exports.guiding = function (app) {
     item.update(req, res);
   });
 
+  app.post("/item/image/add.json", function(req, res){
+    item.updateimage(req, res);
+  });
+
   app.delete('/desk/remove.json', function (req, res) {
     desk.remove(req,res);
   });

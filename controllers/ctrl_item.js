@@ -1,8 +1,12 @@
 "use strict";
 
-var _         = require('underscore')
+var  ph        = require('path')
+  , fs        = require('fs')
+  , async     = require('async')
+  , _         = require('underscore')
   , sync      = require('async')
   , smart     = require("smartcore")
+  , gridfs    = smart.mod.gridfs
   , error     = smart.core.errors
   , user      = smart.ctrl.user
   , mod_group   = smart.mod.group
@@ -53,8 +57,8 @@ exports.add = function(code_, uid_, item_, callback_){
     , itemComment : item_.itemComment
     , itemMaterial: item_.itemMaterial
     , itemMethod  : item_.itemMethod
-//    , bigimage    : item_.bigimage
-//    , smallimage  : item_.smallimage
+    , bigimage    : item_.bigimage
+    , smallimage  : item_.smallimage
     , editat: now
     , editby: uid_
   };
@@ -130,6 +134,36 @@ exports.update = function(code_, uid_, item_, callback_) {
     });
 
   }
+};
+
+exports.addimage = function(code_, uid_, files_, callback_) {
+
+  var result;
+
+  async.forEach(files_, function(file, callback){
+
+    var name = ph.basename(file.name);
+    var path = fs.realpathSync(ph.join(confapp.tmp, ph.basename(file.path)));
+    var metadata = {
+      "author": uid_
+      , "tags": types(file.type)
+    };
+
+    // To save the file to GridFS
+    gridfs.save(code_, name, path, metadata, file.type, function(err, doc){
+
+      if (err) {
+        return callback(new error.InternalServer(err));
+      }
+
+      result = doc._id;
+
+    });
+
+  },function(err){
+    return callback_(err, result);
+  });
+
 };
 
 exports.remove = function(code_, user_, itemId_ , callback_){

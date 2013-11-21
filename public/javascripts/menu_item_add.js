@@ -7,19 +7,24 @@ $(function () {
 
 });
 
+var bigimg;
+var smallimg;
+
 function events(itemId) {
   $("#uploud_b").bind("click", function(){
     $("#uploadfile_b").trigger('click');
   });
   $("#uploadfile_b").bind("change", function(event){
-    uploadFiles(event.target.files);
+
+    bigimg = uploadFiles(event.target.files);
   });
 
   $("#uploud_s").bind("click", function(){
     $("#uploadfile_s").trigger('click');
   });
   $("#uploadfile_s").bind("change", function(event){
-    uploadFiles(event.target.files);
+    smallimg = uploadFiles(event.target.files);
+    alert(smallimg)
   });
 
   $("#saveitem").bind("click", function(event){
@@ -63,6 +68,8 @@ function getItemData() {
     , itemComment : $("#itemComment").val()
     , itemMaterial : $("#itemMaterial").val()
     , itemMethod : $("#itemMethod").val()
+    , bigimage: bigimg
+    , smallimage : smallimg
   };
 
   return item;
@@ -91,23 +98,17 @@ function uploadFiles(files) {
     fd.append("files", files[i]);
   }
 
-  // 显示进度条
-  $("#upload_progress_dlg").modal("show");
+
 
   // 发送文件
-  smart.dopostData("/material/add.json", fd,
+  smart.dopostData("/item/image/add.json", fd,
     function(err, result){
 
-      $("#upload_progress_dlg").modal("hide");
       if(smart.error(err, i18n["js.common.upload.error"], false)){
         return;
       } else {
-        render(0, 20);
         Alertify.log.success(i18n["js.common.upload.success"]);
       }
-    },
-    function(progress){
-      $("#upload_progress_bar").css("width", progress + "%");
     }
   );
 }
@@ -126,6 +127,8 @@ function render(itemId) {
       $("#itemComment").val(result.itemComment);
       $("#itemMaterial").val(result.itemMaterial);
       $("#itemMethod").val(result.itemMethod);
+      $("#uploadfile_s").val(result.smallimage);
+      $("#uploadfile_b").val(result.bigimage);
 
       }
     });

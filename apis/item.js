@@ -7,7 +7,7 @@ var smart  = require("smartcore")
 // 获取一览
 exports.list = function(req_, res_) {
 
-  var code = req_.session.user.companycode
+  var code = "diandian"
     , start = req_.query.start || 0
     , limit = req_.query.count || 20
     , keyword = req_.query.keyword
@@ -43,6 +43,17 @@ exports.update = function(req_, res_) {
     , uid = req_.session.user._id;
 
   item.add(code, uid, req_.body, function(err, result) {
+    response.send(res_, err, result);
+  });
+};
+
+// uploud image
+exports.updateimage = function(req_, res_) {
+
+  var code = req_.session.user.companycode
+    , uid = req_.session.user._id;
+
+  item.addimage(code, uid, req_.body, function(err, result) {
     response.send(res_, err, result);
   });
 };

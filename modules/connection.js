@@ -4,7 +4,7 @@
  */
 var mongo = require('mongoose')
   , util = require('util')
-  , log = require("smartcore").core.log
+  , log = require("smartcore").framework.log
   , dbconf = process.env['TEST'] ? require('config').testdb : require('config').db;
 
 /**
