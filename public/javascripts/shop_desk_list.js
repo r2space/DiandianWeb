@@ -12,8 +12,9 @@ $(function () {
   // add desk
   $("#addDesk").bind("click", function(event){
     window.location = "add";
-  })
-  // show list
+  });
+
+  // show layout list
   render(0, 20);
   // get the events for buttons
   events();
@@ -49,12 +50,10 @@ function render(start, count,keyword) {
 
       container.append(_.template(tmpl, {
         "id": row._id
-        , "index": index++
-        , "name": row.name
-        , "capacity": row.capacity
-        , "type" : row.type == 1 ? i18n["html.label.desk.table"] : i18n["html.label.desk.room"]
-        , "editat": smart.date(row.editat)
-        , "editby": row.editby
+        , "index": index++ + start
+        , "name": active.layout.name
+        , "editat": smart.date(active.editat)
+        , "editby": active.user.name.name_zh
       }));
     });
 
@@ -84,13 +83,12 @@ function events() {
 
   // list events
   $("#desk_list").on("click", "a", function(event){
-
     var target = $(event.target);
     var operation = target.attr("operation")
-      , rowId = target.attr("rowId");
+      , rowid = target.attr("rowid");
 
     if (operation == "edit") {
-      window.location = "/shop/desk/edit/" + rowId;
+      window.location = "/shop/desk/edit/" + rowid;
     }
 
     if (operation == "delete") {
@@ -98,7 +96,8 @@ function events() {
       Alertify.dialog.labels.cancel = i18n["js.common.dialog.cancel"];
       Alertify.dialog.confirm(i18n["js.common.delete.confirm"], function () {
 
-        smart.dodelete("/desk/remove.json", {"id": rowId}, function(err, result){
+        // OK
+        smart.dodelete("/layout/remove.json", {"id": rowid}, function(err, result){
           if (smart.error(err,i18n["js.common.delete.error"], false)) {
 
           } else {

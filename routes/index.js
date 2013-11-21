@@ -2,7 +2,6 @@
 var core     = smart.core
   ,log        = smart.framework.log
   , desk  = require("../apis/desk")
-  , menu  = require("../apis/menu")
 //var apis    = require('./apis')
 //  , website = require('./website');
 
@@ -39,49 +38,18 @@ exports.guiding = function (app) {
     core.user.logout(req, res);
   });
 
-  // 菜品
+  //菜品
   app.get("/menu/item/list", function(req, res) {
     res.render("menu_item_list", {"title": "item", user: req.session.user});
   });
 
-  // 桌台
+  //桌台
   app.get("/shop/desk/list", function(req, res) {
     res.render("shop_desk_list", {"title": "desk", user: req.session.user});
   });
 
-  // 增加桌台
-  app.get('/shop/desk/add', function(req, res){
-    res.render("shop_desk_add", {"title": "desk", user: req.session.user, deskId: 0});
-  });
-
-  app.get('/shop/desk/edit/:id', function (req, res) {
-    res.render("shop_desk_add", {"title": "desk", user: req.session.user, deskId:req.params.id});
-  });
-
-  // APIs
-  app.get('/menu/list.json', function(req, res){
-    menu.list(req, res);
-  });
-
-
-  app.get('/desk/list.json', function(req, res){
-    desk.list(req, res);
-  });
-
   app.post('/desk/add.json', function(req, res){
     desk.add(req, res);
-  });
-
-  app.post('/desk/update.json', function(req, res){
-    desk.update(req, res);
-  });
-
-  app.delete('/desk/remove.json', function (req, res) {
-    desk.remove(req,res);
-  });
-
-  app.get('/desk/findOne.json', function (req, res) {
-    desk.findOne(req,res);
   });
 
   //菜单
