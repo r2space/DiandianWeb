@@ -7,7 +7,7 @@
 "use strict";
 
 var _           = require('underscore')
-  , desk        = require('../modules/mod_desk.js')
+  , desk = require('../modules/mod_desk.js')
   , async       = require('async')
   , smart       = require("smartcore")
   , user        = smart.ctrl.user
@@ -15,13 +15,12 @@ var _           = require('underscore')
   , mod_group   = smart.mod.group
   , error       = smart.core.errors;
 
-exports.add = function(code_, uid_, desk_, callback_){
+exports.save = function(code_, uid_, desk_, callback_){
   var now = new Date();
 
   var newDesk = {
-    name: desk_.name,
+    name: desk_.title,
     type :desk_.type,
-    capacity:desk_.capacity,
     editat: now,
     editby: uid_
   };
@@ -41,14 +40,16 @@ exports.add = function(code_, uid_, desk_, callback_){
     newDesk.createat = now;
     newDesk.createby = uid_;
 
-    desk.add(code_, newDesk, function(err, result){
-      if (err) {
-        return callback_(new error.InternalServer(err));
-      }
+    desk.total(code_, {valid: 1}, function(err, count){
 
-      callback_(err, result);
+      desk.add(code_, newDesk, function(err, result){
+        if (err) {
+          return callback_(new error.InternalServer(err));
+        }
+
+        callback_(err, result);
+      });
     });
-
   }
 };
 
@@ -58,7 +59,15 @@ exports.get = function(code_, user_, deskId_, callback_){
     if (err) {
       return callback_(new error.InternalServer(err));
     }
-    callback_(err, result);
+
+    mod_group.getAllGroupByUid(code_, user_._id, function(err, groups){
+      if(err){
+        return callback_(new error.InternalServer(err));
+      }
+      //TODO
+
+    });
+
   });
 };
 
@@ -72,16 +81,21 @@ exports.remove = function(code_, user_, deskId_ , callback_){
   });
 };
 
-exports.list = function(code_, condition_, start_, limit_, callback_) {
+exports.list = function(code_, user_, callback_) {
 
-  desk.total(code_, condition_, function (err, count) {
+  var condition = {valid: 1};
 
-    desk.getList(code_, condition_, start_, limit_,  function(err, result){
+  mod_group.getAllGroupByUid(code_, user_._id, function(err, groups){
+    if(err){
+      return callback_(new error.InternalServer(err));
+    }
+
+    desk.getList(code_, condition, function(err, result){
       if (err) {
         return callback_(new error.InternalServer(err));
       }
 
-      return callback_(err, {items: result, totalItems: count});
+      callback_(err, {items:result});
     });
   });
 };

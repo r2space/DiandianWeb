@@ -1,72 +1,63 @@
 var smart  = require("smartcore")
-  , response    = smart.framework.response
-  , util    = smart.framework.util
+  , json    = smart.core.json
   , errors  = smart.core.errors
   , desk    = require('../controllers/ctrl_desk');
-
-// 获取指定桌台
-exports.findOne = function(req_, res_) {
-
-  var code = req_.session.user.companycode
-    , uid = req_.session.user._id
-    , deskId = req_.query.deskId;
-
-  desk.get(code, uid, deskId, function(err, result) {         console.log(result);
-    response.send(res_, err, result);
-  });
-};
 
 // 获取一览
 exports.list = function(req_, res_) {
 
-  var code = req_.session.user.companycode
-    , start = req_.query.start || 0
-    , limit = req_.query.count || 20
+  var start = req_.query.start
+    , limit = req_.query.count
     , keyword = req_.query.keyword
-    , condition = {
-      valid: 1
-    };
 
-  if (keyword) {
-    keyword = util.quoteRegExp(keyword);
-    condition.name = new RegExp(keyword.toLowerCase(), "i");
-  }
-
-  desk.list(code, condition, start, limit , function(err, result) {
-    response.send(res_, err, result);
+  desk.list(start, limit, keyword , function(err, result) {
+    if (err) {
+      return res_.send(err.code, json.errorSchema(err.code, err.message));
+    } else {
+      return res_.send(json.dataSchema(result));
+    }
   });
 };
 
 // 添加
 exports.add = function(req_, res_) {
 
-  var code = req_.session.user.companycode
-    , uid = req_.session.user._id;
+  var uid = req_.session.user._id;
 
-  desk.add(code, uid, req_.body, function(err, result) {
-    response.send(res_, err, result);
+  desk.add(uid, req_.body, function(err, result) {
+    if (err) {
+      return res_.send(err.code, json.errorSchema(err.code, err.message));
+    } else {
+      return res_.send(json.dataSchema(result));
+    }
   });
 };
 
 // 更新
 exports.update = function(req_, res_) {
 
-  var code = req_.session.user.companycode
-    , uid = req_.session.user._id;
+  var uid = req_.session.user._id;
 
-  desk.add(code, uid, req_.body, function(err, result) {
-    response.send(res_, err, result);
+  desk.update(uid, req_.body, function(err, result) {
+      if (err) {
+          return res_.send(err.code, json.errorSchema(err.code, err.message));
+      } else {
+          return res_.send(json.dataSchema(result));
+      }
   });
 };
 
 // 删除·
-exports.remove = function(req_, res_) {
+exports.delete = function(req_, res_) {
 
-  var code = req_.session.user.companycode
-    , uid = req_.session.user._id;
+  var uid = req_.session.user._id;
 
-  desk.remove(code, uid, req_.body.id, function(err, result) {
-    response.send(res_, err, result);
+  desk.delete(uid, req_.body, function(err, result) {
+    if (err) {
+      return res_.send(err.code, json.errorSchema(err.code, err.message));
+    } else {
+      return res_.send(json.dataSchema(result));
+    }
   });
 };
 
