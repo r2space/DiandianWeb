@@ -18,37 +18,38 @@ function render(start, count, keyword) {
   jsonUrl += "start=" + start;
   jsonUrl += "&count=" + count;
 
-  keyword = keyword ? encodeURIComponent(keyword) : "";
-  jsonUrl += "&keyword=" + keyword;
+  if(keyword){
+    keyword = keyword ? encodeURIComponent(keyword) : "";
+    jsonUrl += "&keyword=" + keyword;
+  }
 
   smart.doget(jsonUrl, function(e, result){
     if (smart.error(e, i18n["js.common.search.error"], true)) {
       return;
-    } else {
-      itemList = result.items;
-      var tmpl = $("#tmpl_item_list").html()
-        , container = $("#item_list")
-        , index = 1;
-
-      container.html("");
-      _.each(result.items, function(row){
-        container.append(_.template(tmpl, {
-          "id": row._id
-          , "index": index++ + start
-          , "itemName": row.itemName
-          , "itemType": row.itemType
-          , "itemPrice": row.itemPrice
-          , "editat": smart.date(row.editat)
-        }));
-      });
-      if(itemList.length == 0) {
-        container.html(i18n["js.common.list.empty"]);
-      }
-      // 设定翻页
-      smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
-        render.apply(window, [active, count,keyword]);
-      });
     }
+    itemList = result.items;
+    var tmpl = $("#tmpl_item_list").html()
+      , container = $("#item_list")
+      , index = 1;
+
+    container.html("");
+    _.each(result.items, function(row){
+      container.append(_.template(tmpl, {
+        "id": row._id
+        , "index": index++ + start
+        , "itemName": row.itemName
+        , "itemType": row.itemType
+        , "itemPrice": row.itemPrice
+        , "editat": smart.date(row.editat)
+      }));
+    });
+    if(itemList.length == 0) {
+      container.html(i18n["js.common.list.empty"]);
+    }
+    // 设定翻页
+    smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
+      render.apply(window, [active, count,keyword]);
+    });
   });
 }
 
@@ -84,7 +85,7 @@ function events() {
       Alertify.dialog.labels.cancel = i18n["js.common.dialog.cancel"];
       Alertify.dialog.confirm(i18n["js.common.delete.confirm"], function () {
 
-        smart.dodelete("/desk/remove.json", {"id": rowId}, function(err, result){
+        smart.dodelete("/item/remove.json", {"id": rowId}, function(err, result){
           if (smart.error(err,i18n["js.common.delete.error"], false)) {
 
           } else {

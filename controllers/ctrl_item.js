@@ -7,6 +7,7 @@ var _         = require('underscore')
   , user      = smart.ctrl.user
   , mod_group   = smart.mod.group
   , auth      = smart.core.auth
+  , group     = smart.mod.group
   , item   = require('../modules/mod_item.js');
 
 /**
@@ -95,12 +96,12 @@ exports.update = function(code_, uid_, item_, callback_) {
   var now = new Date();
 
   var newItem = {
-      itemName : item.itemName
-   , itemPrice : item.itemPrice
-   , itemType : item.itemType
-   , itemComment : item.itemComment
-   , itemMaterial : item.itemMaterial
-   , itemMethod : item.itemMethod
+      itemName : item_.itemName
+   , itemPrice : item_.itemPrice
+   , itemType : item_.itemType
+   , itemComment : item_.itemComment
+   , itemMaterial : item_.itemMaterial
+   , itemMethod : item_.itemMethod
    , editat: now
    , editby: uid_
   };

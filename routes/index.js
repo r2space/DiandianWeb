@@ -47,7 +47,7 @@ exports.guiding = function (app) {
 
   //菜品增加
   app.get("/menu/item/add", function(req, res) {
-    res.render("menu_item_add", {"title": "新增菜品", user: req.session.user, itemId: 0});
+    res.render("menu_item_add", {"title": "新增菜品", user: req.session.user, itemId: ""});
   });
 
 
@@ -62,7 +62,7 @@ exports.guiding = function (app) {
 
   // 增加桌台
   app.get('/shop/desk/add', function(req, res){
-    res.render("shop_desk_add", {"title": "desk", user: req.session.user, deskId: 0});
+    res.render("shop_desk_add", {"title": "desk", user: req.session.user, deskId: ""});
   });
 
   app.get('/shop/desk/edit/:id', function (req, res) {
@@ -79,12 +79,20 @@ exports.guiding = function (app) {
     desk.list(req, res);
   });
 
+  app.get('/item/list.json', function(req, res){
+    item.list(req, res);
+  });
+
   app.post('/desk/add.json', function(req, res){
     desk.add(req, res);
   });
 
   app.post('/desk/update.json', function(req, res){
     desk.update(req, res);
+  });
+
+  app.post('/item/add.json', function(req, res){
+    item.add(req, res);
   });
 
   app.post('/item/update.json', function(req, res){
@@ -97,6 +105,10 @@ exports.guiding = function (app) {
 
   app.get('/desk/findOne.json', function (req, res) {
     desk.findOne(req,res);
+  });
+
+  app.delete('/item/remove.json', function (req, res) {
+    item.remove(req,res);
   });
 
   app.get('/item/findOne.json', function (req, res) {

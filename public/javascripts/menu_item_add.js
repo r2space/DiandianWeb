@@ -3,11 +3,11 @@ $(function () {
 
   var itemId = $("#itemId").val();
   render(itemId);
-  events();
+  events(itemId);
 
 });
 
-function events() {
+function events(itemId) {
   $("#uploud_b").bind("click", function(){
     $("#uploadfile_b").trigger('click');
   });

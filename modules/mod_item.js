@@ -19,6 +19,7 @@ var Item = new schema({
    itemName      : { type: String, description: "菜品名称" }
  , itemMethod    : { type: String, description: "菜品作法" }
 // , smallimage  : { type: String, description: "小图" }
+// , bigimage  : { type: String, description: "小图" }
  , itemPrice    : { type: String, description: "菜品价格" }
  , editat      : { type: Date,   description: "修改时间" }
  , editby      : { type: String, description: "修改者" }
@@ -45,12 +46,12 @@ function model(dbname) {
  * @param {function} callback 返回素材件数
  */
 //TODO 和total函数重复,删除?
-exports.count = function(code, conditions, callback) {
-
-  var file = model(code);
-
-  file.count(conditions, callback);
-};
+//exports.count = function(code, conditions, callback) {
+//
+//  var file = model(code);
+//
+//  file.count(conditions, callback);
+//};
 
 /**
  * 添加素材
@@ -78,6 +79,7 @@ exports.add = function(code, newItem, callback) {
 exports.update = function(code, itemId, newItem, callback) {
 
   var item = model(code);
+  console.log(itemId)
 
   item.findByIdAndUpdate(itemId, newItem, function(err, result) {
     callback(err, result);
@@ -123,11 +125,11 @@ exports.get = function(code, itemId, callback) {
  * @param {string} fileid 素材ID
  * @param {function} callback 返回素材删除结果
  */
-exports.remove = function(code, itemId, callback) {
+exports.remove = function(code, uid, itemId, callback) {
 
   var item = model(code);
 
-  item.findByIdAndRemove(itemId, function(err, result) {
+  item.findByIdAndRemove(itemId,  {valid: 0, editat: new Date(), editby: uid}, function(err, result) {
     callback(err, result);
   });
 };
@@ -161,9 +163,9 @@ exports.getList = function(code, condition, start, limit, callback) {
  */
 exports.total = function(code, condition, callback) {
 
-  var file = model(code);
+  var item = model(code);
 
-  file.count(condition).exec(function(err, count) {
+  item.count(condition).exec(function(err, count) {
     callback(err, count);
   });
 };
