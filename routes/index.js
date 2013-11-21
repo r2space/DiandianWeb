@@ -40,7 +40,7 @@ exports.guiding = function (app) {
     core.user.logout(req, res);
   });
 
-  //菜品
+  // 菜品
   app.get("/menu/item/list", function(req, res) {
     res.render("menu_item_list", {"title": "item", user: req.session.user});
   });

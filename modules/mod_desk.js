@@ -7,7 +7,6 @@
 "use strict";
 
 var mongo       = require("mongoose")
-  , smart       = require("smartcore").core.util
   , conn        = require("./connection")
   , schema      = mongo.Schema;
 
@@ -17,8 +16,9 @@ var mongo       = require("mongoose")
  */
 var Desk = new schema({
     name        : {type: String, description: "名称"}
-  , type        : {type: Number, description: "类型 0:桌台 1:包间", default:0}
-  , valid       : {type: Number, description: "删除 0:无效 1:有效", default:1}
+  , type        : {type: Number, description: "类型 0:桌台 1:包间", default: 0}
+  , capacity   : {type: Number, description: "可容纳人数",  default: 4}
+  , valid       : {type: Number, description: "删除 0:无效 1:有效", default: 1}
   , createat    : {type: Date,   description: "创建时间"}
   , createby    : {type: String, description: "创建者"}
   , editat      : {type: Date,   description: "最终修改时间"}
@@ -57,10 +57,10 @@ exports.get = function(code, deskId, callback) {
  * @param {function} callback 返回追加结果
  */
 exports.add = function(code, newDesk, callback) {
+  console.log(newDesk);
+  var desk = model(code);
 
-  var Desk = model(code);
-
-  new Desk(newDesk).save(function(err, result) {
+  new desk(newDesk).save(function(err, result) {
     callback(err, result);
   });
 };
@@ -103,12 +103,14 @@ exports.remove = function (code, uid, deskId, callback) {
  * @param {object} condition 条件
  * @param {function} callback 返回桌台一览
  */
-exports.getList = function(code, condition, callback) {
+exports.getList = function(code, condition, start, limit, callback) {
 
   var desk = model(code);
 
   desk.find(condition)
-    .sort({sort_level: 1})
+    .skip(start || 0)
+    .limit(limit || 20)
+    .sort({editat: -1})
     .exec(function(err, result) {
       callback(err, result);
     });
