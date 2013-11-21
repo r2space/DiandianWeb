@@ -32,7 +32,6 @@ function render(start, count,keyword) {
     keyword = keyword ? encodeURIComponent(keyword) : "";
     jsonUrl += "&keyword=" + keyword;
   }
-
   smart.doget(jsonUrl, function(e, result){
 
     if (smart.error(e, i18n["js.common.search.error"], true)) {
