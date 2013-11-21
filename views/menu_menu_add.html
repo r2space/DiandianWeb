@@ -272,88 +272,10 @@ img.caseMenuImg {
   height:520px;
   margin-left: 30px;
   margin-top: 30px;
-  padding-top: 45px;
-  padding-left: 55px;
-}
-
-#layoutLandscape{
-  width: 551px;
-  height: 419px;
-  overflow-x:scroll;
-  overflow-y:hidden;
-  border:1px solid #ccd7e2;
-}
-#layoutLandscapeMain{
-  height: 417px;
-  /*width: 1098px;*/
-  width: 0;
-}
-.landscapePageSmall{
-  width: 549px;
-  height: 417px;
-  float: left;
-}
-.landscapePageSmall>div{
-  width: 179px;
-  height: 135px;
-  float: left;
-  border:1px solid #ccd7e2;
-  margin: 2px;
-}
-.landscapePageSmall>div:hover{
-  background: #fceeeb;
-}
-
-.landscapePageMedium{
-  width: 549px;
-  height: 417px;
-  float: left;
-}
-
-.landscapePageMedium>div{
-  width: 179px;
-  height: 135px;
-  float: left;
-  border:1px solid #ccd7e2;
-  margin: 2px;
-}
-
-.landscapePageMedium>div:hover{
-  background: #fceeeb;
-}
-
-.landscapePageMedium>div:first-child{
-  width: 362px;
-  height: 274px;
-}
-
-.landscapePageLarge{
-  width: 549px;
-  height: 417px;
-  float: left;
-}
-.landscapePageLarge>div{
-  width: 545px;
-  height: 413px;
-  float: left;
-  border:1px solid #ccd7e2;
-  margin: 2px;
-}
-
-.landscapePageLarge>div:hover{
-  background: #fceeeb;
+  /*margin-bottom: 30px*/
 }
 
 
-#largePageHidden {
-  display: none;
-}
-#smallPageHidden {
-  display: none;
-}
-#mediumPageHidden{
-  display: none;
-}
 </style>
 </head>
 <body>
@@ -424,49 +346,95 @@ img.caseMenuImg {
       <div class="pull-right">
         <!-- TODO ysl-->
 
-        <a data-toggle="modal"  href="#" class="btn btn-default" id="addLargeMenuScreen"><i class="icon-plus">&nbsp;</i><%= i('html.button.menu.large.screenadd') %><!-- 追加スクリーン--></a>
-        <a data-toggle="modal"  href="#" class="btn btn-default" id="addMediumMenuScreen"><i class="icon-plus">&nbsp;</i><%= i('html.button.menu.medium.screenadd') %><!-- 追加スクリーン--></a>
-        <a data-toggle="modal"  href="#" class="btn btn-default" id="addSmallMenuScreen"><i class="icon-plus">&nbsp;</i><%= i('html.button.menu.small.screenadd') %><!-- 追加スクリーン--></a>
-
+        <a data-toggle="modal"  href="#" class="btn btn-default" id="addmenuScreen"><i class="icon-plus">&nbsp;</i><%= i('html.button.menu.screenadd') %><!-- 追加スクリーン--></a>
       </div>
     </div>
     <div class="row col-lg-8 col-md-12" style="border: 0px solid #dddddd;">
       <div class="x" >
-<!-- =============== -->
-<div id="layoutLandscape">
-  <div id="layoutLandscapeMain">
-  </div>
-</div>
-<div id="largePageHidden">
-  <div  class="landscapePageLarge">
-    <div></div>
-  </div>
-</div>
-<div id="mediumPageHidden">
-  <div class="landscapePageMedium">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
-</div>
-<div id="smallPageHidden">
-    <div class="landscapePageSmall">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-</div>
-
-<!-- =============== -->
+        <div class="col-lg-11 col-md-12 pull-left" style="overflow-x: scroll;overflow-y:auto;width:560px;height:425px;margin-top: 50px;margin-left: 58px;padding: 0px">
+          <table> <tbody> <tr id="layoutLandscape" class="ace-thumbnails">
+          <!--<td>-->
+          <!--<table id="layoutLandscape1" screen="1" width="540" height="408" style="float:left;">-->
+            <!--<tbody>-->
+            <!--<tr>-->
+              <!--<td class="" colspan="1" rowspan="1" width="180" height="136" tilenum="1" screen="1">-->
+                <!--<img style="width: 180px; height: 136px;">-->
+              <!--</td>-->
+              <!--<td class="" colspan="1" rowspan="1" width="180" height="136" tilenum="2" screen="1">-->
+                <!--<img style="width: 180px; height: 136px;">-->
+              <!--</td>-->
+              <!--<td class="" colspan="1" rowspan="1" width="180" height="136" tilenum="3" screen="1">-->
+                <!--<img style="width: 180px; height: 136px;">-->
+              <!--</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+              <!--<td class="" colspan="1" rowspan="1" width="180" height="136" tilenum="4" screen="1">-->
+                <!--<img style="width: 180px; height: 136px;">-->
+              <!--</td>-->
+              <!--<td class="" colspan="1" rowspan="1" width="180" height="136" tilenum="5" screen="1">-->
+                <!--<img style="width: 180px; height: 136px;">-->
+              <!--</td>-->
+              <!--<td class="" colspan="1" rowspan="1" width="180" height="136" tilenum="6" screen="1">-->
+                <!--<img style="width: 180px; height: 136px;">-->
+              <!--</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+              <!--<td class="" colspan="1" rowspan="1" width="180" height="136" tilenum="7" screen="1">-->
+                <!--<img style="width: 180px; height: 136px;">-->
+              <!--</td>-->
+              <!--<td class="" colspan="1" rowspan="1" width="180" height="136" tilenum="8" screen="1">-->
+                <!--<img style="width: 180px; height: 136px;">-->
+              <!--</td>-->
+              <!--<td class="" colspan="1" rowspan="1" width="180" height="136" tilenum="9" screen="1">-->
+                <!--<img style="width: 180px; height: 136px;">-->
+              <!--</td>-->
+            <!--</tr>-->
+            <!--</tbody>-->
+          <!--</table>-->
+          <!--</td>-->
+          <!--<td>-->
+           <!--<table id="layoutLandscape2" screen="1" width="540" height="408" style="float:left;">-->
+            <!--<tbody>-->
+            <!--<tr>-->
+              <!--<th class="" colspan="2" rowspan="2" width="365" height="277" tilenum="1" screen="1">-->
+                <!--<img style="width: 360px; height: 272px;">-->
+              <!--</th>-->
+              <!--<td>-->
+                <!--<img style="width: 180px; height: 136px;">-->
+              <!--</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+              <!--<td class="" colspan="1" rowspan="1" width="180" height="136" tilenum="2" screen="1">-->
+                <!--<img style="width: 180px; height: 136px;">-->
+              <!--</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+              <!--<td class="" colspan="1" rowspan="1" width="180" height="136" tilenum="4" screen="1">-->
+                <!--<img style="width: 180px; height: 136px;">-->
+              <!--</td>-->
+              <!--<td class="" colspan="1" rowspan="1" width="180" height="136" tilenum="5" screen="1">-->
+                <!--<img style="width: 180px; height: 136px;">-->
+              <!--</td>-->
+              <!--<td class="" colspan="1" rowspan="1" width="180" height="136" tilenum="6" screen="1">-->
+                <!--<img style="width: 180px; height: 136px;">-->
+              <!--</td>-->
+            <!--</tr>-->
+            <!--</tbody>-->
+          <!--</table>-->
+          <!--</td>-->
+          <!--<td>-->
+          <!--<table id="layoutLandscape3" screen="1" width="550" height="418" style="float:left;">-->
+            <!--<tbody>-->
+            <!--<tr>-->
+              <!--<td class="" colspan="1" rowspan="1" width="550" height="418" tilenum="1" screen="1">-->
+                <!--<img style="width: 550px; height: 408px;">-->
+              <!--</td>-->
+            <!--</tr>-->
+            <!--</tbody>-->
+          <!--</table>-->
+          <!--</td>-->
+           </tr> </tbody> </table>
+        </div>
       </div>
     </div>
     <div class="col-lg-8 col-md-12" style="margin-bottom: 30px;padding: 0px;">
@@ -509,7 +477,7 @@ img.caseMenuImg {
                 <td style="width: 168px;">主菜</td>
                 <td style="width: 192px">1</td>
                 <td>
-                  <input syntheticId="layout_1" name="synth_sel" type="radio" value="1" class="syntheticSelect">
+                  <input syntheticId="layout_1"  type="radio" class="syntheticSelect">
                 </td>
               </tr>
               <tr>
@@ -522,7 +490,7 @@ img.caseMenuImg {
                 <td style="width: 168px;">一般菜</td>
                 <td style="width: 192px">6</td>
                 <td>
-                  <input syntheticId="layout_6" name="synth_sel" type="radio" value="2" class="syntheticSelect">
+                  <input syntheticId="layout_6"  type="radio" class="syntheticSelect">
                 </td>
               </tr>
               <tr>
@@ -535,7 +503,7 @@ img.caseMenuImg {
                 <td style="width: 168px;">垃圾菜</td>
                 <td style="width: 192px">9</td>
                 <td>
-                  <input syntheticId="layout_9" name="synth_sel" type="radio" value="3" class="syntheticSelect">
+                  <input syntheticId="layout_9"  type="radio" class="syntheticSelect">
                 </td>
               </tr>
             </tbody>
