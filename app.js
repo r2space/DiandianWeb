@@ -39,7 +39,22 @@ app.use(middleware.parseError);
 /**
  * 启动服务
  */
-http.createServer(app).listen(app.get("port"), function(){
+var server = http.createServer(app).listen(app.get("port"), function(){
   log.info("Express server listening on port " + app.get("port"));
+});
+var io = require('socket.io').listen(server);
+
+io.sockets.on('connection', function (socket) {
+
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    socket.emit('news', { hello: 'fsafsdfdfsafsdfdsafsdf' });
+  });
+
+  socket.on('reconn', function (data) {
+    socket.emit('reconn ed', { hello: 'success1' });
+  });
+
+
 });
 
