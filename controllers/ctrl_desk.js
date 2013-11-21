@@ -8,80 +8,79 @@
 
 var _           = require('underscore')
   , desk        = require('../modules/mod_desk.js')
-  , async       = require('async')
   , smart       = require("smartcore")
-  , user        = smart.ctrl.user
-  , group       = smart.ctrl.group
-  , mod_group   = smart.mod.group
   , error       = smart.core.errors;
 
-exports.add = function(code_, uid_, desk_, callback_){
+exports.add = function(code, uid, deskData, callback){
   var now = new Date();
 
   var newDesk = {
-    name: desk_.name,
-    type :desk_.type,
-    capacity:desk_.capacity,
+    name: deskData.name,
+    type :deskData.type,
+    capacity:deskData.capacity,
     editat: now,
-    editby: uid_
+    editby: uid
   };
 
-  var id = desk_.id;
+  var id = deskData.id;
 
   if (id) {
 
-    desk.update(code_, id, newDesk, function(err, result){
+    desk.update(code, id, newDesk, function(err, result){
       if (err) {
-        return callback_(new error.InternalServer(err));
+        return callback(new error.InternalServer(err));
       }
 
-      callback_(err, result);
+      callback(err, result);
     });
   } else {
     newDesk.createat = now;
-    newDesk.createby = uid_;
+    newDesk.createby = uid;
 
-    desk.add(code_, newDesk, function(err, result){
+    desk.add(code, newDesk, function(err, result){
       if (err) {
-        return callback_(new error.InternalServer(err));
+        return callback(new error.InternalServer(err));
       }
 
-      callback_(err, result);
+      callback(err, result);
     });
 
   }
 };
 
-exports.get = function(code_, user_, deskId_, callback_){
+exports.get = function(code, user_, deskId, callback){
 
-  desk.get(code_, deskId_, function(err, result){
+  desk.get(code, deskId, function(err, result){
     if (err) {
-      return callback_(new error.InternalServer(err));
+      return callback(new error.InternalServer(err));
     }
-    callback_(err, result);
+    callback(err, result);
   });
 };
 
-exports.remove = function(code_, user_, deskId_ , callback_){
+exports.remove = function(code, user_, deskId , callback){
 
-  desk.remove(code_, user_, deskId_, function(err, result){
+  desk.remove(code, user_, deskId, function(err, result){
     if (err) {
-      return callback_(new error.InternalServer(err));
+      return callback(new error.InternalServer(err));
     }
-    callback_(err, result);
+    callback(err, result);
   });
 };
 
-exports.list = function(code_, condition_, start_, limit_, callback_) {
+exports.list = function(code, condition, start, limit, callback) {
 
-  desk.total(code_, condition_, function (err, count) {
+  desk.total(code, condition, function (err, count) {
+    if (err) {
+      return callback(new error.InternalServer(err));
+    }
 
-    desk.getList(code_, condition_, start_, limit_,  function(err, result){
-      if (err) {
-        return callback_(new error.InternalServer(err));
+    desk.getList(code, condition, start, limit,  function(err2, result){
+      if (err2) {
+        return callback(new error.InternalServer(err2));
       }
 
-      return callback_(err, {items: result, totalItems: count});
+      return callback(err, {items: result, totalItems: count});
     });
   });
 };

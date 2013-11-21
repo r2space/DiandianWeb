@@ -2,16 +2,16 @@ var smart  = require("smartcore")
   , response    = smart.framework.response
   , util    = smart.framework.util
   , errors  = smart.core.errors
-  , desk    = require('../controllers/ctrl_desk');
+  , menu    = require('../controllers/ctrl_menu');
 
-// 获取指定桌台
+// 获取指定菜单
 exports.findOne = function(req_, res_) {
 
   var code = req_.session.user.companycode
     , uid = req_.session.user._id
-    , deskId = req_.query.deskId;
+    , menuId = req_.query.id;
 
-  desk.get(code, uid, deskId, function(err, result) {
+  menu.get(code, uid, menuId, function(err, result) {
     response.send(res_, err, result);
   });
 };
@@ -32,7 +32,7 @@ exports.list = function(req_, res_) {
     condition.name = new RegExp(keyword.toLowerCase(), "i");
   }
 
-  desk.list(code, condition, start, limit , function(err, result) {
+  menu.list(code, condition, start, limit , function(err, result) {
     response.send(res_, err, result);
   });
 };
@@ -43,7 +43,7 @@ exports.add = function(req_, res_) {
   var code = req_.session.user.companycode
     , uid = req_.session.user._id;
 
-  desk.add(code, uid, req_.body, function(err, result) {
+  menu.add(code, uid, req_.body, function(err, result) {
     response.send(res_, err, result);
   });
 };
@@ -54,7 +54,7 @@ exports.update = function(req_, res_) {
   var code = req_.session.user.companycode
     , uid = req_.session.user._id;
 
-  desk.add(code, uid, req_.body, function(err, result) {
+  menu.add(code, uid, req_.body, function(err, result) {
     response.send(res_, err, result);
   });
 };
@@ -65,7 +65,7 @@ exports.remove = function(req_, res_) {
   var code = req_.session.user.companycode
     , uid = req_.session.user._id;
 
-  desk.remove(code, uid, req_.body.id, function(err, result) {
+  menu.remove(code, uid, req_.body.id, function(err, result) {
     response.send(res_, err, result);
   });
 };
