@@ -28,67 +28,49 @@
       </ul><!--.breadcrumb-->
     </div>
 
-    <div class="page-content">
-      <div class="row tableheader">
+      <div class="page-content">
+          <div class="row tableheader col-lg-8">
+              <div class="pull-left">
+                  <h4><%= i('html.label.shop.desk') %></h4>
+              </div>
+          </div>
+          <div class="row col-lg-8 box-border">
+              <form class="form-horizontal" role="form" style="margin-top: 15px">
+                  <input type="hidden" name="deskId" id="deskId" value=<%=deskId%> >
+                  <div class="form-group">
+                      <label for="name" class="col-lg-2 control-label"><%= i('html.label.desk.name') %><!-- 桌台名--></label>
+                      <div class="col-lg-6">
+                          <input type="text" class="form-control" name="name" id="name" placeholder="<%= i('html.label.desk.name') %>">
+                      </div>
+                  </div>
 
-        <div class="pull-right">
-          <button id="addDesk" type="button" class="btn btn-default">
-            <i class="icon-plus icon-white"></i>
-            <span><%= i('html.button.desk.add') %></span>
-          </button>
-        </div>
+                  <div class="form-group">
+                      <label for="capacity" class="col-lg-2 control-label"><%= i('html.label.desk.capacity') %><!-- 容纳人数--></label>
+                      <div class="col-lg-6">
+                          <input type="text" class="form-control" name="capacity" id="capacity" placeholder="4">
+                      </div>
+                  </div>
 
-        <div class="pull-right" style="width: 300px">
-          <form class="search-form" onsubmit="return false;">
-            <div class="input-group">
-              <input id="txt_search" type="text" placeholder="<%= i('html.label.common.search') %>(<%= i('html.label.desk.name') %>)" class="form-control"  autocomplete="off" />
-                <span id="doSearch" class="input-group-addon">
-                  <i class="icon-search"></i>
-                </span>
-            </div>
-          </form>
-        </div>
+                  <div class="form-group">
+                      <label class="col-lg-2 control-label"><%= i('html.label.desk.type') %><!-- 类型--></label>
+                      <div class="col-xs-6">
+                          <div id="inputType" class="btn-group" value="type">
+                              <button value="0" class="btn btn-sm btn-default btn-white" type="button"><%= i('html.label.desk.table') %><!-- 桌子--></button>
+                              <button value="1" class="btn btn-sm btn-default btn-info" type="button"><%= i('html.label.desk.room') %><!-- 包间--></button>
+                          </div>
+                      </div>
+                  </div>
+              </form>
+          </div>
+          <div class="col-lg-8" style="margin-bottom: 30px;padding: 0px;">
+              <div id="addDesk" class="col-lg-4 btn btn-warning btn-lg">
+                  <%= i('html.button.common.save') %><!-- 保存-->
+              </div>
+          </div>
       </div>
-
-      <!-- 一览表示 -->
-      <div id="list" class="row">
-        <div class="col-lg-12">
-          <table class="table table-hover">
-            <thead>
-            <tr>
-              <th><%= i('html.label.desk.no') %></th>
-              <th><%= i('html.label.desk.name') %></th>
-              <th><%= i('html.label.desk.type') %></th>
-              <th><%= i('html.label.common.updateat') %></th>
-              <th><%= i('html.label.common.updateby') %></th>
-              <th><%= i('html.label.common.operation') %></th>
-            </tr>
-            </thead>
-            <tbody id="desk_list"></tbody>
-          </table>
-        </div><!--/span-->
-      </div>
-
-      <div class="pagination-area" id="pagination_area"></div>
-
-    </div>
   </div>
 
 </div><!--/.main-container-->
-
-<script type="text/template" id="tmpl_desk_list">
-  <tr>
-    <td>{{index}}</td>
-    <td>{{name}}</td>
-    <td>{{type}}</td>
-    <td>{{editat}}</td>
-    <td>{{editby}}</td>
-    <td>
-      <a href="#" class="btn btn-default btn-sm" index={{index}} rowid="{{id}}" operation="edit"><%= i('html.button.common.edit') %><!-- 編集--></a>
-      <a href="#" class="btn btn-default btn-sm" index={{index}} rowid="{{id}}" operation="delete"><%= i('html.button.common.delete') %><!--删除--></a>
-    </td>
-  </tr>
-</script>
 
 </body>
 </html>
