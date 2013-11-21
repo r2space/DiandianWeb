@@ -43,6 +43,9 @@ var server = http.createServer(app).listen(app.get("port"), function(){
   log.info("Express server listening on port " + app.get("port"));
 });
 var io = require('socket.io').listen(server);
+io.configure('development', function(){
+  io.set('log level', 1);
+});
 
 io.sockets.on('connection', function (socket) {
 

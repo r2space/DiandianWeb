@@ -12,11 +12,12 @@ var mongo       = require("mongoose")
   , schema      = mongo.Schema;
 
 /**
- * 公司schema
+ * 订单
  * @type {schema}
  */
 var Order = new schema({
     deskId          :   {type: String, description: "台位ID"}
+  , orderGroup      :   {type: String, description: "订单组"}
   , people          :   {type: Number, description: "人数"}
   , user            :   {type: String, description: "类型 0:不退 1:退菜", default: 0}
   , item            :   {type: String, description: "名称"}
@@ -28,3 +29,13 @@ var Order = new schema({
   , editat          : {type: Date,   description: "最终修改时间"}
   , editby          : {type: String, description: "最终修改者"}
 });
+
+/**
+ * 使用定义好的Schema
+ * @param {string} dbname
+ * @returns {model} workstation model
+ */
+function model(dbname) {
+
+  return conn(dbname).model("Order", Order);
+}
