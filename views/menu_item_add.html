@@ -25,7 +25,7 @@
       </li>
       <li>
         <i class="icon-th icon-large"></i>
-        <a href="/menu/item/add"><%= i('html.label.menu.item') %><!--菜品--></a>
+        <a href="/menu/item/list"><%= i('html.label.menu.item') %><!--菜品--></a>
           <span class="divider">
             <i class="icon-chevron-right arrow-icon"></i>
           </span>
@@ -51,6 +51,7 @@
     </div>
     <div class="row col-lg-8 col-md-12" style="border:solid 0px #e3e3e3;margin-bottom: 30px">
       <form class="form-horizontal" role="form">
+        <input type="hidden" name="itemId" id="itemId" value=<%=itemId%> >
         <div class="form-group" style="margin-top: 15px">
           <label for="itemName" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.title') %><!--菜名--></label>
           <div class="col-lg-8 col-md-8">
@@ -58,30 +59,45 @@
           </div>
         </div>
         <div class="form-group" style="margin-top: 15px">
-          <label for="itemName" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.price') %><!--价格--></label>
+          <label for="itemPriceNormal" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.normalprice') %><!--价格--></label>
           <div class="col-lg-8 col-md-8">
-            <input type="text" name="itemName" class="form-control" id="itemPrice" placeholder="<%= i('html.label.item.info.price') %>">
+            <input type="text" name="itemPriceNormal" class="form-control" id="itemPriceNormal" placeholder="<%= i('html.label.item.info.price') %>">
           </div>
         </div>
         <div class="form-group" style="margin-top: 15px">
-          <label for="itemName" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.BigImg') %><!--大图--></label>
+          <label for="itemPriceHalf" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.halfprice') %><!--价格--></label>
           <div class="col-lg-8 col-md-8">
-            <input type="text" name="itemName" class="form-control" id="itemBigImg" placeholder="<%= i('html.label.item.info.BigImg') %>" style="width: 350px;">
+            <input type="text" name="itemPriceHalf" class="form-control" id="itemPriceHalf" placeholder="<%= i('html.label.item.info.price') %>">
           </div>
-          <button class="btn btn-default btn-sm " style="margin-left: -60px;">上传</button>
-        </div>
-        <button id="test" class="btn btn-default btn-sm " style="margin-left: -60px;">上传</button> <!--test-->
-        <div class="form-group" style="margin-top: 15px">
-          <label for="itemName" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.SmaImg') %><!--小图--></label>
-          <div class="col-lg-8 col-md-8">
-            <input type="text" name="itemName" class="form-control" id="itemSmaImg" placeholder="<%= i('html.label.item.info.SmaImg') %>" style="width: 350px;">
-          </div>
-          <button class="btn btn-default btn-sm " style="margin-left: -60px;">上传</button>
         </div>
         <div class="form-group" style="margin-top: 15px">
-          <label for="itemName" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.type') %><!--类型--></label>
+          <label for="itemPriceDiscount" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.Discountprice') %><!--价格--></label>
           <div class="col-lg-8 col-md-8">
-            <input type="text" name="itemName" class="form-control" id="itemType" placeholder="<%= i('html.label.item.info.type') %>">
+            <input type="text" name="itemPriceDiscount" class="form-control" id="itemPriceDiscount" placeholder="<%= i('html.label.item.info.price') %>">
+          </div>
+        </div>
+        <div class="form-group" style="margin-top: 15px">
+          <label for="uploadfile_s" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.BigImg') %><!--大图--></label>
+          <div class="col-lg-8 col-md-8">
+            <!--<input type="text" name="itemName" class="form-control" id="itemBigImg" placeholder="<%= i('html.label.item.info.BigImg') %>" style="width: 350px;">-->
+            <input type="file" name="image_s" id="uploadfile_s" style="display: hidden" multiple="multiple" accept=".mp4, .png, .jpg, .jpeg, .jpe, .gif, .bmp" />
+            <input type="" id="uploadfile_small" style="display: none"/>
+          </div>
+          <!--<button id="uploud_b" class="btn btn-default btn-sm " style="margin-left: -60px;">上传</button>-->
+        </div>
+        <div class="form-group" style="margin-top: 15px">
+          <label for="uploadfile_b" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.SmaImg') %><!--小图--></label>
+          <div class="col-lg-8 col-md-8">
+            <!--<input type="text" name="itemName" class="form-control" id="itemSmaImg" placeholder="<%= i('html.label.item.info.SmaImg') %>" style="width: 350px;">-->
+            <input type="file" id="uploadfile_b" style="display: hidden" multiple="multiple" accept=".mp4, .png, .jpg, .jpeg, .jpe, .gif, .bmp" />
+            <input type="" id="uploadfile_big" style="display: none"/>
+          </div>
+          <!--<button id="uploud_s" class="btn btn-default btn-sm " style="margin-left: -60px;">上传</button>-->
+        </div>
+        <div class="form-group" style="margin-top: 15px">
+          <label for="itemType" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.type') %><!--类型--></label>
+          <div class="col-lg-8 col-md-8">
+            <input type="text" name="itemType" class="form-control" id="itemType" placeholder="<%= i('html.label.item.info.type') %>">
           </div>
         </div>
         <div class="form-group">
@@ -92,16 +108,16 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="itemComment" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.material') %><!--材料--></label>
+          <label for="itemMaterial" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.material') %><!--材料--></label>
           <div class="col-lg-8 col-md-8">
-            <textarea class="form-control" name="itemComment" id="itemMaterial" placeholder="<%= i('html.label.item.info.material') %>"
+            <textarea class="form-control" name="itemMaterial" id="itemMaterial" placeholder="<%= i('html.label.item.info.material') %>"
                       rows="4"></textarea>
           </div>
         </div>
         <div class="form-group">
-          <label for="itemComment" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.method') %><!--作法--></label>
+          <label for="itemMethod" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.method') %><!--作法--></label>
           <div class="col-lg-8 col-md-8">
-            <textarea class="form-control" name="itemComment" id="itemMethod" placeholder="<%= i('html.label.item.info.method') %>"
+            <textarea class="form-control" name="itemMethod" id="itemMethod" placeholder="<%= i('html.label.item.info.method') %>"
                       rows="4"></textarea>
           </div>
         </div>

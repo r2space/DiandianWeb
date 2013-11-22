@@ -1,7 +1,7 @@
 /**
  * Created with JetBrains WebStorm.
  * User: Sara(fyx1014@hotmail.com)
- * Date: 19/11/12
+ * Date: 13/11/12
  * Time: 15:10
  * To change this template use File | Settings | File Templates.
  */
@@ -18,6 +18,7 @@ $(function () {
       name: $("#name").val()
       , capacity: $("#capacity").val()
       , type: $("#inputType").attr("value")
+      , sortLevel: $("#sort").val()
     };
 
     if (!check_desk(desk)) {
@@ -28,7 +29,7 @@ $(function () {
 
         smart.dopost("/desk/update.json", desk, function(err, result) {
           if (err) {
-            smart.error(err,i18n["js.common.add.error"],false);
+            smart.error(err,i18n["js.common.update.error"],false);
           } else {
             window.location = "/shop/desk/list";
           }
@@ -58,6 +59,7 @@ function render(deskId) {
 
         $("#name").val(result.name);
         $("#capacity").val(result.capacity);
+        $("#sort").val(result.sortLevel);
         new ButtonGroup("inputType", result.type).init();
       }
     });

@@ -32,7 +32,6 @@ function render(start, count,keyword) {
     keyword = keyword ? encodeURIComponent(keyword) : "";
     jsonUrl += "&keyword=" + keyword;
   }
-
   smart.doget(jsonUrl, function(e, result){
 
     if (smart.error(e, i18n["js.common.search.error"], true)) {
@@ -52,9 +51,9 @@ function render(start, count,keyword) {
         , "index": index++
         , "name": row.name
         , "capacity": row.capacity
+        , "sort" : row.sortLevel
         , "type" : row.type == 1 ? i18n["html.label.desk.table"] : i18n["html.label.desk.room"]
         , "editat": smart.date(row.editat)
-        , "editby": row.editby
       }));
     });
 

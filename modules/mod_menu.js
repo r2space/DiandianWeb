@@ -14,11 +14,17 @@ var mongo       = require("mongoose")
  * 公司schema
  * @type {schema}
  */
-var Desk = new schema({
+var Menu = new schema({
     name        : {type: String, description: "名称"}
-  , type        : {type: Number, description: "类型 0:桌台 1:包间", default: 0}
-  , capacity   : {type: Number, description: "可容纳人数",  default: 4}
-  , sortLevel  : {type: Number, description: "表示顺序",  default: 10}
+  , comment     : {type: String, description: "介绍"}
+  , page        : {type: Number, description: "页数"}
+  , status      : {type: Number, description: "状态 0:保密 1:公开", default: 0}
+  , items       : [{
+        index   : {type: Number, description: "位置 1~9"}
+      , itemId  : {type: String, description: "菜品ID"}
+      , row      : {type: Number, description: "行数"}
+      , column  : {type: Number, description: "列数"}
+    }]
   , valid       : {type: Number, description: "删除 0:无效 1:有效", default: 1}
   , createat    : {type: Date,   description: "创建时间"}
   , createby    : {type: String, description: "创建者"}
@@ -33,20 +39,20 @@ var Desk = new schema({
  */
 function model(dbname) {
 
-  return conn(dbname).model("Desk", Desk);
+  return conn(dbname).model("Menu", Menu);
 }
 
 /**
  * 获取指定素材
  * @param {string} code 公司code
- * @param {string} deskId 桌台ID
+ * @param {string} menuId 桌台ID
  * @param {function} callback 返回指定桌台
  */
-exports.get = function(code, deskId, callback) {
+exports.get = function(code, menuId, callback) {
 
-  var desk = model(code);
+  var menu = model(code);
 
-  desk.findOne({valid: 1, _id: deskId}, function(err, result) {
+  menu.findOne({valid: 1, _id: menuId}, function(err, result) {
     callback(err, result);
   });
 };
@@ -54,14 +60,14 @@ exports.get = function(code, deskId, callback) {
 /**
  * 追加
  * @param {string} code 公司code
- * @param {object} newDesk 桌台
+ * @param {object} newMenu 桌台
  * @param {function} callback 返回追加结果
  */
-exports.add = function(code, newDesk, callback) {
-  console.log(newDesk);
-  var desk = model(code);
+exports.add = function(code, newMenu, callback) {
+  console.log(newMenu);
+  var menu = model(code);
 
-  new desk(newDesk).save(function(err, result) {
+  new menu(newMenu).save(function(err, result) {
     callback(err, result);
   });
 };
@@ -69,15 +75,15 @@ exports.add = function(code, newDesk, callback) {
 /**
  * 更新
  * @param {string} code 公司code
- * @param {string} deskId 桌台ID
- * @param {object} newDesk 更新工作站的内容
+ * @param {string} menuId 桌台ID
+ * @param {object} newMenu 更新工作站的内容
  * @param {function} callback 返回更新结果
  */
-exports.update = function(code, deskId, newDesk, callback) {
+exports.update = function(code, menuId, newMenu, callback) {
 
-  var desk = model(code);
+  var menu = model(code);
 
-  desk.findByIdAndUpdate(deskId, newDesk, function(err, result) {
+  menu.findByIdAndUpdate(menuId, newMenu, function(err, result) {
     callback(err, result);
   });
 };
@@ -86,14 +92,14 @@ exports.update = function(code, deskId, newDesk, callback) {
  * 删除
  * @param {string} code 公司code
  * @param {string} uid  更新者ID
- * @param {string} deskId 桌台ID
+ * @param {string} menuId 桌台ID
  * @param {function} callback 返回删除结果
  */
-exports.remove = function (code, uid, deskId, callback) {
+exports.remove = function (code, uid, menuId, callback) {
 
-  var desk = model(code);
+  var menu = model(code);
 
-  desk.findByIdAndUpdate(deskId, {valid: 0, editat: new Date(), editby: uid}, function(err, result) {
+  menu.findByIdAndUpdate(menuId, {valid: 0, editat: new Date(), editby: uid}, function(err, result) {
     callback(err, result);
   });
 };
@@ -106,12 +112,12 @@ exports.remove = function (code, uid, deskId, callback) {
  */
 exports.getList = function(code, condition, start, limit, callback) {
 
-  var desk = model(code);
+  var menu = model(code);
 
-  desk.find(condition)
+  menu.find(condition)
     .skip(start || 0)
     .limit(limit || 20)
-    .sort({"sortLevel": 1})
+    .sort({editat: -1})
     .exec(function(err, result) {
       callback(err, result);
     });
@@ -125,9 +131,9 @@ exports.getList = function(code, condition, start, limit, callback) {
  */
 exports.total = function(code, condition, callback) {
 
-  var desk = model(code);
+  var menu = model(code);
 
-  desk.count(condition).exec(function(err, count) {
+  menu.count(condition).exec(function(err, count) {
     callback(err, count);
   });
 };

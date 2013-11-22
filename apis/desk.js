@@ -30,7 +30,7 @@ exports.findOne = function(req_, res_) {
     , uid = req_.session.user._id
     , deskId = req_.query.deskId;
 
-  desk.get(code, uid, deskId, function(err, result) {         console.log(result);
+  desk.get(code, uid, deskId, function(err, result) {
     response.send(res_, err, result);
   });
 };

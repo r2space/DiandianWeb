@@ -12,7 +12,8 @@ var http        = smart.lang.http
   , middleware  = smart.framework.middleware
   , loader      = smart.framework.loader
   , log         = smart.framework.log
-  , routes      = require("./routes");
+  , routes      = require("./routes")
+  , websocket   = require("./websocket");
 
 var app = express();
 
@@ -42,6 +43,9 @@ app.use(middleware.parseError);
 var server = http.createServer(app).listen(app.get("port"), function(){
   log.info("Express server listening on port " + app.get("port"));
 });
+
+//websocket.startup(server);
+
 var io = require('socket.io').listen(server);
 io.configure('development', function(){
   io.set('log level', 1);
