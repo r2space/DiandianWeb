@@ -2,6 +2,7 @@
   "html.label.sidebar.menu": "菜单管理",
   "html.label.sidebar.menu.item": "菜品",
   "html.label.sidebar.menu.menu": "菜单",
+  "html.label.sidebar.menu.open": "公开中",
   "html.label.sidebar.shop": "饭店管理",
   "html.label.sidebar.shop.desk": "桌台",
   "html.label.sidebar.shop.ipad": "iPad",
@@ -28,6 +29,8 @@
   "html.label.menu.price": "价格",
   "html.label.menu.comment": "介绍",
   "html.label.menu.status": "状态",
+  "html.label.menu.open": "公开",
+  "html.label.menu.close": "保密",
   "html.label.menu.info": "新建菜单",
   "html.label.menu.info.title": "菜单名称",
   "html.label.menu.info.comment": "菜单介绍",
@@ -80,6 +83,7 @@
   "js.common.delete.error":"删除失败",
   "js.common.add.error": "新增失败",
   "js.common.update.error": "更新失败",
+  "js.common.list.empty": "没有符合条件的数据",
   "html.button.item.add": "增加菜品",
   "html.button.desk.add": "增加桌台",
   "html.button.common.save": "保存",
@@ -88,10 +92,12 @@
   "html.button.common.delete": "删除",
   "html.button.common.detailed": "预览",
   "html.button.common.open": "公开",
+  "html.button.common.set": "确定",
   "html.button.menu.add": "新建菜单",
   "html.button.menu.tagadd": "增加标签",
   "html.button.menu.contents.select": "选择",
   "html.button.menu.large.screenadd": "增加大格页",
   "html.button.menu.medium.screenadd": "增加六格页",
-  "html.button.menu.small.screenadd": "增加九格页"
+  "html.button.menu.small.screenadd": "增加九格页",
+  "html.button.menu.item.select": "选择菜品"
 }

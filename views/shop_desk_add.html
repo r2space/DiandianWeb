@@ -36,39 +36,39 @@
     </div>
 
       <div class="page-content">
-          <div class="row tableheader col-lg-8">
+          <div class="row tableheader col-lg-8 col-md-12">
               <div class="pull-left">
                   <h4><%= i('html.label.shop.desk') %></h4>
               </div>
           </div>
-          <div class="row col-lg-8 box-border">
+          <div class="row col-lg-8 col-md-12">
               <form class="form-horizontal" role="form" style="margin-top: 15px">
                   <input type="hidden" name="deskId" id="deskId" value=<%=deskId%> >
                   <div class="form-group">
-                      <label for="name" class="col-lg-2 control-label"><%= i('html.label.desk.name') %><!-- 桌台名--></label>
-                      <div class="col-lg-6">
+                      <label for="name" class="control-label col-lg-2 col-md-2"><%= i('html.label.desk.name') %><!-- 桌台名--></label>
+                      <div class="col-lg-8 col-md-8">
                           <input type="text" class="form-control" name="name" id="name" placeholder="<%= i('html.label.desk.name') %>">
                       </div>
                   </div>
 
                   <div class="form-group">
-                      <label for="capacity" class="col-lg-2 control-label"><%= i('html.label.desk.capacity') %><!-- 容纳人数--></label>
-                      <div class="col-lg-6">
+                      <label for="capacity" class="control-label col-lg-2 col-md-2"><%= i('html.label.desk.capacity') %><!-- 容纳人数--></label>
+                      <div class="col-lg-8 col-md-8">
                           <input type="text" class="form-control" name="capacity" id="capacity" placeholder="4">
                       </div>
                   </div>
 
                   <div class="form-group">
-                      <label for="sort" class="col-lg-2 control-label"><%= i('html.label.desk.sort') %><!-- 表示顺序--></label>
-                      <div class="col-lg-6">
+                      <label for="sort" class="control-label col-lg-2 col-md-2"><%= i('html.label.desk.sort') %><!-- 表示顺序--></label>
+                      <div class="col-lg-8 col-md-8">
                           <input type="text" class="form-control" name="sort" id="sort" placeholder="10">
                       </div>
                   </div>
 
                   <div class="form-group">
-                      <label class="col-lg-2 control-label"><%= i('html.label.desk.type') %><!-- 类型--></label>
-                      <div class="col-xs-6">
-                          <div id="inputType" class="btn-group" value="type">
+                      <label for="inputType" class="control-label col-lg-2 col-md-2"><%= i('html.label.desk.type') %><!-- 类型--></label>
+                      <div class="col-lg-8 col-md-8">
+                          <div id="inputType" class="btn-group" value="0">
                               <button value="0" class="btn btn-sm btn-default btn-white" type="button"><%= i('html.label.desk.table') %><!-- 桌子--></button>
                               <button value="1" class="btn btn-sm btn-default btn-info" type="button"><%= i('html.label.desk.room') %><!-- 包间--></button>
                           </div>

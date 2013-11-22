@@ -25,6 +25,7 @@ var Menu = new schema({
       , row      : {type: Number, description: "行数"}
       , column  : {type: Number, description: "列数"}
     }]
+  , sortLevel   : {type: Number, description: "表示顺序", default: 10}
   , valid       : {type: Number, description: "删除 0:无效 1:有效", default: 1}
   , createat    : {type: Date,   description: "创建时间"}
   , createby    : {type: String, description: "创建者"}

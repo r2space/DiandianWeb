@@ -51,10 +51,14 @@ function render(start, count,keyword) {
         , "index": index++
         , "name": row.name
         , "comment": row.comment
-        , "status" : row.status == 1 ? i18n["html.label.menu.table"] : i18n["html.label.menu.room"]
+        , "status" : row.status == 1 ? i18n["html.label.menu.open"] : i18n["html.label.menu.close"]
         , "editat": smart.date(row.editat)
       }));
     });
+
+    if(!list || list.length == 0 ){
+      container.html(i18n["js.common.list.empty"]);
+    }
 
     // 设定翻页
     smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){

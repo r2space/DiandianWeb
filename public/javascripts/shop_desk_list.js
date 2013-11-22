@@ -57,7 +57,11 @@ function render(start, count,keyword) {
       }));
     });
 
-    // 设定翻页
+    if(!list || list.length == 0 ){
+      container.html(i18n["js.common.list.empty"]);
+    }
+
+    // 设定
     smart.pagination($("#pagination_area"), result.totalItems, count, function(active, rowCount){
       render.apply(window, [active, count]);
     });

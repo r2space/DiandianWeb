@@ -26,9 +26,9 @@ function events(menuId) {
   $('#addSmallMenuScreen').on("click", function(){
     insertLandscapeScreenAfter(3);
   });
-
-  $( "p" ).click(function() {
-    $( this ).slideUp();
+  // 选择确定的临时动作 TODO
+  $("#saveItems").on("click", function(){
+    $("#itemModal").modal("hide");
   });
 
   $("#saveMenu").on("click", function(event){
@@ -36,6 +36,7 @@ function events(menuId) {
     var menu = {
       name: $("#menuName").val()
       , comment: $("#menuComment").val()
+      , status: $("#inputStatus").attr("value")
     };
 
     if (!check_menu(menu)) {
@@ -75,6 +76,15 @@ function insertLandscapeScreenAfter(screenNum){
   } else if (screenNum === 3){
     main.append($("#smallPageHidden").html());
   }
+
+  // 菜品选择
+  $.each($(".itemDiv"), function(idx, item) {
+    item.onclick = function(event){
+      // 记录当前DIV TODO
+      $("#itemModal").modal("show");
+    };
+  });
+
   var space = $("#layoutLandscape");
 
   space.animate({
@@ -93,8 +103,11 @@ function render(menuId) {
 
         $("#menuName").val(result.name);
         $("#menuComment").val(result.comment);
+        new ButtonGroup("inputStatus", result.status).init();
       }
     });
+  } else {
+    new ButtonGroup("inputStatus", 0).init();
   }
 }
 

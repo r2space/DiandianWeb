@@ -18,8 +18,8 @@ exports.add = function(code, uid, menuData, callback_){
   var newMenu = {
     name    : menuData.name,
     comment: menuData.comment,
+    status  : menuData.status,
     //page    : menuData.page,
-    //status  : menuData.status,
     //items   : menuData.items,
     editat  : now,
     editby  : uid
