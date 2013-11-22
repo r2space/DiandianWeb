@@ -2,6 +2,7 @@
 var core     = smart.core
   ,log        = smart.framework.log
   , file       = smart.core.dbfile
+  , apis  = require("./apis.js")
   , desk  = require("../apis/desk")
   , menu  = require("../apis/menu")
   , item  = require("../apis/item")
@@ -15,7 +16,7 @@ var core     = smart.core
  */
 
 exports.guiding = function (app) {
-//  apis.guiding(app);
+  apis.guiding(app);
 //  website.guiding(app);
   app.get("/",function(req, res) {
     res.render("login", {"title": "login"});
@@ -129,6 +130,12 @@ exports.guiding = function (app) {
 
   app.get('/shop/desk/edit/:id', function (req, res) {
     res.render("shop_desk_add", {"title": "desk", user: req.session.user, deskId:req.params.id});
+  });
+
+
+  // APIs
+  app.get('/menu/list.json', function(req, res){
+    menu.setting(req, res);
   });
 
   app.get('/desk/list.json', function(req, res){

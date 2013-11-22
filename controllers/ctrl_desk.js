@@ -8,6 +8,8 @@
 
 var _           = require('underscore')
   , desk        = require('../modules/mod_desk.js')
+  , service        = require('../modules/mod_service.js')
+  , async       = require('async')
   , smart       = require("smartcore")
   , error       = smart.core.errors;
 
@@ -80,8 +82,41 @@ exports.list = function(code, condition, start, limit, callback) {
       if (err2) {
         return callback(new error.InternalServer(err2));
       }
-
       return callback(err, {items: result, totalItems: count});
     });
   });
 };
+
+
+exports.appList = function(code_, condition_, start_, limit_, callback_) {
+
+  desk.total(code_, condition_, function (err, count) {
+
+    desk.getList(code_, condition_, start_, limit_,  function(err, result){
+      if (err) {
+        return callback_(new error.InternalServer(err));
+      }
+      getServiceStatus(code_,result,function(err,docs){
+        return callback_(err, {items: docs, totalItems: count});
+      });
+
+    });
+  });
+};
+
+function getServiceStatus(code,deskList,callback){
+  var tempResult = [];
+  async.forEach(deskList,function(deskDocs,cb){
+    service.findStatus(code,deskDocs._id,function(err,serviceDocs){
+      var tmpObj = deskDocs;
+      if(serviceDocs && serviceDocs.length > 0)
+        tmpObj._doc.service = serviceDocs[0];
+
+      tempResult.push(tmpObj);
+      cb(err,serviceDocs);
+    });
+  },function(err,docs){
+    callback(null,tempResult);
+  });
+
+}

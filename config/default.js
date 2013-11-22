@@ -52,5 +52,12 @@ module.exports = {
     , "queue_apn": "smartApn"
     , "queue_thumb": "smartThumb"
     , "maxListeners": 0
+  },
+  "websocket": {
+    "center_server": {
+      "primary": "http://localhost:3000"
+      ,"secondary": ""
+    }
+    , "log_level": 1
   }
 }
