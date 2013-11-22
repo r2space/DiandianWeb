@@ -11,7 +11,8 @@
  */
 
 var testapi     = require('./apis/testapi')
-  , log         = smart.framework.log;
+  , log         = smart.framework.log
+  , conf        = require("config");
 
 /* 定义事件 */
 var EVENT_CLIENT = "client"                                       // 客户端(浏览器,iPad...)通信用
@@ -23,7 +24,8 @@ var EVENT_CLIENT = "client"                                       // 客户端(�
 /* 定义变量 */
 var mainIO
   , socket_to_primary
-  , socket_to_second
+  , socket_to_secondary
+  , socket_to_activity
   , dispatchMap = {}
   ;
 
@@ -90,18 +92,40 @@ function startupServer(server){
  */
 function connectCenterServer()
 {
-  var url = 'http://localhost:3000';
-  socket_to_primary = require('socket.io-client').connect(url);
-  socket_to_primary.on('connect', function(){
+  connectPrimary();
+  connectSecondly();
+}
+/**
+ * 连接主中心服务器
+ */
+function connectPrimary()
+{
+  var url = conf.websocket.center_server.primary;
+  _connectCenterServer(socket_to_primary, url);
+  socket_to_activity = socket_to_primary;
+}
+/**
+ * 连接备用中心服务器
+ */
+function connectSecondly()
+{
+  var url = conf.websocket.center_server.secondary;
+  if(url && url != "")
+    _connectCenterServer(socket_to_secondary, url);
+}
+function _connectCenterServer(socket, url)
+{
+  socket = require('socket.io-client').connect(url);
+  socket.on('connect', function(){
     log.info("Websocket connected to Center Server: " + url);
 
     // 注册AP
-    socket_to_primary.emit(EVENT_SERVER_REGISTER_CLIENT, {});
-    socket_to_primary.on(EVENT_SERVER_REGISTER_CLIENT, function(data){
+    socket.emit(EVENT_SERVER_REGISTER_CLIENT, {});
+    socket.on(EVENT_SERVER_REGISTER_CLIENT, function(data){
       log.info("Wetsocket resistery ap success!");
     });
 
-    socket_to_primary.on(EVENT_CLIENT_BROADCAST, function (data) {
+    socket.on(EVENT_CLIENT_BROADCAST, function (data) {
       // AP向所有room的客户端发送消息
       dispatchBroadcast(data);
     });
@@ -130,7 +154,7 @@ exports.dataForwardBroadcast = function(action, data, room) {
  * @param data
  */
 exports.broadcast = function(data) {
-  socket_to_primary.emit(EVENT_SERVER_NOTIFY_CLIENT_BROADCAST, data);
+  socket_to_activity.emit(EVENT_SERVER_NOTIFY_CLIENT_BROADCAST, data);
 }
 
 /**
