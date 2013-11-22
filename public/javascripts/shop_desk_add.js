@@ -18,6 +18,7 @@ $(function () {
       name: $("#name").val()
       , capacity: $("#capacity").val()
       , type: $("#inputType").attr("value")
+      , sortLevel: $("#sort").val()
     };
 
     if (!check_desk(desk)) {
@@ -58,6 +59,7 @@ function render(deskId) {
 
         $("#name").val(result.name);
         $("#capacity").val(result.capacity);
+        $("#sort").val(result.sortLevel);
         new ButtonGroup("inputType", result.type).init();
       }
     });

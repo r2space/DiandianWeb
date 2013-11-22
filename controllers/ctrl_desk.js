@@ -18,6 +18,7 @@ exports.add = function(code, uid, deskData, callback){
     name: deskData.name,
     type :deskData.type,
     capacity:deskData.capacity,
+    sortLevel:deskData.sortLevel || 10,
     editat: now,
     editby: uid
   };

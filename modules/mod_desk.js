@@ -18,6 +18,7 @@ var Desk = new schema({
     name        : {type: String, description: "名称"}
   , type        : {type: Number, description: "类型 0:桌台 1:包间", default: 0}
   , capacity   : {type: Number, description: "可容纳人数",  default: 4}
+  , sortLevel  : {type: Number, description: "表示顺序",  default: 10}
   , valid       : {type: Number, description: "删除 0:无效 1:有效", default: 1}
   , createat    : {type: Date,   description: "创建时间"}
   , createby    : {type: String, description: "创建者"}
@@ -110,7 +111,7 @@ exports.getList = function(code, condition, start, limit, callback) {
   desk.find(condition)
     .skip(start || 0)
     .limit(limit || 20)
-    .sort({editat: -1})
+    .sort({"sortLevel": 1})
     .exec(function(err, result) {
       callback(err, result);
     });

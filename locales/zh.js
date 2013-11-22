@@ -47,6 +47,7 @@
   "html.label.desk.table": "桌台",
   "html.label.desk.room": "包间",
   "html.label.desk.capacity": "容纳人数",
+  "html.label.desk.sort": "表示顺序",
   "html.label.desk.add": "新增桌台",
   "html.label.item.info": "菜品",
   "html.label.item.image": "预览图",

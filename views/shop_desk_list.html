@@ -60,7 +60,8 @@
               <th><%= i('html.label.desk.name') %></th>
               <th><%= i('html.label.desk.capacity') %></th>
               <th><%= i('html.label.desk.type') %></th>
-              <th><%= i('html.label.common.updateat') %></th>
+              <th><%= i('html.label.desk.sort') %></th>
+              <!--th><%= i('html.label.common.updateat') %></th-->
               <th><%= i('html.label.common.operation') %></th>
             </tr>
             </thead>
@@ -82,7 +83,8 @@
     <td>{{name}}</td>
     <td>{{capacity}}</td>
     <td>{{type}}</td>
-    <td>{{editat}}</td>
+    <td>{{sort}}</td>
+    <!--td>{{editat}}</td-->
     <td>
       <a href="#" class="btn btn-default btn-sm" index={{index}} rowId="{{id}}" operation="edit"><%= i('html.button.common.edit') %><!-- 編集--></a>
       <a href="#" class="btn btn-default btn-sm" index={{index}} rowId="{{id}}" operation="delete"><%= i('html.button.common.delete') %><!--删除--></a>

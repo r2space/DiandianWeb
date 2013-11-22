@@ -51,6 +51,7 @@ function render(start, count,keyword) {
         , "index": index++
         , "name": row.name
         , "capacity": row.capacity
+        , "sort" : row.sortLevel
         , "type" : row.type == 1 ? i18n["html.label.desk.table"] : i18n["html.label.desk.room"]
         , "editat": smart.date(row.editat)
       }));
