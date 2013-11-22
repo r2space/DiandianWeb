@@ -58,5 +58,6 @@ module.exports = {
       "primary": "http://localhost:3000"
       ,"secondary": ""
     }
+    , "log_level": 1
   }
 }

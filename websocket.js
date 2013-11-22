@@ -53,7 +53,7 @@ function startupServer(server){
   log.info("Wetsocket server startd");
 
   mainIO.configure('development', function () {
-    mainIO.set('log level', 3);
+    mainIO.set('log level', conf.websocket.log_level);
   });
 
   mainIO.sockets.on('connection', function (socket) {
