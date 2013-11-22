@@ -13,13 +13,19 @@
 var testapi     = require('./apis/testapi')
   , log         = smart.framework.log;
 
-var MSG_TYPE_CLIENT = "client";
-var MSG_TYPE_BROADCAST = "broadcast";
+/* 定义事件 */
+var EVENT_CLIENT = "client"                                       // 客户端(浏览器,iPad...)通信用
+  , EVENT_CLIENT_BROADCAST = "client_broadcast"                   // AP向客户端群发信息
+  , EVENT_SERVER_NOTIFY_CLIENT_BROADCAST = "broadcast"            // 通知所有ap向指定room的客户端群发信息
+  , EVENT_SERVER_REGISTER_CLIENT = "broadcast_register_client"    // 向中心服务器注册AP的Socket
+  ;
 
-var io;
-var socket_to_primary;
-var socket_to_second;
-var dispatchMap = {};
+/* 定义变量 */
+var mainIO
+  , socket_to_primary
+  , socket_to_second
+  , dispatchMap = {}
+  ;
 
 
 /**
@@ -28,57 +34,92 @@ var dispatchMap = {};
  * @param server
  */
 exports.startup = function (server) {
-  io = require('socket.io').listen(server);
+  // 注册Action
+  registerAction();
+  // 启动Websocket服务
+  startupServer(server);
+  // 连接中心服务器
+  connectCenterServer();
+}
+
+/**
+ * 启动Websocket服务
+ */
+function startupServer(server){
+  mainIO = require('socket.io').listen(server);
   log.info("Wetsocket server startd");
 
-  io.configure('development', function () {
-    io.set('log level', 1);
+  mainIO.configure('development', function () {
+    mainIO.set('log level', 1);
   });
 
-  io.sockets.on('connection', function (socket) {
+  mainIO.sockets.on('connection', function (socket) {
     //log.info("Socket connected");
 
     // 设置当前客户端soket的Room号
     var room = "test";
+    var room_ap = room + "ap";
     socket.join(room);
 
     // Ap服务器监听消息，监听客户端的消息
     {
-      socket.on(MSG_TYPE_CLIENT, function (data) {
-        dispatch(socket, data);
+      socket.on(EVENT_CLIENT, function (data) {
+        dispatch(socket, room, data);
       });
     }
 
     // Center Server(中心服务器)监听的消息，目前主要是ap发送请求分发消息
     {
-      socket.on(MSG_TYPE_BROADCAST, function (data) {
-        dispatchBroadcast(socket, room, data);
+      socket.on(EVENT_SERVER_NOTIFY_CLIENT_BROADCAST, function (data) {
+        // 通知所有AP向指定room的客户端发送消息
+        mainIO.sockets.in(room_ap).emit(EVENT_CLIENT_BROADCAST, data);
+      });
+
+      socket.on(EVENT_SERVER_REGISTER_CLIENT, function (data) {
+        socket.leave(room);
+        socket.join(room_ap);
+        log.info("Wetsocket join room" + room_ap);
+        socket.emit(EVENT_SERVER_REGISTER_CLIENT, data);
       });
     }
   });
-
-  // 注册Action
-  registerAction();
-
-  // 连接中心服务器
-  connectCenterServer();
 }
 
+/**
+ * 连接中心服务器
+ */
+function connectCenterServer()
+{
+  var url = 'http://localhost:3000';
+  socket_to_primary = require('socket.io-client').connect(url);
+  socket_to_primary.on('connect', function(){
+    log.info("Websocket connected to Center Server: " + url);
 
-exports.dataBroadcast = function(action, room, data) {
-  var res = {};
-  res.action = action;
+    // 注册AP
+    socket_to_primary.emit(EVENT_SERVER_REGISTER_CLIENT, {});
+    socket_to_primary.on(EVENT_SERVER_REGISTER_CLIENT, function(data){
+      log.info("Wetsocket resistery ap success!");
+    });
 
-  res.room = (room && room != "") ? room : undefined;
-  res.data = data || {};
-  res.data.action = action;
-  return res;
+    socket_to_primary.on(EVENT_CLIENT_BROADCAST, function (data) {
+      // AP向所有room的客户端发送消息
+      dispatchBroadcast(data);
+    });
+  });
 }
-exports.dataForwardBroadcast = function(action, room, data) {
+
+/**
+ * 生成广播消息数据
+ * @param action
+ * @param data
+ * @param room
+ * @returns {{}}
+ */
+exports.dataForwardBroadcast = function(action, data, room) {
   var res = {};
   res.action = "forward";
 
-  res.room = (room && room != "") ? room : undefined;
+  res.room = room;
   res.data = data || {};
   res.data.action = action;
   return res;
@@ -89,17 +130,7 @@ exports.dataForwardBroadcast = function(action, room, data) {
  * @param data
  */
 exports.broadcast = function(data) {
-  socket_to_primary.emit(MSG_TYPE_BROADCAST, data);
-}
-
-
-function connectCenterServer()
-{
-  var url = 'http://localhost:3000';
-  socket_to_primary = require('socket.io-client').connect(url);
-  socket_to_primary.on('connect', function(){
-    log.info("Websocket connected to Center Server: " + url);
-  });
+  socket_to_primary.emit(EVENT_SERVER_NOTIFY_CLIENT_BROADCAST, data);
 }
 
 /**
@@ -107,7 +138,7 @@ function connectCenterServer()
  * @param socket
  * @param data
  */
-function dispatch(socket, data) {
+function dispatch(socket, room, data) {
   var action = dispatchMap[data.action];
 
   if(!action) {
@@ -121,10 +152,11 @@ function dispatch(socket, data) {
       var res = res || {};
       res.action = data.action;
 
-      socket.emit(MSG_TYPE_CLIENT, res);
+      socket.emit(EVENT_CLIENT, res);
     }
 
     if(broadcastData) {
+      broadcastData.room = room;
       exports.broadcast(broadcastData);
     }
   });
@@ -136,7 +168,7 @@ function dispatch(socket, data) {
  * @param room
  * @param data
  */
-function dispatchBroadcast(socket, room, data) {
+function dispatchBroadcast(data) {
   var action = dispatchMap[data.action];
 
   if(!action) {
@@ -149,10 +181,10 @@ function dispatchBroadcast(socket, room, data) {
     var res = res || {};
     res.action = data.data.action;
 
-    if(room) {
-      socket.broadcast.to(room).emit(MSG_TYPE_CLIENT, res);
+    if(data.room) {
+      mainIO.sockets.in(data.room).emit(EVENT_CLIENT, res);
     } else {
-      socket.broadcast.emit(MSG_TYPE_CLIENT, res);
+      mainIO.sockets.emit(EVENT_CLIENT, res);
     }
   });
 }
