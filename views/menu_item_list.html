@@ -59,6 +59,7 @@
             <thead>
             <tr>
               <th><%= i('html.label.item.no') %><!--号码--></th>
+              <th><%= i('html.label.item.image') %><!--预览图--></th>
               <th><%= i('html.label.item.filename') %><!--菜品名字--></th>
               <th><%= i('html.label.item.type') %><!--类别--></th>
               <th><%= i('html.label.item.price') %><!--价格--></th>
@@ -79,23 +80,41 @@
 </div><!--/.main-container-->
 
 
-<div class="modal fade" id="upload_progress_dlg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+<!--popup preview-->
+<div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 570px;">
     <div class="modal-content">
-      <div class="modal-body">
-        <div class="progress" style="margin-top: 20px;">
-          <div class="progress-bar" role="progressbar" style="width: 60%;" id="upload_progress_bar">
-            <span class="sr-only">60% Complete</span>
-          </div>
-        </div>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"><%= i('html.label.image.slide') %><!-- item image一覧--></h4>
+      </div>
+      <div class="modal-body" id="slide">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-dismiss="modal"><%= i('html.button.common.close') %><!-- Close--></button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<!--<script type="text/template" id="tmpl_slide">-->
+  <!--<div class="carousel slide bs-docs-carousel-example" id="carousel-example-generic">-->
+    <!--<div class="carousel-inner">-->
+      <!--<div class="item" id="page">-->
+        <!--<img  src="/picture/{{file}}">-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</script>-->
+
 <script type="text/template" id="tmpl_item_list">
   <tr>
     <td>{{index}}</td>
+    <td>
+      <a href="#">
+        <img src="{{cover}}" rowid="{{id}}" class="nav-user-photo" operation="preview" >
+      </a>
+    </td>
     <td>{{itemName}}</td>
     <td>{{itemType}}</td>
     <td>{{itemPrice}}</td>
@@ -103,8 +122,7 @@
     <td>
       <a href="#" class="btn btn-default btn-sm" index={{index}} rowId="{{id}}" operation="edit"><%= i('html.button.common.edit') %><!-- 編集--></a>
       <a href="#" class="btn btn-default btn-sm" index={{index}} rowId="{{id}}" operation="delete"><%= i('html.button.common.delete') %><!--删除--></a>
-      <!--<a href="#" class="btn btn-default btn-sm" index={{index}} rowId="{{id}}" operation="image"><%= i('html.button.common.image') %>&lt;!&ndash;删除&ndash;&gt;</a>-->
-    </td>
+      </td>
   </tr>
 </script>
 

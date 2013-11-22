@@ -48,6 +48,7 @@
   "html.label.desk.capacity": "容纳人数",
   "html.label.desk.add": "新增桌台",
   "html.label.item.info": "菜品",
+  "html.label.item.image": "预览图",
   "html.label.item.info.title": "名字",
   "html.label.item.info.comment": "介绍",
   "html.label.item.info.material": "材料",

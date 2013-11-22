@@ -110,8 +110,8 @@ exports.replace = function(code, fileid, conditions, callback) {
  * @param {function} callback 返回指定素材
  */
 exports.get = function(code, itemId, callback) {
-
   var item = model(code);
+
 
   item.findOne({_id: itemId}, function(err, result) {
     callback(err, result);

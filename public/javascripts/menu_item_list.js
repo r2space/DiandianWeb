@@ -34,14 +34,26 @@ function render(start, count, keyword) {
 
     container.html("");
     _.each(result.items, function(row){
+      var imagetmp = "";
+      imagetmp = "/picture/" + row.smallimage;
       container.append(_.template(tmpl, {
         "id": row._id
         , "index": index++ + start
+        , "cover": imagetmp
+//        , "image_b": row.bigimage
         , "itemName": row.itemName
         , "itemType": row.itemType
         , "itemPrice": row.itemPrice
         , "editat": smart.date(row.editat)
       }));
+
+//      var tmpl = $('#tmpl_slide').html();
+//      $("#slide").html("");
+//      $("#slide").append(_.template(tmpl, { files: row.smallimage }));
+//      $("#page").addClass("active");
+//      $("#slide").addClass("active");
+//      $("#itemModal").modal("show");
+
     });
     if(itemList.length == 0) {
       container.html(i18n["js.common.list.empty"]);

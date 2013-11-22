@@ -148,6 +148,7 @@ exports.addimage = function(code_, uid_, files_, callback_) {
     var path = fs.realpathSync(ph.join(confapp.tmp, ph.basename(file.path)));
     var metadata = {
       "author": uid_
+
     };
 
 

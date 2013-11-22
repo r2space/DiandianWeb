@@ -1,6 +1,7 @@
 
 var core     = smart.core
   ,log        = smart.framework.log
+  , file       = smart.core.dbfile
   , desk  = require("../apis/desk")
 //  , menu  = require("../apis/menu")
   , item  = require("../apis/item")
@@ -48,6 +49,14 @@ exports.guiding = function (app) {
   //菜品增加
   app.get("/menu/item/add", function(req, res) {
     res.render("menu_item_add", {"title": "新增菜品", user: req.session.user, itemId: ""});
+  });
+
+  // 获取图片
+  app.get('/picture/:id', function(req, res){
+    file.image(req, res, function(err, doc){
+      req.setAttribute("code","diandian");
+      res.send(doc);
+    });
   });
 
 
