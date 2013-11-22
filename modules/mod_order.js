@@ -17,14 +17,15 @@ var mongo       = require("mongoose")
  */
 var Order = new schema({
     deskId          :   {type: String, description: "台位ID"}
-  , billId          :   {type: String, description: "结账ID"}
-  , orderGroup      :   {type: String, description: "订单组"}
-  , people          :   {type: Number, description: "人数"}
-  , user            :   {type: String, description: "类型 0:不退 1:退菜", default: 0}
-  , item            :   {type: String, description: "名称"}
+  , serviceId       :   {type: String, description: "服务的Id"}
+  , orderSeq        :   {type: String, description: "订单组"}
+  , userId          :   {type: String, description: "服务员的Id"}
+  , itemId          :   {type: String, description: "名称"}
   , type            :   {type: Number, description: "类型 0:桌台 1:包间", default: 0}
   , back            :   {type: Number, description: "类型 0:不退 1:退菜", default: 0}
   , valid           :   {type: Number, description: "删除 0:无效 1:有效", default: 1}
+  , remark          :   {type: String, description: "备注"}
+
   , createat        :   {type: Date,   description: "创建时间"}
   , createby        :   {type: String, description: "创建者"}
   , editat          :   {type: Date,   description: "最终修改时间"}

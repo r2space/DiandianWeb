@@ -4,6 +4,25 @@ var smart  = require("smartcore")
   , errors  = smart.core.errors
   , desk    = require('../controllers/ctrl_desk');
 
+
+// 获取App  的台位 一览
+exports.appDeskList = function(req_, res_) {
+
+  var code = req_.session.user.companycode
+    , start = req_.query.start || 0
+    , limit = req_.query.count || 20
+    , condition = {
+      valid: 1
+    };
+
+
+
+  desk.appList(code, condition, start, limit , function(err, result) {
+    response.send(res_, err, result);
+  });
+};
+
+
 // 获取指定桌台
 exports.findOne = function(req_, res_) {
 
