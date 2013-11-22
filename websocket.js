@@ -11,10 +11,11 @@
  */
 
 var testapi     = require('./apis/testapi')
+  , orderapi    = require('./apis/order')
   , log         = smart.framework.log;
 
 /* 定义事件 */
-var EVENT_CLIENT = "client"                                       // 客户端(浏览器,iPad...)通信用
+var EVENT_CLIENT = "message"                                       // 客户端(浏览器,iPad...)通信用
   , EVENT_CLIENT_BROADCAST = "client_broadcast"                   // AP向客户端群发信息
   , EVENT_SERVER_NOTIFY_CLIENT_BROADCAST = "broadcast"            // 通知所有ap向指定room的客户端群发信息
   , EVENT_SERVER_REGISTER_CLIENT = "broadcast_register_client"    // 向中心服务器注册AP的Socket
@@ -50,7 +51,7 @@ function startupServer(server){
   log.info("Wetsocket server startd");
 
   mainIO.configure('development', function () {
-    mainIO.set('log level', 1);
+    mainIO.set('log level', 3);
   });
 
   mainIO.sockets.on('connection', function (socket) {
@@ -64,10 +65,10 @@ function startupServer(server){
     // Ap服务器监听消息，监听客户端的消息
     {
       socket.on(EVENT_CLIENT, function (data) {
+        console.log(data);
         dispatch(socket, room, data);
       });
     }
-
     // Center Server(中心服务器)监听的消息，目前主要是ap发送请求分发消息
     {
       socket.on(EVENT_SERVER_NOTIFY_CLIENT_BROADCAST, function (data) {
@@ -201,4 +202,5 @@ function registerAction() {
   // 测试用的Action
   dispatchMap["test"] = testapi.test;
   //dispatchMap["test1"] = testapi.test1;
+  dispatchMap["addOrder"] = orderapi.addOrder;
 }
