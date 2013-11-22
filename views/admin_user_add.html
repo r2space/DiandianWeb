@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <% include common/required.html %>
+  <link href="/stylesheets/diandian.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="/javascripts/admin_user_add.js"></script>
+</head>
+<body>
+<input type="hidden" id="userId" name="userId" value="<%= userId %>">
+<input type="hidden" id="code" name="code" value="<%= code %>">
+
+<div class="main-container container-fluid">
+
+  <div class="main-content">
+    <div class="page-content">
+      <div class="row tableheader col-lg-8">
+        <div class="pull-left">
+          <h4>用户信息</h4>
+        </div>
+      </div>
+      <div class="row col-lg-8 box-border">
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label for="inputUserName" class="col-lg-2 control-label">用户名</label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control" id="inputUserName" placeholder="用户名" maxlength="30">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword" class="col-lg-2 control-label">密码</label>
+            <div class="col-lg-8">
+              <input type="password" class="form-control" id="inputPassword" placeholder="密码" maxlength="20">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputRealName" class="col-lg-2 control-label">姓名</label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control" id="inputRealName" placeholder="姓名" maxlength="30">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">性别</label>
+            <div class="col-lg-8">
+              <div class="btn-group" value="1" id="inputSex">
+                <button type="button" class="btn btn-sm btn-info" value="1">男</button>
+                <button type="button" class="btn btn-sm btn-default" value="0">女</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputBirthday" class="col-lg-2 control-label">出生年月日</label>
+            <div class="col-lg-8">
+              <input type="password" class="form-control" id="inputBirthday" placeholder="出生年月日" maxlength="20">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputBirthday" class="col-lg-2 control-label">入职日期</label>
+            <div class="col-lg-8">
+              <input type="password" class="form-control" id="inputEntryDate" placeholder="入职日期" maxlength="20">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputCellPhone" class="col-lg-2 control-label">手机号码</label>
+            <div class="col-lg-8">
+              <input type="password" class="form-control" id="inputCellPhone" placeholder="手机号码" maxlength="20">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-lg-8" style="margin-bottom: 30px;padding: 0px;">
+        <div id="updateUser" class="col-lg-4 btn btn-warning btn-lg">
+          登録
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
