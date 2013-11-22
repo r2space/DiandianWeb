@@ -53,14 +53,16 @@ exports.add = function(code_, uid_, item_, callback_){
   var now = new Date();
 
   var newItem = {
-      itemName      : item_.itemName
-    , itemPrice   : item_.itemPrice
-    , itemType    : item_.itemType
-    , itemComment : item_.itemComment
-    , itemMaterial: item_.itemMaterial
-    , itemMethod  : item_.itemMethod
-    , bigimage    : item_.bigimage
-    , smallimage  : item_.smallimage
+      itemName          : item_.itemName
+    , itemPriceNormal   : item_.itemPriceNormal
+    , itemPriceHalf     : item_.itemPriceHalf
+    , itemPriceDiscount : item_.itemPriceDiscount
+    , itemType          : item_.itemType
+    , itemComment       : item_.itemComment
+    , itemMaterial      : item_.itemMaterial
+    , itemMethod        : item_.itemMethod
+    , bigimage          : item_.bigimage
+    , smallimage        : item_.smallimage
     , editat: now
     , editby: uid_
   };
@@ -103,7 +105,9 @@ exports.update = function(code_, uid_, item_, callback_) {
 
   var newItem = {
       itemName : item_.itemName
-   , itemPrice : item_.itemPrice
+   , itemPriceNormal   : item_.itemPriceNormal
+   , itemPriceHalf     : item_.itemPriceHalf
+   , itemPriceDiscount : item_.itemPriceDiscount
    , itemType : item_.itemType
    , itemComment : item_.itemComment
    , itemMaterial : item_.itemMaterial

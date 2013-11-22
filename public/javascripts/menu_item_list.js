@@ -43,13 +43,13 @@ function render(start, count, keyword) {
 //        , "image_b": row.bigimage
         , "itemName": row.itemName
         , "itemType": row.itemType
-        , "itemPrice": row.itemPrice
+        , "itemPrice": row.itemPriceNormal
         , "editat": smart.date(row.editat)
       }));
 
-//      var tmpl = $('#tmpl_slide').html();
+//      var temp = $('#tmpl_slide').html();
 //      $("#slide").html("");
-//      $("#slide").append(_.template(tmpl, { files: row.smallimage }));
+//      $("#slide").append(_.template(temp, { files: row.smallimage }));
 //      $("#page").addClass("active");
 //      $("#slide").addClass("active");
 //      $("#itemModal").modal("show");
@@ -108,6 +108,37 @@ function events() {
       }, function () {
         // Cancel
       });
+    }
+
+    if (operation == "preview") {
+
+      var jsonUrl = "/item/list.json?";
+      jsonUrl += "start=" + 0;
+      jsonUrl += "&count=" + 20;
+
+      smart.doget(jsonUrl, function(e, result){
+        if (smart.error(e, i18n["js.common.search.error"], true)) {
+          return;
+        }
+        itemList = result.items;
+        var tmpl = $("#tmpl_pre_img").html()
+          , container = $("#preImg")
+          , index = 1;
+
+        container.html("");
+        _.each(result.items, function(row){
+          var imagetmp = "";
+          if(rowId == row._id) {
+            imagetmp = "/picture/" + row.smallimage;
+            container.append(_.template(tmpl, {
+              "id": row._id
+              ,"cover": imagetmp
+            }));
+          }
+
+        });
+      });
+      $("#itemModal").modal("show");
     }
   });
 }
