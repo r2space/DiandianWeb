@@ -53,7 +53,6 @@ function render(start, count,keyword) {
         , "capacity": row.capacity
         , "type" : row.type == 1 ? i18n["html.label.desk.table"] : i18n["html.label.desk.room"]
         , "editat": smart.date(row.editat)
-        , "editby": row.editby
       }));
     });
 

@@ -16,12 +16,13 @@ exports.add = function(code, uid, menuData, callback_){
   var now = new Date();
 
   var newMenu = {
-    name: menuData.name,
-    page: menuData.page,
-    status: menuData.status,
-    items : menuData.items,
-    editat: now,
-    editby: uid
+    name    : menuData.name,
+    comment: menuData.comment,
+    //page    : menuData.page,
+    //status  : menuData.status,
+    //items   : menuData.items,
+    editat  : now,
+    editby  : uid
   };
 
   var id = menuData.id;
@@ -57,7 +58,7 @@ exports.get = function(code, user_, menuId, callback_){
       return callback_(new error.InternalServer(err));
     }
 
-    async.forEach( );
+    //async.forEach();
     callback_(err, result);
   });
 };

@@ -16,8 +16,9 @@ var mongo       = require("mongoose")
  */
 var Menu = new schema({
     name        : {type: String, description: "名称"}
+  , comment     : {type: String, description: "介绍"}
   , page        : {type: Number, description: "页数"}
-  , status      : {type: Number, description: "状态 0:保密 1:公开中", default: 0}
+  , status      : {type: Number, description: "状态 0:保密 1:公开", default: 0}
   , items       : [{
         index   : {type: Number, description: "位置 1~9"}
       , itemId  : {type: String, description: "菜品ID"}
