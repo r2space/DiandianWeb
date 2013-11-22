@@ -63,7 +63,9 @@ function getItemData() {
 
   var item = {
       itemName : $("#itemName").val()
-    , itemPrice : $("#itemPrice").val()
+    , itemPriceNormal : $("#itemPriceNormal").val()
+    , itemPriceHalf : $("#itemPriceHalf").val()
+    , itemPriceDiscount : $("#itemPriceDiscount").val()
     , itemType : $("#itemType").val()
     , itemComment : $("#itemComment").val()
     , itemMaterial : $("#itemMaterial").val()
@@ -125,13 +127,15 @@ function render(itemId) {
         smart.error(err,i18n["js.common.search.error"],false);
       } else {
       $("#itemName").val(result.itemName);
-      $("#itemPrice").val(result.itemPrice);
+      $("#itemPriceNormal").val(result.itemPriceNormal);
+      $("#itemPriceHalf").val(result.itemPriceHalf);
+      $("#itemPriceDiscount").val(result.itemPriceDiscount);
       $("#itemType").val(result.itemType);
       $("#itemComment").val(result.itemComment);
       $("#itemMaterial").val(result.itemMaterial);
       $("#itemMethod").val(result.itemMethod);
-      $("#uploadfile_s").val(result.smallimage);
-      $("#uploadfile_b").val(result.bigimage);
+      $("#uploadfile_small").val(result.smallimage);
+      $("#uploadfile_big").val(result.bigimage);
 
       }
     });

@@ -20,7 +20,9 @@ var Item = new schema({
  , itemMethod    : { type: String, description: "菜品作法" }
  , smallimage  : { type: String, description: "小图" }
  , bigimage  : { type: String, description: "大图" }
- , itemPrice    : { type: String, description: "菜品价格" }
+ , itemPriceNormal    : { type: String, description: "正常价格" }
+ , itemPriceHalf    : { type: String, description: "小份价格" }
+ , itemPriceDiscount    : { type: String, description: "优惠价格" }
  , editat      : { type: Date,   description: "修改时间" }
  , editby      : { type: String, description: "修改者" }
  , itemComment   : { type: String, description: "菜品介绍" }

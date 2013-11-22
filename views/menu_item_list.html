@@ -79,33 +79,21 @@
 
 </div><!--/.main-container-->
 
-
 <!--popup preview-->
 <div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" style="width: 570px;">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title"><%= i('html.label.image.slide') %><!-- item image一覧--></h4>
+        <h4 class="modal-title"><%= i('html.label.item.info.preImg') %><!-- item image一覧--></h4>
       </div>
-      <div class="modal-body" id="slide">
-      </div>
+      <div class="modal-body" id="preImg"> </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-warning" data-dismiss="modal"><%= i('html.button.common.close') %><!-- Close--></button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-<!--<script type="text/template" id="tmpl_slide">-->
-  <!--<div class="carousel slide bs-docs-carousel-example" id="carousel-example-generic">-->
-    <!--<div class="carousel-inner">-->
-      <!--<div class="item" id="page">-->
-        <!--<img  src="/picture/{{file}}">-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
-<!--</script>-->
 
 <script type="text/template" id="tmpl_item_list">
   <tr>
@@ -124,6 +112,10 @@
       <a href="#" class="btn btn-default btn-sm" index={{index}} rowId="{{id}}" operation="delete"><%= i('html.button.common.delete') %><!--删除--></a>
       </td>
   </tr>
+</script>
+
+<script type="text/template" id="tmpl_pre_img" >
+  <img src="{{cover}}" rowid="{{id}}" style="width:500px;" >
 </script>
 
 
