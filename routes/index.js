@@ -5,6 +5,7 @@ var core     = smart.core
   , desk  = require("../apis/desk")
   , menu  = require("../apis/menu")
   , item  = require("../apis/item")
+  , user  = require("../apis/user");
 //var apis    = require('./apis')
 //  , website = require('./website');
 
@@ -32,7 +33,7 @@ exports.guiding = function (app) {
   // 登陆
   app.get('/simplelogin', function (req, res) {
     log.audit("login");
-    core.user.login(req, res, function(){}, "diandian");
+    core.user.login(req, res, function(){}, "developer");
   });
 
   // 注销
@@ -151,5 +152,36 @@ exports.guiding = function (app) {
     desk.findOne(req,res);
   });
 
+  app.get('/admin/users', function (req, res) {
+    res.render("admin_user_list", {"title": "店员一览", user: req.session.user});
+  });
+
+  app.get('/admin/user/add', function (req, res) {
+    res.render("admin_user_add", {"title": "添加店员", user: req.session.user, uid: ""});
+  });
+
+  app.get('/admin/user/edit/:uid', function (req, res) {
+    res.render("admin_user_add", {"title": "更新店员", user: req.session.user, uid: req.params.uid});
+  });
+
+  app.get('/admin/user/add.json', function (req, res) {
+    user.add(req, res);
+  });
+
+  app.get('/admin/user/get.json', function (req, res) {
+    user.get(req, res);
+  });
+
+  app.get('/admin/user/update.json', function (req, res) {
+    user.update(req, res);
+  });
+
+  app.get('/admin/user/list.json', function (req, res) {
+    user.getList(req, res);
+  });
+
+  app.get('/admin/user/remove.json', function (req, res) {
+    user.remove(req, res);
+  });
 
 };

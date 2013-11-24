@@ -10,19 +10,21 @@
 </head>
 <body>
 
+<% include common/navbar.html %>
 <div class="main-container container-fluid">
+  <% include common/sidebar.html %>
 
   <div class="main-content">
 
     <div class="page-content">
       <div class="row tableheader">
         <div class="pull-right" style="padding-bottom: 5px">
-          <a href="/admin/user/add" class="btn btn-default"><i class="icon-plus"></i>ユーザ追加<!-- ユーザ追加--></a>
+          <a href="/admin/user/add" class="btn btn-default"><i class="icon-plus"></i>添加</a>
         </div>
         <div class="pull-right" style="width: 300px">
           <form class="search-form" onsubmit="return false;">
             <div class="input-group">
-              <input id = "user_search" type="text" placeholder="検索 ...(名前)" class="form-control"  autocomplete="off" />
+              <input id = "user_search" type="text" placeholder="检索...（ID 或 姓名）" class="form-control"  autocomplete="off" />
               <span id="doSearchUser" class="input-group-addon">
                 <i class="icon-search"></i>
               </span>
@@ -36,115 +38,16 @@
             <thead>
             <tr>
               <th>#</th>
-              <th>ユーザタイプ<!-- ユーザタイプ--></th>
-              <th>トランザクションID<!-- トランザクションID--></th>
-              <th>ユーザID<!-- ユーザID--></th>
-              <th>名前<!-- 名前--></th>
-              <th>名前(現地語 カタカナ)<!-- 名前(現地語 カタカナ)--></th>
-              <th>名前(現地語 漢字)<!-- 名前(現地語 漢字)--></th>
-              <th>メールアドレス<!-- メールアドレス--></th>
-              <th>有効<!-- 有効--></th>
-              <th>操作<!-- 操作--></th>
+              <th>ID</th>
+              <th>姓名</th>
+              <th>手机号码</th>
+              <th>入职日期</th>
+              <th>性别</th>
+              <th>生日</th>
+              <th>操作</th>
             </tr>
             </thead>
             <tbody id="user_list">
-
-            <tr>
-              <th>1</th>
-              <th>店舗ユーザ</th>
-              <th>1234</th>
-              <th>test1</th>
-              <th>テストユーザ</th>
-              <th>張三</th>
-              <th>ちょうさん</th>
-              <th>test1@aa.com</th>
-              <th>有効</th>
-              <th>
-                <a href="/admin/user/edit/123/456" class="btn btn-default btn-sm" operation="edit">編集</a>
-                <a href="" class="btn btn-default btn-sm" operation="edit">無効</a>
-              </th>
-            </tr>
-
-            <tr>
-              <th>1</th>
-              <th>店舗ユーザ</th>
-              <th>1234</th>
-              <th>test1</th>
-              <th>テストユーザ</th>
-              <th>張三</th>
-              <th>ちょうさん</th>
-              <th>test1@aa.com</th>
-              <th>有効</th>
-              <th>
-                <a href="/admin/user/edit/123/456" class="btn btn-default btn-sm" operation="edit">編集</a>
-                <a href="" class="btn btn-default btn-sm" operation="edit">無効</a>
-              </th>
-            </tr>
-
-            <tr>
-              <th>1</th>
-              <th>店舗ユーザ</th>
-              <th>1234</th>
-              <th>test1</th>
-              <th>テストユーザ</th>
-              <th>張三</th>
-              <th>ちょうさん</th>
-              <th>test1@aa.com</th>
-              <th>有効</th>
-              <th>
-                <a href="/admin/user/edit/123/456" class="btn btn-default btn-sm" operation="edit">編集</a>
-                <a href="" class="btn btn-default btn-sm" operation="edit">無効</a>
-              </th>
-            </tr>
-
-            <tr>
-              <th>1</th>
-              <th>店舗ユーザ</th>
-              <th>1234</th>
-              <th>test1</th>
-              <th>テストユーザ</th>
-              <th>張三</th>
-              <th>ちょうさん</th>
-              <th>test1@aa.com</th>
-              <th>有効</th>
-              <th>
-                <a href="/admin/user/edit/123/456" class="btn btn-default btn-sm" operation="edit">編集</a>
-                <a href="" class="btn btn-default btn-sm" operation="edit">無効</a>
-              </th>
-            </tr>
-
-            <tr>
-              <th>1</th>
-              <th>店舗ユーザ</th>
-              <th>1234</th>
-              <th>test1</th>
-              <th>テストユーザ</th>
-              <th>張三</th>
-              <th>ちょうさん</th>
-              <th>test1@aa.com</th>
-              <th>有効</th>
-              <th>
-                <a href="/admin/user/edit/123/456" class="btn btn-default btn-sm" operation="edit">編集</a>
-                <a href="" class="btn btn-default btn-sm" operation="edit">無効</a>
-              </th>
-            </tr>
-
-            <tr>
-              <th>1</th>
-              <th>店舗ユーザ</th>
-              <th>1234</th>
-              <th>test1</th>
-              <th>テストユーザ</th>
-              <th>張三</th>
-              <th>ちょうさん</th>
-              <th>test1@aa.com</th>
-              <th>有効</th>
-              <th>
-                <a href="/admin/user/edit/123/456" class="btn btn-default btn-sm" operation="edit">編集</a>
-                <a href="" class="btn btn-default btn-sm" operation="edit">無効</a>
-              </th>
-            </tr>
-
             </tbody>
           </table>
         </div>
@@ -162,29 +65,14 @@
 <script type="text/template" id="tmpl_user_list">
   <tr>
     <td>{{index}}</td>
-    <td>{{path}}</td>
-    <td>{{uid}}</td>
-    <td>{{name}}</td>
-    <td>{{title}}</td>
-    <td>{{telephone}}</td>
-    <td>{{description}}</td>
-    <$ if (contents == 1) {$>
-    <td><i class="icon-ok"></i></td>
-    <$ } else {$>
-    <td></td>
-    <$ } $>
-    <$ if (active == 1) {$>
-    <td><i class="icon-ok"></i></td>
-    <$ } else {$>
-    <td></td>
-    <$ } $>
+    <td>{{id}}</td>
+    <td>{{realName}}</td>
+    <td>{{cellphone}}</td>
+    <td>{{entryDate}}</td>
+    <td>{{sex}}</td>
+    <td>{{birthday}}</td>
     <td>
-      <a href="/admin/user/edit/{{id}}" class="btn btn-default btn-sm" index={{index}} operation="edit"><%= 'html.button.common.edit' %><!-- 編集--></a>
-      <$ if (active == 1) {$>
-      <a href="/admin/user/" class="btn btn-default btn-sm" index={{index}} operation="active"><%= 'html.button.common.inactive' %><!-- 無効--></a>
-      <$ } else {$>
-      <a href="/admin/user/" class="btn btn-default btn-sm" index={{index}} operation="active"><%= 'html.button.common.active' %><!-- 有効--></a>
-      <$ } $>
+      <a href="/admin/user/edit/{{_id}}" class="btn btn-default btn-sm" operation="edit"><%= 'html.button.common.edit' %><!-- 編集--></a>
     </td>
   </tr>
 </script>

@@ -1,124 +1,158 @@
 $(function () {
   'use strict';
 
-  //取得用户ID
-  var userid =  $('#userId').val();
-  var code =  $('#code').val();
   //画面表示
-  render(userid,code);
-  //事件追加
-  $("#updateUser").bind("click", function(event){
-    //取得用户信息
-    var user = getUserData();
+  render();
 
-    if (userid && userid.length > 0) {
-      //编集用户
-      user.id = userid;    //编集用户ID
-      updateUser(user)
-    } else {
-      //添加用户
-      user.type = 0;      //普通用户
-      addUser(user);
-    }
-    return false;
-  });
+  //事件追加
+  events();
 
 });
 
 //画面表示
-function render(userid, code) {
-  if (userid) {
-//    smart.doget("/admin/user/findOne.json?code=" + code + "&userid=" + userid, function(err, result) {
-//      if (err) {
-//        smart.error(err,i18n["js.common.search.error"],false);
-//      } else {
-//        if (result) {
-//          $("#inputUserID").val(result.uid);
-//          $("#inputUserID").attr("disabled","disabled");
-//          $("#inputPassword").val(result.password);
-//          $("#inputPassword").attr("oldpass",result.password);
-//          $("#inputName").val(result.name ? result.name.name_zh:"");
-//          $("#inputRole").val(result.title);
-//          $("#inputPhone").val(result.tel ? result.tel.telephone:"");
-//          $("#inputComment").val(result.description);
-//          $("#inputCompanyCode").val(result.companypath)
-//          $("#inputCompanyCode").attr('code',result.companycode);
-//          $("#inputCompanyCode").attr("disabled","disabled");
-//
-//          var inputLang = result.lang;
-//          new ButtonGroup("inputLang", inputLang).init();
-//          var inputTimezone = result.timezone;
-//          new ButtonGroup("inputTimezone", inputTimezone).init();
-//          var inputContents = result.authority && result.authority.contents == 1 ? "1" : "0";
-//          new ButtonGroup("inputContents", inputContents).init();
-//          var inputActive = result.active == 1 ? "1" : "0";
-//          new ButtonGroup("inputActive", inputActive).init();
-//        }
-//      }
-//
-//    });
-    new ButtonGroup("inputUserType", "0").init();
-    new ButtonGroup("inputActive", "1").init();
-  } else {
-    new ButtonGroup("inputUserType", "0").init();
-    new ButtonGroup("inputActive", "1").init();
+function render() {
+
+  var uid = $("#uid").val();
+  if(uid) { // 更新
+
+    smart.doget("/admin/user/get.json?uid=" + uid , function(err, result) {
+      if (err) {
+        smart.error(err, i18n["js.common.search.error"], false);
+      } else {
+        // ID
+        $("#inputID").val(result.id);
+        $("#inputID").attr("disabled", true);
+        // 密码
+        $("#inputPassword").val("000000000000");
+        // 姓名
+        $("#inputRealName").val(result.realName);
+        // 性别
+        new ButtonGroup("inputSex", result.sex).init();
+        initDateSelect();
+        // 出生年月日
+        var birthday = result.birthday; //
+        $("#inputBirthYear").val(birthday.substring(0, 4));
+        $("#inputBirthMonth").val(birthday.substring(4, 6));
+        $("#inputBirthDay").val(birthday.substring(6, 8));
+        // 入职日期
+        var entryDate = result.entryDate; //
+        $("#inputEntryYear").val(entryDate.substring(0, 4));
+        $("#inputEntryMonth").val(entryDate.substring(4, 6));
+        $("#inputEntryDay").val(entryDate.substring(6, 8));
+        // 手机号码
+        $("#inputCellPhone").val(result.cellphone);
+        // 备注
+        $("#inputRemark").val(result.remark);
+      }
+    });
+
+  } else { // 添加
+
+    initDateSelect()
+    new ButtonGroup("inputSex", "1").init();
+  }
+
+}
+
+function events() {
+  $("#saveUser").click(saveUser);
+  $("#removeUser").click(removeUser);
+}
+
+function initDateSelect() {
+  // 出生年月日
+  var date = new Date();
+  var year = $("#inputBirthYear");
+  for(var i = date.getFullYear() - 16; i >= 1950; i--) {
+    year.append("<option>" + i + "</option>");
+  }
+  var month = $("#inputBirthMonth");
+  for(var i = 1; i <=12; i++) {
+    month.append("<option>" + i + "</option>");
+  }
+  var day = $("#inputBirthDay");
+  for(var i = 1; i <= 31; i++) {
+    day.append("<option>" + i + "</option>");
+  }
+
+  // 入职日期
+  var year = $("#inputEntryYear");
+  for(var i = date.getFullYear(); i >= 1950; i--) {
+    year.append("<option>" + i + "</option>");
+  }
+  var month = $("#inputEntryMonth");
+  for(var i = 1; i <=12; i++) {
+    month.append("<option>" + i + "</option>");
+  }
+  month.val(date.getMonth() + 1);
+  var day = $("#inputEntryDay");
+  for(var i = 1; i <= 31; i++) {
+    day.append("<option>" + i + "</option>");
+  }
+  day.val(date.getDate());
+}
+
+//保存用户
+function saveUser() {
+
+  var user = {};
+
+  // ID
+  user.id = $("#inputID").val();
+  // 密码
+  user.password = $("#inputPassword").val();
+  // 姓名
+  user.realName = $("#inputRealName").val();
+  // 性别
+  user.sex = $("#inputSex").val();
+  // 出生年月日
+  user.birthday = $("#inputBirthYear").val() + $("#inputBirthMonth").val() + $("#inputBirthDay").val();
+  // 入职日期
+  user.entryDate = $("#inputEntryYear").val() + $("#inputEntryMonth").val() + $("#inputEntryDay").val();
+  // 手机号码
+  user.cellphone = $("#inputCellPhone").val();
+  // 备注1
+  user.remark = $("#inputRemark").val();
+
+  if(user.id == "") {
+    Alertify.log.error("ID不能为空！");
+    $("#inputID").focus();
+    return;
+  }
+
+  if(user.password == "") {
+    Alertify.log.error("密码不能为空！");
+    $("#inputPassword").focus();
+    return;
+  }
+
+  var uid = $("#uid").val();
+  if(uid) { // 更新
+    user.uid = uid;
+    smart.dopost("/admin/user/update.json", user, function(err, result) {
+      if (err) {
+        smart.error(err, i18n["js.common.add.error"], false);
+      } else {
+        window.location = "/admin/users";
+      }
+    });
+  } else { // 添加
+    smart.dopost("/admin/user/add.json", user, function(err, result) {
+      if (err) {
+        smart.error(err, i18n["js.common.add.error"], false);
+      } else {
+        window.location = "/admin/users";
+      }
+    });
   }
 }
 
-//取得用户信息
-function getUserData() {
-
-  var user = {
-    userid : $("#inputUserID").val()
-    , name: {
-      name_zh:$("#inputName").val()
-    }
-    , title: $("#inputRole").val()
-    , tel: {
-      telephone:$("#inputPhone").val()
-    }
-    , "description": $("#inputComment").val()
-    , "timezone": $("#inputTimezone").attr('value')
-    , "lang": $("#inputLang").attr('value')
-    , "companycode" :$("#inputCompanyCode").attr('code')
-  };
-
-  //编集时,如果密码没有变更,不提交密码.
-  if ($("#inputPassword").val() != $("#inputPassword").attr("oldpass")) {
-    user.password = $("#inputPassword").val();
-  }
-  //Contents作成者,有效在画面不表示时,不指定值.
-  if ($("#inputContents").size() > 0) {
-    var contents = $("#inputContents").attr('value');
-    user.authority = user.authority || {};
-    user.authority.contents = contents;
-  }
-
-  if ($("#inputActive").size() > 0) {
-    var active = $("#inputActive").attr('value');
-    user.active = active;
-  }
-  return user;
-}
-
-//添加用户
-function addUser(user) {
-  smart.dopost("/admin/user/add.json", user, function(err, result) {
+function removeUser() {
+  smart.doget("/admin/user/remove.json?uid=" + $("#uid").val(), function(err, result) {
     if (err) {
-      smart.error(err,i18n["js.common.add.error"],false);
+      smart.error(err, i18n["js.common.add.error"], false);
     } else {
-      window.location = "/admin/user";
-    }
-  });
-}
-
-//更新用户
-function updateUser(user) {
-  smart.doput("/admin/user/update.json", user, function(err, result){
-    if (err) {
-      smart.error(err,i18n["js.common.update.error"],false);
-    } else {
-      window.location = "/admin/user";
+      window.location = "/admin/users";
     }
   });
 }

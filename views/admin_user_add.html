@@ -7,24 +7,26 @@
   <script type="text/javascript" src="/javascripts/admin_user_add.js"></script>
 </head>
 <body>
-<input type="hidden" id="userId" name="userId" value="<%= userId %>">
-<input type="hidden" id="code" name="code" value="<%= code %>">
 
+<input type="hidden" id="uid" value="<%=uid %>" >
+
+<% include common/navbar.html %>
 <div class="main-container container-fluid">
+  <% include common/sidebar.html %>
 
   <div class="main-content">
     <div class="page-content">
       <div class="row tableheader col-lg-8">
         <div class="pull-left">
-          <h4>用户信息</h4>
+          <h4>店员信息</h4>
         </div>
       </div>
       <div class="row col-lg-8 box-border">
         <form class="form-horizontal" role="form">
           <div class="form-group">
-            <label for="inputUserName" class="col-lg-2 control-label">用户名</label>
+            <label for="inputID" class="col-lg-2 control-label">ID</label>
             <div class="col-lg-8">
-              <input type="text" class="form-control" id="inputUserName" placeholder="用户名" maxlength="30">
+              <input type="text" class="form-control" id="inputID" placeholder="ID" maxlength="30">
             </div>
           </div>
           <div class="form-group">
@@ -49,29 +51,44 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="inputBirthday" class="col-lg-2 control-label">出生年月日</label>
+            <label for="inputBirthYear" class="col-lg-2 control-label">生日</label>
             <div class="col-lg-8">
-              <input type="password" class="form-control" id="inputBirthday" placeholder="出生年月日" maxlength="20">
+              <select id="inputBirthYear"></select> -
+              <select id="inputBirthMonth"></select> -
+              <select id="inputBirthDay"></select>
             </div>
           </div>
           <div class="form-group">
-            <label for="inputBirthday" class="col-lg-2 control-label">入职日期</label>
+            <label for="inputEntryYear" class="col-lg-2 control-label">入职日期</label>
             <div class="col-lg-8">
-              <input type="password" class="form-control" id="inputEntryDate" placeholder="入职日期" maxlength="20">
+              <select id="inputEntryYear"></select> -
+              <select id="inputEntryMonth"></select> -
+              <select id="inputEntryDay"></select>
             </div>
           </div>
           <div class="form-group">
             <label for="inputCellPhone" class="col-lg-2 control-label">手机号码</label>
             <div class="col-lg-8">
-              <input type="password" class="form-control" id="inputCellPhone" placeholder="手机号码" maxlength="20">
+              <input type="text" class="form-control" id="inputCellPhone" placeholder="手机号码" maxlength="20">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputCellPhone" class="col-lg-2 control-label">备注</label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control" id="inputRemark" placeholder="备注" maxlength="20">
             </div>
           </div>
         </form>
       </div>
       <div class="col-lg-8" style="margin-bottom: 30px;padding: 0px;">
-        <div id="updateUser" class="col-lg-4 btn btn-warning btn-lg">
-          登録
+        <div id="saveUser" class="col-lg-2 btn btn-default btn-lg">
+          保存
         </div>
+        <% if(uid !== '') { %>
+        <div id="removeUser" class="col-lg-2 btn btn-danger">
+          删除
+        </div>
+        <% } %>
       </div>
     </div>
   </div>

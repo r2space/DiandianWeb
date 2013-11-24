@@ -1,78 +1,63 @@
 $(function () {
   'use strict';
-  render(0,15);
+
+  render(0, 20);
+
   events();
 });
 
-// 保持一览数据
-var userList;
 /**
  * 绘制画面
  */
-function render(start, count ,keyword) {
+function render(skip, limit , keyword) {
   keyword = keyword ? encodeURIComponent(keyword) : "";
 
-//  smart.doget("/admin/user/list.json?type=all&count=" + count + "&start=" + start + "&keyword=" + keyword, function (err, result) {
-//
-//    if (err) {
-//      smart.error(err,i18n["js.common.search.error"],false);
-//    } else {
-//      userList = result;
-//
-//      var tmpl = $('#tmpl_user_list').html()
-//        , container = $("#user_list")
-//        , index = 1;
-//
-//      container.html("");
-//      _.each(userList, function (row) {
-//        container.append(_.template(tmpl, {
-//          "index": index++ + start,
-//          "id": row._id,
-//          "uid": row.uid,
-//          "name": row.name ? row.name.name_zh : "",
-//          "title": row.title,
-//          "telephone": row.tel ? row.tel.telephone : "",
-//          "description": row.description,
-//          "contents": row.authority ? row.authority.contents : "0",
-//          "active": row.active,
-//          "type": row.type,
-//          "companycode":row.companycode,
-//          "path":row.path
-//        }));
-//      });
-//    }
-//
-//  });
+  smart.doget("/admin/user/list.json?limit=" + count + "&skip=" + skip + "&keyword=" + keyword, function (err, result) {
+
+    if (err) {
+      smart.error(err,i18n["js.common.search.error"],false);
+    } else {
+      var tmpl = $('#tmpl_user_list').html()
+        , container = $("#user_list")
+        , index = 1;
+
+      container.html("");
+      var list = result.items;
+      _.each(result.items, function (row) {
+        container.append(_.template(tmpl, {
+            "index": index++ + skip
+          , "_id": row._id
+          , "id": row.id
+          , "realName": row.realName
+          , "cellphone": row.cellphone
+          , "entryDate": row.entryDate
+          , "sex": row.sex === "1" ? "男" : "女"
+          , "birthday": row.birthday
+        }));
+      });
+
+      if(list.length == 0) {
+        container.html("<tr><td colspan=10>" + i18n["js.common.list.empty"] + "</td></tr>");
+      }
+
+      // 设定翻页
+      smart.pagination($("#pagination_area"), result.totalItems, 20, function(active) {
+        doSearch(active, 20);
+      });
+    }
+
+  });
 }
 
 function events() {
-  // 一览按钮
-  $("#user_list").on("click", "a", function(event){
 
-    var operation = $(event.target).attr("operation")
-      , index = $(event.target).attr("index")
-      , row = userList[index - 1];
-
-    // 编辑按钮
-    if (operation == "edit") {
-      window.location = "/admin/user/edit/" + row.companycode + "/" + row._id;
-    }
-
-    // 无效按钮
-    if (operation == "active") {
-      var userinfo = {
-        id: row._id
-        ,active: (row.active == "1") ? "0" : "1"
-        ,companycode : row.companycode
-      };
-      smart.doput("/admin/user/update.json",userinfo, function(err, result){
-        if (err) {
-          smart.error(err,i18n["js.common.update.error"],false);
-        } else {
-          render(0, 15);
-        }
-      });
-    }
-    return false;
+  $("#doSearchUser").click(function() {
+    doSearch(0, 20);
   });
+}
+
+function doSearch(skip, limit) {
+  var keyword =  $("#user_search").val();
+  smart.paginationInitalized = false;
+  render(skip, limit, keyword);
 }
