@@ -4,7 +4,14 @@
 <title><%= title %></title>
 <% include common/required.html %>
 <link href="/stylesheets/diandian.css" rel="stylesheet" media="screen">
+
+<!--  弹出选择的插件   start  -->
+<link href="/vendor/ImagePopup/dacpopup.css" rel="stylesheet" media="screen">
+<script type="text/javascript" src="/vendor/ImagePopup/dacpopup.js"></script>
+<!--  弹出选择的插件   end  -->
+
 <script type="text/javascript" src="/javascripts/menu_menu_add.js"></script>
+
 <style type="text/css">
 .pagination {
   margin-top: 0px !important;
@@ -515,6 +522,21 @@ img.caseMenuImg {
   </div>
 <!-- /.modal-dialog -->
 </div>
+
+
+<!-- popup tmpl_popup_image template -->
+<script type="text/template" id="tmpl_popup_image">
+  <div class="modalfix_box">
+    <img src="{{image}}" class="material_thumb" data="{{fileid}}" item_id="{{item_id}}">
+
+    <div class="modalfix_checkbox" num="{{num}}"><img src="/images/img_check.png"></div>
+  </div>
+</script>
+<script type="text/template" id="tmpl_tag_item_all">
+  <li class="tag">
+    <a data="all"><%= i('html.button.synthetic.tag.all') %><!-- All--></a>
+  </li>
+</script>
 
 </body>
 </html>
