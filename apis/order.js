@@ -27,7 +27,7 @@ exports.addOrder = function (data, callback) {
 
   var tmpResult = [];
   var orderList = data.data.orderList;
-
+  var curDeskId = data.data.deskId;
   for (var i in orderList) {
     orderList[i]._index = i
   }
@@ -53,8 +53,8 @@ exports.addOrder = function (data, callback) {
     }, function (err, result) {
 
       callback(err, result,
-        act.dataForwardBroadcast("newOrder",tmpResult),
-        act.dataBroadcast("refresh_desk", {deskId: "528c49abde98051836000002", boast:"dddd"})
+        act.dataForwardBroadcast("refreshOrder",{items:tmpResult}),
+        act.dataBroadcast("refresh_desk", {deskId:curDeskId})
       );
 
     });

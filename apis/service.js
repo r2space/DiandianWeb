@@ -2,7 +2,9 @@ var smart  = require("smartcore")
   , response    = smart.framework.response
   , util    = smart.framework.util
   , errors  = smart.core.errors
-  , service    = require('../controllers/ctrl_service');
+  , service    = require('../controllers/ctrl_service')
+  , ws         = require('../ws/websocket')
+  , act         = require('../ws/action');
 
 
 
@@ -16,6 +18,8 @@ exports.start = function(req_, res_) {
 
 
   service.startService(code,userId, deskId ,type,people, function(err, result) {
+    //if(err)
+    ws.broadcast(act.dataBroadcast("refresh_desk", {deskId:deskId}));
     response.send(res_, err, result);
   });
 
