@@ -1,9 +1,10 @@
 var code = "diandian";
-var ws = require('../websocket');
+var act   = require('../ws/action');
 var order = require("../controllers/ctrl_order.js");
 var seq = require("../controllers/ctrl_seq.js");
 var async = require('async')
   , response = smart.framework.response
+
 
 exports.list = function (req_, res_) {
   var code = "diandian"
@@ -11,6 +12,7 @@ exports.list = function (req_, res_) {
     , serviceId = req_.query.serviceId
     , start = req_.query.start
     , limit = req_.query.limit
+
 
   order.getList(code, deskId, serviceId, start, limit, function (err, result) {
     response.send(res_, err, result);
@@ -41,7 +43,7 @@ exports.addOrder = function (data, callback) {
   }, function (err, result) {
 
     callback(err, result
-//      ws.dataForwardBroadcast("newOrder",tmpResult)
+      act.dataForwardBroadcast("newOrder",tmpResult)
     );
 
   });
