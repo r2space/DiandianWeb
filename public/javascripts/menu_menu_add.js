@@ -81,7 +81,15 @@ function insertLandscapeScreenAfter(screenNum){
   $.each($(".itemDiv"), function(idx, item) {
     item.onclick = function(event){
       // 记录当前DIV TODO
-      $("#itemModal").modal("show");
+//      $("#itemModal").modal("show");
+      var selectedEvent = function(event){
+        console.log(event);
+        if (event.material_id != undefined) {
+        }
+      };
+      var _popup = new ImagePopup({ type: 'single', tpl: 'image', el: 'itemModal' }, selectedEvent);
+      _popup.show();
+
     };
   });
 
