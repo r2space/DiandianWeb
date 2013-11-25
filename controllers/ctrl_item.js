@@ -6,13 +6,10 @@ var  ph        = require('path')
   , _         = require('underscore')
   , sync      = require('async')
   , smart     = require("smartcore")
-  , gridfs    = smart.mod.gridfs
   , error     = smart.core.errors
   , user      = smart.ctrl.user
-  , mod_group   = smart.mod.group
   , confapp   = require('config').app
   , auth      = smart.core.auth
-  , group     = smart.mod.group
   , log  =smart.framework.log
   , item   = require('../modules/mod_item.js');
 

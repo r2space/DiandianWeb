@@ -2,12 +2,6 @@
 <input type="hidden" id="userid" name="userid" value="<%= user._id %>" />
 <input type="hidden" id="timezone" name="timezone" value="<%= user.timezone %>" />
 
-<script type='text/javascript'>
-  var i18n = "<%= i18n %>";
-  i18n = i18n.replace(/'/g,"\"");
-  i18n = JSON.parse(i18n);
-</script>
-
 <div class="navbar">
   <div class="navbar-inner">
       <a href="/diandian" class="brand"><img height="20px" src="/images/diandian.png"></a>
@@ -15,7 +9,7 @@
         <li>
           <a data-toggle="dropdown" href="#" class="dropdown-toggle">
             <img width="23" height="23" src="/images/ico_144px.png"/>
-            <span><%= user.name.name_zh %></span>
+            <span><%= user.first %></span>
             <i class="icon-chevron-down"></i>
           </a>
           <ul class="dropdown-menu pull-right">

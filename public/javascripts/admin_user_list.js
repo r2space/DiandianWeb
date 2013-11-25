@@ -1,10 +1,12 @@
 $(function () {
   'use strict';
 
-  render(0, 20);
+  render(0, PageSize);
 
   events();
 });
+
+var PageSize = 15;
 
 /**
  * 绘制画面
@@ -12,7 +14,7 @@ $(function () {
 function render(skip, limit , keyword) {
   keyword = keyword ? encodeURIComponent(keyword) : "";
 
-  smart.doget("/admin/user/list.json?limit=" + count + "&skip=" + skip + "&keyword=" + keyword, function (err, result) {
+  smart.doget("/admin/user/list.json?limit=" + limit + "&skip=" + skip + "&keyword=" + keyword, function (err, result) {
 
     if (err) {
       smart.error(err,i18n["js.common.search.error"],false);
@@ -28,11 +30,13 @@ function render(skip, limit , keyword) {
             "index": index++ + skip
           , "_id": row._id
           , "id": row.id
-          , "realName": row.realName
+          , "name": row.name
           , "cellphone": row.cellphone
           , "entryDate": row.entryDate
           , "sex": row.sex === "1" ? "男" : "女"
           , "birthday": row.birthday
+          , "manage": hasPermission(row.permissions, "1")
+          , "cash": hasPermission(row.permissions, "2")
         }));
       });
 
@@ -41,8 +45,8 @@ function render(skip, limit , keyword) {
       }
 
       // 设定翻页
-      smart.pagination($("#pagination_area"), result.totalItems, 20, function(active) {
-        doSearch(active, 20);
+      smart.pagination($("#pagination_area"), result.totalItems, PageSize, function(active) {
+        doSearch(active, PageSize);
       });
     }
 
@@ -52,7 +56,7 @@ function render(skip, limit , keyword) {
 function events() {
 
   $("#doSearchUser").click(function() {
-    doSearch(0, 20);
+    doSearch(0, PageSize);
   });
 }
 
@@ -60,4 +64,16 @@ function doSearch(skip, limit) {
   var keyword =  $("#user_search").val();
   smart.paginationInitalized = false;
   render(skip, limit, keyword);
+}
+
+function hasPermission(permissions, code) {
+  if(permissions) {
+    for(var i = 0; i < permissions.length; i++) {
+      if(permissions[i] === code) {
+        return true;
+      }
+    }
+  }
+
+  return false;
 }

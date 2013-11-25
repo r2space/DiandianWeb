@@ -3,14 +3,17 @@
 <head>
   <title><%= title %></title>
   <% include common/required.html %>
-  <link href="/stylesheets/salesfloor.css" rel="stylesheet" media="screen">
+  <link href="/stylesheets/diandian.css" rel="stylesheet" media="screen">
 
   <script type="text/javascript" src="/javascripts/admin_user_list.js"></script>
 
 </head>
 <body>
 
+<input type="hidden" id="_csrf" name="_csrf" value="<%= csrftoken %>" />
+
 <% include common/navbar.html %>
+
 <div class="main-container container-fluid">
   <% include common/sidebar.html %>
 
@@ -41,6 +44,8 @@
               <th>ID</th>
               <th>姓名</th>
               <th>手机号码</th>
+              <th>管理权限</th>
+              <th>收银权限</th>
               <th>入职日期</th>
               <th>性别</th>
               <th>生日</th>
@@ -66,13 +71,23 @@
   <tr>
     <td>{{index}}</td>
     <td>{{id}}</td>
-    <td>{{realName}}</td>
+    <td>{{name}}</td>
     <td>{{cellphone}}</td>
+    <td>
+      <$ if (manage === true) { $>
+      <i class="icon-ok"></i>
+      <$ } $>
+    </td>
+    <td>
+      <$ if (cash === true) { $>
+      <i class="icon-ok"></i>
+      <$ } $>
+    </td>
     <td>{{entryDate}}</td>
     <td>{{sex}}</td>
     <td>{{birthday}}</td>
     <td>
-      <a href="/admin/user/edit/{{_id}}" class="btn btn-default btn-sm" operation="edit"><%= 'html.button.common.edit' %><!-- 編集--></a>
+      <a href="/admin/user/edit/{{_id}}" class="btn btn-default btn-sm" operation="edit">編集</a>
     </td>
   </tr>
 </script>

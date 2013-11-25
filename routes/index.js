@@ -33,7 +33,7 @@ exports.guiding = function (app) {
   // 登陆
   app.get('/simplelogin', function (req, res) {
     log.audit("login");
-    core.user.login(req, res, function(){}, "developer");
+    user.simpleLogin(req, res);
   });
 
   // 注销
@@ -157,14 +157,14 @@ exports.guiding = function (app) {
   });
 
   app.get('/admin/user/add', function (req, res) {
-    res.render("admin_user_add", {"title": "添加店员", user: req.session.user, uid: ""});
+    res.render("admin_user_add", {"title": "添加店员", user: req.session.user, userId: ""});
   });
 
-  app.get('/admin/user/edit/:uid', function (req, res) {
-    res.render("admin_user_add", {"title": "更新店员", user: req.session.user, uid: req.params.uid});
+  app.get('/admin/user/edit/:userId', function (req, res) {
+    res.render("admin_user_add", {"title": "更新店员", user: req.session.user, userId: req.params.userId});
   });
 
-  app.get('/admin/user/add.json', function (req, res) {
+  app.put('/admin/user/add.json', function (req, res) {
     user.add(req, res);
   });
 
@@ -172,7 +172,7 @@ exports.guiding = function (app) {
     user.get(req, res);
   });
 
-  app.get('/admin/user/update.json', function (req, res) {
+  app.post('/admin/user/update.json', function (req, res) {
     user.update(req, res);
   });
 
@@ -180,7 +180,7 @@ exports.guiding = function (app) {
     user.getList(req, res);
   });
 
-  app.get('/admin/user/remove.json', function (req, res) {
+  app.delete('/admin/user/remove.json', function (req, res) {
     user.remove(req, res);
   });
 

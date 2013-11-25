@@ -43,7 +43,7 @@ function login() {
       , async: false
       , type: "GET"
       , data: {
-        "path": path, "name": username, "pass": password, "home": "diandian"
+        "path": path, "name": username, "password": password, "home": "diandian"
       }
       , success: function(data, textStatus, jqXHR) {
         try {
