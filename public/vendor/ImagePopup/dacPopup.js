@@ -255,7 +255,7 @@ function ImagePopup(opt, callback) {
       var total = that._total;
       setTimeout(function(){
         ajaxStatus = 0;
-        $("#hook").html(i18n["js.public.info.detaillist.load"]);
+        $("#hook").html(i18n["js.public.info.detaillist.loading"]);
         if(total < 15){
           $("#hook").hide();
         }else{
@@ -280,12 +280,12 @@ function ImagePopup(opt, callback) {
   }
   var filterStore =  function(){
     var that = this;
-    var url_tags = "/tag/search.json?count=100&start=0";
+    /*var url_tags = "/tag/search.json?count=100&start=0";
     smart.doget(url_tags,function(err,result){
       console.log(result);
       _initTagsStore(result);
       _redner_tags(_listener_tags);
-    });
+    }); */ // TODO
   }
 
   loadStore();
