@@ -17,7 +17,7 @@ function render(skip, limit , keyword) {
   smart.doget("/admin/user/list.json?limit=" + limit + "&skip=" + skip + "&keyword=" + keyword, function (err, result) {
 
     if (err) {
-      smart.error(err,i18n["js.common.search.error"],false);
+      smart.error(err, i18n["js.common.search.error"], false);
     } else {
       var tmpl = $('#tmpl_user_list').html()
         , container = $("#user_list")
@@ -35,8 +35,8 @@ function render(skip, limit , keyword) {
           , "entryDate": row.entryDate
           , "sex": row.sex
           , "birthday": row.birthday
-          , "admin": hasPermission(row.permissions, "1")
-          , "cash": hasPermission(row.permissions, "2")
+          , "admin": row.admin
+          , "cash": row.cash
         }));
       });
 
@@ -64,16 +64,4 @@ function doSearch(skip, limit) {
   var keyword =  $("#user_search").val();
   smart.paginationInitalized = false;
   render(skip, limit, keyword);
-}
-
-function hasPermission(permissions, code) {
-  if(permissions) {
-    for(var i = 0; i < permissions.length; i++) {
-      if(permissions[i] === code) {
-        return true;
-      }
-    }
-  }
-
-  return false;
 }

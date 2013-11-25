@@ -25,7 +25,7 @@ function render() {
         $("#inputID").val(result.id);
         $("#inputID").attr("disabled", true);
         // 密码
-        $("#inputPassword").val("000000000000");
+        $("#inputPassword").val(result.password);
         // 姓名
         $("#inputName").val(result.name);
         // 性别
@@ -44,11 +44,10 @@ function render() {
         // 手机号码
         $("#inputCellPhone").val(result.cellphone);
         // 权限
-        var permissions = result.permissions;
-        if(hasPermission(permissions, "1")) { // 管理权限
-          $("#inputPermissionManage").attr("checked", true);
+        if(result.admin === true) { // 管理权限
+          $("#inputPermissionAdmin").attr("checked", true);
         }
-        if(hasPermission(permissions, "2")) { // 收银权限
+        if(result.cash === true) { // 收银权限
           $("#inputPermissionCash").attr("checked", true);
         }
         // 备注
@@ -124,22 +123,23 @@ function saveUser() {
   // 手机号码
   user.cellphone = $("#inputCellPhone").val();
   // 权限
-  user.permissions = [];
-
-  $("input[name='inputPermission']:checked").each(function() {
-    user.permissions.push($(this).val());
-  });
-  // 备注1
+  if($("#inputPermissionAdmin").is(":checked")) {
+    user.admin = true;
+  }
+  if($("#inputPermissionCash").is(":checked")) {
+    user.cash = true;
+  }
+  // 备注
   user.remark = $("#inputRemark").val();
 
   if(user.id == "") {
-    Alertify.log.error(i("js.public.check.user.id"));
+    Alertify.log.error(i18n["js.public.check.user.id"]);
     $("#inputID").focus();
     return;
   }
 
   if(user.password == "") {
-    Alertify.log.error(i("js.public.check.user.password"));
+    Alertify.log.error(i18n["js.public.check.user.password"]);
     $("#inputPassword").focus();
     return;
   }
@@ -148,14 +148,14 @@ function saveUser() {
   if(userId) { // 更新
 
     if($("#userId").val() === $("#userid").val()) {
-      Alertify.log.error(i("js.public.check.user.editSelf"));
+      Alertify.log.error(i18n["js.public.check.user.editSelf"]);
       return;
     }
 
     user.userId = userId;
     smart.dopost("/admin/user/update.json", user, function(err, result) {
       if (err) {
-        smart.error(err, i("js.common.update.error"), false);
+        smart.error(err, i18n["js.common.update.error"], false);
       } else {
         window.location = "/admin/users";
       }
@@ -163,7 +163,7 @@ function saveUser() {
   } else { // 添加
     smart.doput("/admin/user/add.json", user, function(err, result) {
       if (err) {
-        smart.error(err, i("js.common.add.error"), false);
+        smart.error(err, i18n["js.common.add.error"], false);
       } else {
         window.location = "/admin/users";
       }
@@ -171,19 +171,20 @@ function saveUser() {
   }
 }
 
+// 删除
 function removeUser() {
 
   if($("#userId").val() === $("#userid").val()) {
-    Alertify.log.error(i("js.public.check.user.editSelf"));
+    Alertify.log.error(i18n["js.public.check.user.editSelf"]);
     return;
   }
 
-  Alertify.dialog.labels.ok = i("js.common.dialog.ok");
-  Alertify.dialog.labels.cancel = i("js.common.dialog.cancel");
-  Alertify.dialog.confirm(i("js.common.delete.confirm"), function () {
+  Alertify.dialog.labels.ok = i18n["js.common.dialog.ok"];
+  Alertify.dialog.labels.cancel = i18n["js.common.dialog.cancel"];
+  Alertify.dialog.confirm(i18n["js.common.delete.confirm"], function () {
     smart.dodelete("/admin/user/remove.json", {userId: $("#userId").val()}, function(err, result) {
       if (err) {
-        smart.error(err, i("js.common.delete.error"), false);
+        smart.error(err, i18n["js.common.delete.error"], false);
       } else {
         window.location = "/admin/users";
       }
@@ -191,18 +192,4 @@ function removeUser() {
   }, function () {
     // Cancel
   });
-}
-
-function hasPermission(permissions, code) {
-  for(var i = 0; i < permissions.length; i++) {
-    if(permissions[i] === code) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
-function i(key) {
-  return i18n[key];
 }

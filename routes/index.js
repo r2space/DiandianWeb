@@ -184,4 +184,16 @@ exports.guiding = function (app) {
     user.remove(req, res);
   });
 
+  app.post('/admin/user/updatePassword.json', function (req, res) {
+    user.updatePassword(req, res);
+  });
+
+  app.post('/admin/user/updatePattern.json', function (req, res) {
+    user.updatePassword(req, res);
+  });
+
+  app.get('/admin/user/checkPattern.json', function (req, res) {
+    user.isPatternRight(req, res);
+  });
+
 };
