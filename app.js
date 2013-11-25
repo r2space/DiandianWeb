@@ -13,7 +13,7 @@ var http        = smart.lang.http
   , loader      = smart.framework.loader
   , log         = smart.framework.log
   , routes      = require("./routes")
-  , websocket   = require("./websocket");
+  , websocket   = require("./ws/websocket");
 
 var app = express();
 

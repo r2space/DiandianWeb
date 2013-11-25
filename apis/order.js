@@ -1,5 +1,5 @@
 
-var ws   = require('../websocket');
+var ws   = require('../ws/websocket');
 
 exports.addOrder = function(data, callback) {
   var err = null;
