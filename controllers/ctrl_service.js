@@ -30,3 +30,7 @@ exports.startService = function(code,userId, deskId ,type,people,callback){
   }
   modService.add(code,data,callback);
 };
+
+exports.addUnfinishedCount = function(code,serviceId,callback){
+  modService.addUnfinishedCount(code,serviceId,callback);
+};

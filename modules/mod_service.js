@@ -58,6 +58,12 @@ exports.add = function(code, newService, callback) {
   });
 };
 
+exports.addUnfinishedCount = function(code,servicdId,callback){
+  var service = model(code);
+
+  service.findByIdAndUpdate(servicdId,{$inc:{unfinishedCount:1}},callback);
+};
+
 exports.findStatus = function(code,deskId,callback){
   var service = model(code);
 

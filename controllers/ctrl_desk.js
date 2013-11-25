@@ -106,13 +106,16 @@ exports.appList = function(code_, condition_, start_, limit_, callback_) {
 
 function getServiceStatus(code,deskList,callback){
   var tempResult = [];
+  for(var i in deskList){
+    deskList[i]._index = i;
+  }
   async.forEach(deskList,function(deskDocs,cb){
     service.findStatus(code,deskDocs._id,function(err,serviceDocs){
       var tmpObj = deskDocs;
       if(serviceDocs && serviceDocs.length > 0)
         tmpObj._doc.service = serviceDocs[0];
 
-      tempResult.push(tmpObj);
+      tempResult[deskDocs._index] = tmpObj;
       cb(err,serviceDocs);
     });
   },function(err,docs){

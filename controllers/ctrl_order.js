@@ -52,6 +52,7 @@ exports.add = function (code, uid, orderData, callback) {
       deskId      : orderData.deskId
     , serviceId   : orderData.serviceId
     , orderSeq    : orderData.orderSeq
+    , orderNum    : orderData.orderNum
     , userId      : orderData.userId
     , itemId      : orderData.itemId
     , type        : orderData.type
