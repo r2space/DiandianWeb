@@ -29,7 +29,7 @@ var SequenceSchema = new schema({
 });
 
 /**
- * 
+ *
  * @param {string} dbname
  * @returns {model} workstation model
  */

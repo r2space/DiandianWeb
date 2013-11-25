@@ -25,6 +25,7 @@ exports.register = function() {
   {
     // 刷新一个桌的信息
     add("refresh_table", desk.wsRefresh);
+    //add("refresh_order", orderapi.)
   }
 }
 

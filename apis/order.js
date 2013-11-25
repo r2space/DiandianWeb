@@ -42,7 +42,7 @@ exports.addOrder = function (data, callback) {
 
   }, function (err, result) {
 
-    callback(err, result
+    callback(err, result,
       act.dataForwardBroadcast("newOrder",tmpResult)
     );
 

@@ -1,5 +1,4 @@
 var code = "diandian";
-var ws = require('../websocket');
 var seq = require("../controllers/ctrl_seq.js");
 var async = require('async')
   , response = smart.framework.response
