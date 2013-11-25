@@ -154,16 +154,19 @@ function dispatch(socket, room, data) {
     return;
   }
 
-  action(data, function(err, res, broadcastData){
+  action(data, function(err, res){
     if(res) {
       // 指定返回数据的Action
       res = res || {};
       socket.emit(EVENT_CLIENT, {action: data.action, data: res});
     }
 
-    if(broadcastData) {
-      broadcastData.room = room;
-      broadcast(broadcastData);
+    for(var i=2; i < arguments.length; i++) {
+      var broadcastData = arguments[i];
+      if(broadcastData) {
+        broadcastData.room = room;
+        broadcast(broadcastData);
+      }
     }
   });
 }

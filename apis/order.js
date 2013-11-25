@@ -43,6 +43,7 @@ exports.addOrder = function (data, callback) {
         order.add(code,'', orderObj, function (err, docs) {
           tmpResult[orderObj._index] = docs;
           service.addUnfinishedCount(code,orderObj.serviceId,function(){
+
             cb(null, orderObj);
           });
 
@@ -52,7 +53,8 @@ exports.addOrder = function (data, callback) {
     }, function (err, result) {
 
       callback(err, result,
-        act.dataForwardBroadcast("newOrder",tmpResult)
+        act.dataForwardBroadcast("newOrder",tmpResult),
+        act.dataBroadcast("refresh_desk", {deskId: "528c49abde98051836000002", boast:"dddd"})
       );
 
     });

@@ -2,13 +2,14 @@ var smart  = require("smartcore")
   , response    = smart.framework.response
   , util    = smart.framework.util
   , errors  = smart.core.errors
-  , desk    = require('../controllers/ctrl_desk');
+  , desk    = require('../controllers/ctrl_desk')
+  , service = require('../modules/mod_service.js');
 
 
 // 获取App  的台位 一览
 exports.appDeskList = function(req_, res_) {
 
-  var code = req_.session.user.companycode
+  var code = "diandian"
     , start = req_.query.start || 0
     , limit = req_.query.count || 20
     , condition = {
@@ -95,7 +96,18 @@ exports.wsRefresh = function(data, callback) {
     , deskId = data.deskId;
 
   desk.get(code, uid, deskId, function(err, result) {
-    callback(err, result);
+    if(err)
+      return callback(err, result);
+
+    service.findStatus(code, deskId, function(err,serviceDocs){
+      if(err)
+        return callback(err, result);
+
+      if(serviceDocs && serviceDocs.length > 0)
+        result._doc.service = serviceDocs[0];
+
+      callback(err, result);
+    });
   });
 }
 
