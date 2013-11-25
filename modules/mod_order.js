@@ -41,3 +41,38 @@ function model(dbname) {
 
   return conn(dbname).model("Order", Order);
 }
+
+
+//追加
+
+exports.add = function(code, newOrder, callback) {
+
+  var order = model(code);
+
+  new order(newOrder).save(function(err, result) {
+    callback(err, result);
+  });
+};
+
+
+exports.total = function(code, condition, callback) {
+
+  var order = model(code);
+
+  order.count(condition).exec(function(err, count) {
+    callback(err, count);
+  });
+};
+
+exports.getList = function(code, condition, start, limit, callback) {
+
+  var order = model(code);
+
+  order.find(condition)
+    .skip(start || 0)
+    .limit(limit || 20)
+    .sort({"orderSeq": 1})
+    .exec(function(err, result) {
+      callback(err, result);
+    });
+};
