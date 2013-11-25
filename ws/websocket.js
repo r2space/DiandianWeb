@@ -187,9 +187,9 @@ function dispatchBroadcast(data) {
     res = res || {};
 
     if(data.room) {
-      mainIO.sockets.in(data.room).emit(EVENT_CLIENT, {action: data.action, data: res});
+      mainIO.sockets.in(data.room).emit(EVENT_CLIENT, {action: data.data.action, data: res});
     } else {
-      mainIO.sockets.emit(EVENT_CLIENT, res);
+      mainIO.sockets.emit(EVENT_CLIENT, {action: data.data.action, data: res});
     }
   });
 }
