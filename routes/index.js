@@ -1,7 +1,7 @@
 
 var core     = smart.core
-  ,log        = smart.framework.log
-  , file       = smart.core.dbfile
+  , log        = smart.framework.log
+//  , file       = smart.core.dbfile
   , desk  = require("../apis/desk")
   , menu  = require("../apis/menu")
   , item  = require("../apis/item")
@@ -51,12 +51,12 @@ exports.guiding = function (app) {
     res.render("menu_item_add", {"title": "item", user: req.session.user, itemId: ""});
   });
 
-  app.get('/picture/:id', function(req, res){
-    file.image(req, res, function(err, doc){
-      req.setAttribute("code","diandian");
-      res.send(doc);
-    });
-  });
+//  app.get('/picture/:id', function(req, res){
+//    file.image(req, res, function(err, doc){
+//      req.setAttribute("code","diandian");
+//      res.send(doc);
+//    });
+//  });
 
   app.get('/menu/item/edit/:id', function (req, res) {
     res.render("menu_item_add", {"title": "item", user: req.session.user, itemId:req.params.id});
@@ -153,15 +153,15 @@ exports.guiding = function (app) {
   });
 
   app.get('/admin/users', function (req, res) {
-    res.render("admin_user_list", {"title": "店员一览", user: req.session.user});
+    res.render("admin_user_list", {user: req.session.user});
   });
 
   app.get('/admin/user/add', function (req, res) {
-    res.render("admin_user_add", {"title": "添加店员", user: req.session.user, userId: ""});
+    res.render("admin_user_add", {user: req.session.user, userId: ""});
   });
 
   app.get('/admin/user/edit/:userId', function (req, res) {
-    res.render("admin_user_add", {"title": "更新店员", user: req.session.user, userId: req.params.userId});
+    res.render("admin_user_add", {user: req.session.user, userId: req.params.userId});
   });
 
   app.put('/admin/user/add.json', function (req, res) {

@@ -10,7 +10,7 @@ var _           = require('underscore')
   , async     = require('async')
   , menu        = require('../modules/mod_menu.js')
   , smart       = require("smartcore")
-  , error       = smart.core.errors;
+  , error       = smart.framework.errors;
 
 exports.add = function(code, uid, menuData, callback_){
   var now = new Date();

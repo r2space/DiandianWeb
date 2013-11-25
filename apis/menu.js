@@ -1,7 +1,7 @@
 var smart  = require("smartcore")
   , response    = smart.framework.response
   , util    = smart.framework.util
-  , errors  = smart.core.errors
+  , errors  = smart.framework.errors
   , menu    = require('../controllers/ctrl_menu');
 
 // 获取指定菜单

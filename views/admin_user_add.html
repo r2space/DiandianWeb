@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= title %></title>
+  <title></title>
   <% include common/required.html %>
   <link href="/stylesheets/diandian.css" rel="stylesheet" media="screen">
   <script type="text/javascript" src="/javascripts/admin_user_add.js"></script>
@@ -9,49 +9,50 @@
 <body>
 
 <input type="hidden" id="userId" value="<%=userId %>" >
-<input type="hidden" id="_csrf" name="_csrf" value="<%= csrftoken %>" />
+
+<% include common/navbar.html %>
 
 <div class="main-container container-fluid">
-
+  <% include common/sidebar.html %>
 
   <div class="main-content">
     <div class="page-content">
       <div class="row tableheader col-lg-8">
         <div class="pull-left">
-          <h4>店员信息</h4>
+          <h4><%=i('html.label.user.title') %><!--店员信息--></h4>
         </div>
       </div>
       <div class="row col-lg-8 box-border">
         <form class="form-horizontal" role="form">
           <div class="form-group">
-            <label for="inputID" class="col-lg-2 control-label">ID</label>
+            <label for="inputID" class="col-lg-2 control-label"><%=i('html.label.user.id') %><!--ID--></label>
             <div class="col-lg-8">
-              <input type="text" class="form-control" id="inputID" placeholder="ID" maxlength="30">
+              <input type="text" class="form-control" id="inputID" placeholder="<%=i('html.label.user.id') %>" maxlength="30">
             </div>
           </div>
           <div class="form-group">
-            <label for="inputPassword" class="col-lg-2 control-label">密码</label>
+            <label for="inputPassword" class="col-lg-2 control-label"><%=i('html.label.user.password') %><!--密码--></label>
             <div class="col-lg-8">
-              <input type="password" class="form-control" id="inputPassword" placeholder="密码" maxlength="20">
+              <input type="password" class="form-control" id="inputPassword" placeholder="<%=i('html.label.user.password') %>" maxlength="20">
             </div>
           </div>
           <div class="form-group">
-            <label for="inputName" class="col-lg-2 control-label">姓名</label>
+            <label for="inputName" class="col-lg-2 control-label"><%=i('html.label.user.name') %><!--姓名--></label>
             <div class="col-lg-8">
-              <input type="text" class="form-control" id="inputName" placeholder="姓名" maxlength="30">
+              <input type="text" class="form-control" id="inputName" placeholder="<%=i('html.label.user.name') %>" maxlength="30">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-lg-2 control-label">性别</label>
+            <label class="col-lg-2 control-label"><%=i('html.label.user.sex') %><!--性别--></label>
             <div class="col-lg-8">
               <div class="btn-group" value="1" id="inputSex">
-                <button type="button" class="btn btn-sm btn-info" value="1">男</button>
-                <button type="button" class="btn btn-sm btn-default" value="0">女</button>
+                <button type="button" class="btn btn-sm btn-info" value="1"><%=i('html.label.user.sex.male') %><!--男--></button>
+                <button type="button" class="btn btn-sm btn-default" value="0"><%=i('html.label.user.sex.female') %><!--女--></button>
               </div>
             </div>
           </div>
           <div class="form-group">
-            <label for="inputBirthYear" class="col-lg-2 control-label">生日</label>
+            <label for="inputBirthYear" class="col-lg-2 control-label"><%=i('html.label.user.birthday') %><!--生日--></label>
             <div class="col-lg-8">
               <select id="inputBirthYear"></select> -
               <select id="inputBirthMonth"></select> -
@@ -59,7 +60,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="inputEntryYear" class="col-lg-2 control-label">入职日期</label>
+            <label for="inputEntryYear" class="col-lg-2 control-label"><%=i('html.label.user.entryDate') %><!--入职日期--></label>
             <div class="col-lg-8">
               <select id="inputEntryYear"></select> -
               <select id="inputEntryMonth"></select> -
@@ -67,43 +68,59 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="inputCellPhone" class="col-lg-2 control-label">手机号码</label>
+            <label for="inputCellPhone" class="col-lg-2 control-label"><%=i('html.label.user.cellphone') %><!--手机号码--></label>
             <div class="col-lg-8">
-              <input type="text" class="form-control" id="inputCellPhone" placeholder="手机号码" maxlength="20">
+              <input type="text" class="form-control" id="inputCellPhone" placeholder="<%=i('html.label.user.cellphone') %>" maxlength="20">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-lg-2 control-label">权限</label>
+            <label class="col-lg-2 control-label"><%=i('html.label.user.permission') %><!--权限--></label>
             <div class="col-lg-8">
               <label class="checkbox" style="font-weight: normal">
-                <input type="checkbox" value="1" name="inputPermission" id="inputPermissionManage"> 管理
+                <input type="checkbox" value="1" name="inputPermission" id="inputPermissionManage"> <%=i('html.label.user.admin') %><!--管理-->
               </label>
               <label class="checkbox" style="font-weight: normal">
-                <input type="checkbox" value="2" name="inputPermission" id="inputPermissionCash"> 收银
+                <input type="checkbox" value="2" name="inputPermission" id="inputPermissionCash"> <%=i('html.label.user.cash') %><!--收银-->
               </label>
             </div>
           </div>
           <div class="form-group">
-            <label for="inputCellPhone" class="col-lg-2 control-label">备注</label>
+            <label for="inputCellPhone" class="col-lg-2 control-label"><%=i('html.label.user.remark') %><!--备注--></label>
             <div class="col-lg-8">
-              <input type="text" class="form-control" id="inputRemark" placeholder="备注" maxlength="20">
+              <input type="text" class="form-control" id="inputRemark" placeholder="<%=i('html.label.user.remark') %>" maxlength="20">
             </div>
           </div>
         </form>
       </div>
       <div class="col-lg-8" style="margin-bottom: 30px;padding: 0px;">
         <div id="saveUser" class="col-lg-2 btn btn-default btn-lg">
-          保存
+          <%=i('html.button.common.save') %><!--保存-->
         </div>
         <% if(userId !== '') { %>
         <div id="removeUser" class="col-lg-2 btn btn-danger btn-lg">
-          删除
+          <%=i('html.button.common.delete') %><!--删除-->
         </div>
         <% } %>
       </div>
     </div>
   </div>
 </div>
+
+
+<script>
+ var i18n = {
+     "js.common.dialog.ok": "<%=i('js.common.dialog.ok') %>"
+   , "js.common.dialog.cancel": "<%=i('js.common.dialog.cancel') %>"
+   , "js.common.delete.confirm": "<%=i('js.common.delete.confirm') %>"
+   , "js.common.add.error": "<%=i('js.common.add.error') %>"
+   , "js.common.update.error": "<%=i('js.common.update.error') %>"
+   , "js.common.delete.error": "<%=i('js.common.delete.error') %>"
+   , "js.public.check.user.id": "<%=i('js.public.check.user.id') %>"
+   , "js.public.check.user.password": "<%=i('js.public.check.user.password') %>"
+   , "js.public.check.user.editSelf": "<%=i('js.public.check.user.editSelf') %>"
+ };
+
+</script>
 
 </body>
 </html>

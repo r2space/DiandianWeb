@@ -1,14 +1,14 @@
 module.exports = {
 
   "db": {
-    "host": "mongo"
+    "host": "127.0.0.1"
     , "port": 27017
-    , "dbname": "diandian"
+    , "dbname": "developer"
     , "pool": 5
   },
 
   "testdb": {
-    "host": "mongo"
+    "host": "127.0.0.1"
     , "port": 27017
     , "dbname": "developer"
     , "pool": 5
@@ -31,6 +31,11 @@ module.exports = {
     , "sessionTimeout": 720 // 24 * 30 一个月
     , "tmp": "/tmp"
     , "hmackey": "smartcore"
+    , "i18n": {
+      "cache": "memory"
+      , "lang": "zh"
+      , "category": "developer"
+    }
   },
 
   "log": {

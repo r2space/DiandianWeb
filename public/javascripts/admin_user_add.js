@@ -133,23 +133,29 @@ function saveUser() {
   user.remark = $("#inputRemark").val();
 
   if(user.id == "") {
-    Alertify.log.error("ID不能为空！");
+    Alertify.log.error(i("js.public.check.user.id"));
     $("#inputID").focus();
     return;
   }
 
   if(user.password == "") {
-    Alertify.log.error("密码不能为空！");
+    Alertify.log.error(i("js.public.check.user.password"));
     $("#inputPassword").focus();
     return;
   }
 
   var userId = $("#userId").val();
   if(userId) { // 更新
+
+    if($("#userId").val() === $("#userid").val()) {
+      Alertify.log.error(i("js.public.check.user.editSelf"));
+      return;
+    }
+
     user.userId = userId;
     smart.dopost("/admin/user/update.json", user, function(err, result) {
       if (err) {
-        smart.error(err, i18n["js.common.add.error"], false);
+        smart.error(err, i("js.common.update.error"), false);
       } else {
         window.location = "/admin/users";
       }
@@ -157,7 +163,7 @@ function saveUser() {
   } else { // 添加
     smart.doput("/admin/user/add.json", user, function(err, result) {
       if (err) {
-        smart.error(err, i18n["js.common.add.error"], false);
+        smart.error(err, i("js.common.add.error"), false);
       } else {
         window.location = "/admin/users";
       }
@@ -167,15 +173,24 @@ function saveUser() {
 
 function removeUser() {
 
-  if(window.confirm("确定要删除店员？")) {
+  if($("#userId").val() === $("#userid").val()) {
+    Alertify.log.error(i("js.public.check.user.editSelf"));
+    return;
+  }
+
+  Alertify.dialog.labels.ok = i("js.common.dialog.ok");
+  Alertify.dialog.labels.cancel = i("js.common.dialog.cancel");
+  Alertify.dialog.confirm(i("js.common.delete.confirm"), function () {
     smart.dodelete("/admin/user/remove.json", {userId: $("#userId").val()}, function(err, result) {
       if (err) {
-        smart.error(err, i18n["js.common.add.error"], false);
+        smart.error(err, i("js.common.delete.error"), false);
       } else {
         window.location = "/admin/users";
       }
     });
-  }
+  }, function () {
+    // Cancel
+  });
 }
 
 function hasPermission(permissions, code) {
@@ -186,4 +201,8 @@ function hasPermission(permissions, code) {
   }
 
   return false;
+}
+
+function i(key) {
+  return i18n[key];
 }

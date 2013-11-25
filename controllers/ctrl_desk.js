@@ -9,7 +9,7 @@
 var _           = require('underscore')
   , desk        = require('../modules/mod_desk.js')
   , smart       = require("smartcore")
-  , error       = smart.core.errors;
+  , error       = smart.framework.errors;
 
 exports.add = function(code, uid, deskData, callback){
   var now = new Date();

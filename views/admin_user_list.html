@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= title %></title>
+  <title><%= i('html.label.sidebar.personal.clerk') %></title>
   <% include common/required.html %>
   <link href="/stylesheets/diandian.css" rel="stylesheet" media="screen">
 
@@ -9,8 +9,6 @@
 
 </head>
 <body>
-
-<input type="hidden" id="_csrf" name="_csrf" value="<%= csrftoken %>" />
 
 <% include common/navbar.html %>
 
@@ -27,7 +25,7 @@
         <div class="pull-right" style="width: 300px">
           <form class="search-form" onsubmit="return false;">
             <div class="input-group">
-              <input id = "user_search" type="text" placeholder="检索...（ID 或 姓名）" class="form-control"  autocomplete="off" />
+              <input id = "user_search" type="text" placeholder="<%=i('html.label.user.search') %>" class="form-control"  autocomplete="off" />
               <span id="doSearchUser" class="input-group-addon">
                 <i class="icon-search"></i>
               </span>
@@ -41,15 +39,15 @@
             <thead>
             <tr>
               <th>#</th>
-              <th>ID</th>
-              <th>姓名</th>
-              <th>手机号码</th>
-              <th>管理权限</th>
-              <th>收银权限</th>
-              <th>入职日期</th>
-              <th>性别</th>
-              <th>生日</th>
-              <th>操作</th>
+              <th><%=i('html.label.user.id') %><!--ID--></th>
+              <th><%=i('html.label.user.name') %><!--姓名--></th>
+              <th><%=i('html.label.user.cellphone') %><!--手机号码--></th>
+              <th><%=i('html.label.user.admin') %><!--管理权限--></th>
+              <th><%=i('html.label.user.cash') %><!--收银权限--></th>
+              <th><%=i('html.label.user.entryDate') %><!--入职日期--></th>
+              <th><%=i('html.label.user.sex') %><!--性别--></th>
+              <th><%=i('html.label.user.birthday') %><!--生日--></th>
+              <th><%=i('html.label.common.operation') %><!--操作--></th>
             </tr>
             </thead>
             <tbody id="user_list">
@@ -74,7 +72,7 @@
     <td>{{name}}</td>
     <td>{{cellphone}}</td>
     <td>
-      <$ if (manage === true) { $>
+      <$ if (admin === true) { $>
       <i class="icon-ok"></i>
       <$ } $>
     </td>
@@ -84,10 +82,16 @@
       <$ } $>
     </td>
     <td>{{entryDate}}</td>
-    <td>{{sex}}</td>
+    <td>
+      <$ if (sex === '1') { $>
+        <%=i('html.label.user.sex.male')%>
+      <$ } else { $>
+        <%=i('html.label.user.sex.female')%>
+      <$ } $>
+    </td>
     <td>{{birthday}}</td>
     <td>
-      <a href="/admin/user/edit/{{_id}}" class="btn btn-default btn-sm" operation="edit">編集</a>
+      <a href="/admin/user/edit/{{_id}}" class="btn btn-default btn-sm" operation="edit"><%=i('html.button.common.edit') %><!--编辑--></a>
     </td>
   </tr>
 </script>

@@ -33,9 +33,9 @@ function render(skip, limit , keyword) {
           , "name": row.name
           , "cellphone": row.cellphone
           , "entryDate": row.entryDate
-          , "sex": row.sex === "1" ? "男" : "女"
+          , "sex": row.sex
           , "birthday": row.birthday
-          , "manage": hasPermission(row.permissions, "1")
+          , "admin": hasPermission(row.permissions, "1")
           , "cash": hasPermission(row.permissions, "2")
         }));
       });

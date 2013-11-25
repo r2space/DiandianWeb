@@ -1,7 +1,7 @@
 var smart  = require("smartcore")
   , response    = smart.framework.response
   , util    = smart.framework.util
-  , errors  = smart.core.errors
+  , errors  = smart.framework.errors
   , desk    = require('../controllers/ctrl_desk');
 
 // 获取指定桌台
