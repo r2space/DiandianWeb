@@ -10,9 +10,8 @@
  * @param server
  */
 
-var testapi     = require('./apis/testapi')
-  , orderapi    = require('./apis/order')
-  , log         = smart.framework.log
+var log         = smart.framework.log
+  , act      = require('./action')
   , conf        = require("config");
 
 /* 定义事件 */
@@ -27,7 +26,6 @@ var mainIO
   , socket_to_primary
   , socket_to_secondary
   , socket_to_activity
-  , dispatchMap = {}
   ;
 
 
@@ -38,7 +36,7 @@ var mainIO
  */
 exports.startup = function (server) {
   // 注册Action
-  registerAction();
+  act.register();
   // 启动Websocket服务
   startupServer(server);
   // 连接中心服务器
@@ -102,8 +100,7 @@ function connectCenterServer()
 function connectPrimary()
 {
   var url = conf.websocket.center_server.primary;
-  _connectCenterServer(socket_to_primary, url);
-  socket_to_activity = socket_to_primary;
+  socket_to_activity = socket_to_primary = _connectCenterServer(socket_to_primary, url);
 }
 /**
  * 连接备用中心服务器
@@ -112,7 +109,7 @@ function connectSecondly()
 {
   var url = conf.websocket.center_server.secondary;
   if(url && url != "")
-    _connectCenterServer(socket_to_secondary, url);
+    socket_to_secondary = _connectCenterServer(socket_to_secondary, url);
 }
 function _connectCenterServer(socket, url)
 {
@@ -131,32 +128,18 @@ function _connectCenterServer(socket, url)
       dispatchBroadcast(data);
     });
   });
-}
 
-/**
- * 生成广播消息数据
- * @param action
- * @param data
- * @param room
- * @returns {{}}
- */
-exports.dataForwardBroadcast = function(action, data, room) {
-  var res = {};
-  res.action = "forward";
-
-  res.room = room;
-  res.data = data || {};
-  res.data.action = action;
-  return res;
+  return socket;
 }
 
 /**
  * 广播消息
  * @param data
  */
-exports.broadcast = function(data) {
+function broadcast (data) {
   socket_to_activity.emit(EVENT_SERVER_NOTIFY_CLIENT_BROADCAST, data);
 }
+exports.broadcast = broadcast;
 
 /**
  * 给消息分配Action
@@ -164,7 +147,7 @@ exports.broadcast = function(data) {
  * @param data
  */
 function dispatch(socket, room, data) {
-  var action = dispatchMap[data.action];
+  var action = act.get(data.action);
 
   if(!action) {
     log.error("Websocket: Dispatch Action isn't exist!  " + data);
@@ -172,17 +155,15 @@ function dispatch(socket, room, data) {
   }
 
   action(data, function(err, res, broadcastData){
-    if(data) {
+    if(res) {
       // 指定返回数据的Action
-      var res = res || {};
-      res.action = data.action;
-
-      socket.emit(EVENT_CLIENT, res);
+      res = res || {};
+      socket.emit(EVENT_CLIENT, {action: data.action, data: res});
     }
 
     if(broadcastData) {
       broadcastData.room = room;
-      exports.broadcast(broadcastData);
+      broadcast(broadcastData);
     }
   });
 }
@@ -194,7 +175,7 @@ function dispatch(socket, room, data) {
  * @param data
  */
 function dispatchBroadcast(data) {
-  var action = dispatchMap[data.action];
+  var action = act.get(data.action);
 
   if(!action) {
     log.error("Websocket: Dispatch BroadcastAction isn't exist!  " + data);
@@ -203,28 +184,12 @@ function dispatchBroadcast(data) {
 
   action(data.data, function(err, res){
     // 指定返回数据的Action
-    var res = res || {};
-    res.action = data.data.action;
+    res = res || {};
 
     if(data.room) {
-      mainIO.sockets.in(data.room).emit(EVENT_CLIENT, res);
+      mainIO.sockets.in(data.room).emit(EVENT_CLIENT, {action: data.data.action, data: res});
     } else {
-      mainIO.sockets.emit(EVENT_CLIENT, res);
+      mainIO.sockets.emit(EVENT_CLIENT, {action: data.data.action, data: res});
     }
   });
-}
-
-/**
- * 注册Action
- */
-function registerAction() {
-  // 转发消息Action,仅仅把数据转发到客户端
-  dispatchMap["forward"] = function(data, callback) {
-    callback(null, data);
-  };
-
-  // 测试用的Action
-  dispatchMap["test"] = testapi.test;
-  //dispatchMap["test1"] = testapi.test1;
-  dispatchMap["addOrder"] = orderapi.addOrder;
 }

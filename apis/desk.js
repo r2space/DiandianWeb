@@ -89,3 +89,13 @@ exports.remove = function(req_, res_) {
   });
 };
 
+exports.wsRefresh = function(data, callback) {
+  var code = "diandian"
+    , uid = ""
+    , deskId = data.deskId;
+
+  desk.get(code, uid, deskId, function(err, result) {
+    callback(err, result);
+  });
+}
+
