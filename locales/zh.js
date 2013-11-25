@@ -99,5 +99,9 @@
   "html.button.menu.large.screenadd": "增加大格页",
   "html.button.menu.medium.screenadd": "增加六格页",
   "html.button.menu.small.screenadd": "增加九格页",
-  "html.button.menu.item.select": "选择菜品"
+  "html.button.menu.item.select": "选择菜品",
+
+
+  "html.button.synthetic.tag.all":"全部",
+  "js.public.info.detaillist.loading":"正在努力为你加载。"
 }

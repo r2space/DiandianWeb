@@ -74,8 +74,23 @@ $(function () {
     });
   }
 
-  function insertLandscapeScreenAfter(screenNum){
+// 菜品选择
+$.each($(".itemDiv"), function(idx, item) {
+  item.onclick = function(event){
+    // 记录当前DIV TODO
+//      $("#itemModal").modal("show");
+    var selectedEvent = function(event){
+      console.log(event);
+      if (event.material_id != undefined) {
+      }
+    };
+    var _popup = new ImagePopup({ type: 'single', tpl: 'image', el: 'itemModal' }, selectedEvent);
+    _popup.show();
 
+  };
+});
+
+  function insertLandscapeScreenAfter(screenNum){
     var main = $("#layoutLandscapeMain");
     main.css( "width", "+=549" );
 
@@ -101,6 +116,7 @@ $(function () {
       scrollLeft: main.width()-549
     }, 400);
   }
+}
 
   function render(menuId) {
 
