@@ -36,6 +36,12 @@ module.exports = {
       , "lang": "zh"
       , "category": "developer"
     }
+    , "ignoreAuth": [
+        "/"
+      , "/login"
+      , "/simplelogin"
+      , "/favicon.ico"
+    ]
   },
 
   "log": {

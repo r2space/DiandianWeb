@@ -16,9 +16,6 @@ var smart       = require("smartcore")
   , response    = smart.framework.response
   , _           = smart.util.underscore;
 
-var PERMISSION_ADMIN = "1";
-var PERMISSION_CASH = "2";
-
 var FAKE_PASSWORD = "0000000000000000";
 
 function hasPermission(permissions, pcode) {
@@ -32,6 +29,9 @@ function hasPermission(permissions, pcode) {
 
   return false;
 }
+
+exports.PERMISSION_ADMIN = "1";
+exports.PERMISSION_CASH = "2";
 
 /**
  * 简易登陆实现
@@ -92,16 +92,16 @@ exports.add = function(req, res) {
       return response.send(res, err);
     }
 
-    if(params.permissions) {
+    if(params.admin || params.cash) {
       // 设置权限
       handler.addParams("type", constant.ACLINK_TYPE_USER_PERMISSION);
       handler.addParams("main", result._id.toString());
       var subs = [];
-      if(params.admin === true) {
-        subs.push(PERMISSION_ADMIN);
+      if(params.admin) {
+        subs.push(exports.PERMISSION_ADMIN);
       }
-      if(params.cash === true) {
-        subs.push(PERMISSION_CASH);
+      if(params.cash) {
+        subs.push(exports.PERMISSION_CASH);
       }
       handler.addParams("subs", subs);
 
@@ -148,6 +148,8 @@ exports.update = function(req, res) {
   handler.addParams("uid", params.userId);
   if (params.password !== FAKE_PASSWORD) {
     handler.addParams("password", auth.sha256(params.password));
+  } else {
+    handler.removeParams("password");
   }
   handler.addParams("first", params.name);
   handler.addParams("extend", {
@@ -169,10 +171,10 @@ exports.update = function(req, res) {
     handler.addParams("main", result._id.toString());
     var subs = [];
     if(params.admin === true) {
-      subs.push(PERMISSION_ADMIN);
+      subs.push(exports.PERMISSION_ADMIN);
     }
     if(params.cash === true) {
-      subs.push(PERMISSION_CASH);
+      subs.push(exports.PERMISSION_CASH);
     }
     handler.addParams("subs", subs);
 
@@ -224,8 +226,8 @@ exports.get = function(req, res) {
         }
 
         if(result) {
-          userData.admin = hasPermission(result.subs, PERMISSION_ADMIN);
-          userData.cash = hasPermission(result.subs, PERMISSION_CASH);
+          userData.admin = hasPermission(result.subs, exports.PERMISSION_ADMIN);
+          userData.cash = hasPermission(result.subs, exports.PERMISSION_CASH);
         }
 
         return response.send(res, err, userData);
@@ -289,8 +291,8 @@ exports.getList = function(req, res) {
         _.each(users, function(user) {
           for(var i = 0; i < result.length; i++) {
             if(result[i].main === user._id.toString()) {
-              user.admin = hasPermission(result[i].subs, PERMISSION_ADMIN);
-              user.cash = hasPermission(result[i].subs, PERMISSION_CASH);
+              user.admin = hasPermission(result[i].subs, exports.PERMISSION_ADMIN);
+              user.cash = hasPermission(result[i].subs, exports.PERMISSION_CASH);
             }
           }
         });
@@ -335,7 +337,7 @@ exports.updatePassword = function(req, res) {
     });
 
   });
-}
+};
 
 /**
  * 修改图形密码（for iPad）
@@ -353,7 +355,7 @@ exports.updatePattern = function(req, res) {
   ctrlUser.updateExtendProperty(handler, function(err, result) {
     return response.send(res, err, {isSuccess: result ? true : false});
   });
-}
+};
 
 /**
  * 检查图形密码是否正确（for iPad）
@@ -373,7 +375,7 @@ exports.isPatternRight = function(req, res) {
 
     return response.send(res, err, {isRight: (result.extend.pattern === handler.params.pattern)});
   });
-}
+};
 
 
 

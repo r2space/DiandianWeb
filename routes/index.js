@@ -1,12 +1,14 @@
 
-var core     = smart.core
-  , log        = smart.framework.log
-  , auth        = smart.framework.auth
-//  , file       = smart.core.dbfile
-  , desk  = require("../apis/desk")
-  , menu  = require("../apis/menu")
-  , item  = require("../apis/item")
-  , user  = require("../apis/user");
+var auth        = smart.framework.auth
+  , context     = smart.framework.context
+  , errors      = smart.framework.errors
+  , log         = smart.framework.log
+  , response    = smart.framework.response
+  , desk        = require("../apis/desk")
+  , menu        = require("../apis/menu")
+  , item        = require("../apis/item")
+  , user        = require("../apis/user")
+  , ac          = require("../controllers/ctrl_ac");
 //var apis    = require('./apis')
 //  , website = require('./website');
 
@@ -20,6 +22,7 @@ exports.guiding = function (app) {
 //  apis.guiding(app);
 //  website.guiding(app);
   app.get("/",function(req, res) {
+
     res.render("login", {"title": "login"});
   });
 
@@ -155,35 +158,52 @@ exports.guiding = function (app) {
   });
 
   app.get('/admin/users', function (req, res) {
-    res.render("admin_user_list", {user: req.session.user});
+
+    ac.checkAdmin(req, res, function() {
+      res.render("admin_user_list", {user: req.session.user});
+    });
   });
 
   app.get('/admin/user/add', function (req, res) {
-    res.render("admin_user_add", {user: req.session.user, userId: ""});
+    ac.checkAdmin(req, res, function() {
+      res.render("admin_user_add", {user: req.session.user, userId: ""});
+    });
   });
 
   app.get('/admin/user/edit/:userId', function (req, res) {
-    res.render("admin_user_add", {user: req.session.user, userId: req.params.userId});
+    ac.checkAdmin(req, res, function() {
+      res.render("admin_user_add", {user: req.session.user, userId: req.params.userId});
+    });
   });
 
   app.put('/admin/user/add.json', function (req, res) {
-    user.add(req, res);
+    ac.checkAdmin(req, res, function() {
+      user.add(req, res);
+    });
   });
 
   app.get('/admin/user/get.json', function (req, res) {
-    user.get(req, res);
+    ac.checkAdmin(req, res, function() {
+      user.get(req, res);
+    });
   });
 
   app.post('/admin/user/update.json', function (req, res) {
-    user.update(req, res);
+    ac.checkAdmin(req, res, function() {
+      user.update(req, res);
+    });
   });
 
   app.get('/admin/user/list.json', function (req, res) {
-    user.getList(req, res);
+    ac.checkAdmin(req, res, function() {
+      user.getList(req, res);
+    });
   });
 
   app.delete('/admin/user/remove.json', function (req, res) {
-    user.remove(req, res);
+    ac.checkAdmin(req, res, function() {
+      user.remove(req, res);
+    });
   });
 
   app.get('/admin/user/updatePassword', function (req, res) {

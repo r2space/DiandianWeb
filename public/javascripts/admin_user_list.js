@@ -62,6 +62,6 @@ function events() {
 
 function doSearch(skip, limit) {
   var keyword =  $("#user_search").val();
-  smart.paginationInitalized = false;
+  smart.paginationInitalized = true;
   render(skip, limit, keyword);
 }
