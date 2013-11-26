@@ -1,6 +1,7 @@
 
 var core     = smart.core
   , log        = smart.framework.log
+  , auth        = smart.framework.auth
 //  , file       = smart.core.dbfile
   , desk  = require("../apis/desk")
   , menu  = require("../apis/menu")
@@ -39,7 +40,8 @@ exports.guiding = function (app) {
   // 注销
   app.get("/simplelogout", function (req, res) {
     log.audit("logout");
-    core.user.logout(req, res);
+    // TODO
+    res.render("login", {"title": "login"});
   });
 
   /*-------------- 菜品 ---------------*/
@@ -182,6 +184,10 @@ exports.guiding = function (app) {
 
   app.delete('/admin/user/remove.json', function (req, res) {
     user.remove(req, res);
+  });
+
+  app.get('/admin/user/updatePassword', function (req, res) {
+    res.render("admin_user_updatePassword", {user: req.session.user});
   });
 
   app.post('/admin/user/updatePassword.json', function (req, res) {
