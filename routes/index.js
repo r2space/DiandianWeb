@@ -222,5 +222,4 @@ exports.guiding = function (app) {
     user.isPatternRight(req, res);
   });
 
-
 };
