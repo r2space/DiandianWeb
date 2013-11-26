@@ -9,7 +9,7 @@
 var smart     = require("smartcore")
   , response    = smart.framework.response
   , util    = smart.framework.util
-  , errors  = smart.core.errors
+  , errors  = smart.framework.errors
   , tag       = require('../controllers/ctrl_tag');
 
 // Tag一览

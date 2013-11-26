@@ -3,34 +3,34 @@
 <input type="hidden" id="timezone" name="timezone" value="<%= user.timezone %>" />
 
 <script type='text/javascript'>
-  var i18n = "<%= i18n %>";
+  var i18n = "";
   i18n = i18n.replace(/'/g,"\"");
   i18n = JSON.parse(i18n);
 </script>
 
 <div class="navbar">
   <div class="navbar-inner">
-      <a href="/diandian" class="brand"><img height="20px" src="/images/diandian.png"></a>
-      <ul class="nav pull-right userinfo">
-        <li>
-          <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-            <img width="23" height="23" src="/images/ico_144px.png"/>
-            <span><%= user.name.name_zh %></span>
-            <i class="icon-chevron-down"></i>
-          </a>
-          <ul class="dropdown-menu pull-right">
-            <li>
-              <a href="/customer/user/edit/<%= user._id %>"><i class="icon-user"></i>&nbsp;Profile</a>
-            </li>
+    <a href="/diandian" class="brand"><img height="20px" src="/images/diandian.png"></a>
+    <ul class="nav pull-right userinfo">
+      <li>
+        <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+          <img width="23" height="23" src="/images/ico_144px.png"/>
+          <span><%= user.first %></span>
+          <i class="icon-chevron-down"></i>
+        </a>
+        <ul class="dropdown-menu pull-right">
+          <li>
+            <a href="/customer/user/edit/<%= user._id %>"><i class="icon-user"></i>&nbsp;Profile</a>
+          </li>
 
-            <li class="divider"></li>
+          <li class="divider"></li>
 
-            <li>
-              <a href="/simplelogout" id="_logout"><i class="icon-off"></i>&nbsp;Logout</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
+          <li>
+            <a href="/simplelogout" id="_logout"><i class="icon-off"></i>&nbsp;Logout</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
   </div><!--/.navbar-inner-->
 </div>
 

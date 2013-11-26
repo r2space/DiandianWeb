@@ -1,9 +1,9 @@
 
-var smart  = require("smartcore")
-  , response    = smart.framework.response
-  , util    = smart.framework.util
-  , errors  = smart.core.errors
-  , menu    = require('../controllers/ctrl_menu');
+var response  = smart.framework.response
+  , util      = smart.framework.util
+  , errors    = smart.framework.errors
+  , context   = smart.framework.context
+  , menu      = require('../controllers/ctrl_menu');
 
 // 获取指定菜单
 exports.findOne = function(req_, res_) {
@@ -17,24 +17,20 @@ exports.findOne = function(req_, res_) {
   });
 };
 
-// 获取一览
-exports.list = function(req_, res_) {
+/**
+ * 获取一览
+ * @param {Object} req 请求
+ * @param {Object} res 响应
+ */
+exports.list = function(req, res) {
 
-  var code = req_.session.user.companycode
-    , start = req_.query.start || 0
-    , limit = req_.query.count || 20
-    , keyword = req_.query.keyword
-    , condition = {
-      valid: 1
-    };
+  var handler = new context().bind(req, res);
+  log.operation("begin: get menu list.", handler.uid);
 
-  if (keyword) {
-    keyword = util.quoteRegExp(keyword);
-    condition.name = new RegExp(keyword.toLowerCase(), "i");
-  }
+  menu.list(handler, function(err, result) {
 
-  menu.list(code, condition, start, limit , function(err, result) {
-    response.send(res_, err, result);
+    log.operation("finish: get menu list.", handler.uid);
+    response.send(res, err, result);
   });
 };
 

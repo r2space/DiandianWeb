@@ -11,7 +11,7 @@ var _           = require('underscore')
   , service        = require('../modules/mod_service.js')
   , async       = require('async')
   , smart       = require("smartcore")
-  , error       = smart.core.errors;
+  , error       = smart.framework.errors;
 
 exports.add = function(code, uid, deskData, callback){
   var now = new Date();

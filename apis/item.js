@@ -1,6 +1,6 @@
 var smart  = require("smartcore")
   , response    = smart.framework.response
-  , errors  = smart.core.errors
+  , errors  = smart.framework.errors
   , util    = smart.framework.util
   , item    = require("../controllers/ctrl_item");
 

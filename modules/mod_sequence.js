@@ -6,9 +6,9 @@
 
 "use strict";
 
-var mongo = require("mongoose")
-  , conn = require("./connection")
-  , schema = mongo.Schema;
+var mongo       = smart.util.mongoose
+  , conn        = smart.framework.connection
+  , schema      = mongo.Schema;
 
 /**
  *

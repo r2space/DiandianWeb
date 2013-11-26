@@ -5,7 +5,7 @@ var _ = require('underscore')
   , service = require('../modules/mod_service.js')
   , async = require('async')
   , smart = require("smartcore")
-  , error = smart.core.errors;
+  , error = smart.framework.errors;
 
 
 exports.getCurrVal = function (code, name, callback) {

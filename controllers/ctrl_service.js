@@ -7,8 +7,7 @@ var _           = require('underscore')
   , smart       = require("smartcore")
   , user        = smart.ctrl.user
   , group       = smart.ctrl.group
-  , mod_group   = smart.mod.group
-  , error       = smart.core.errors;
+  , error       = smart.framework.errors;
 
 var mongo       = require("mongoose")
   , schema      = mongo.Schema

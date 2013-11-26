@@ -6,12 +6,12 @@
 
 "use strict";
 
-var _           = require('underscore')
-  , async     = require('async')
-  , menu        = require('../modules/mod_menu.js')
-  , item        = require('../modules/mod_item.js')
-  , smart       = require("smartcore")
-  , error       = smart.core.errors;
+var _         = smart.util.underscore
+  , async     = smart.util.async
+  , error     = smart.framework.errors
+  , util      = smart.framework.util
+  , menu      = require('../modules/mod_menu.js')
+  , item      = require('../modules/mod_item.js');
 
 exports.add = function(code, uid, menuData, callback_){
   var now = new Date();
@@ -81,17 +81,32 @@ exports.remove = function(code, user_, menuId , callback_){
   });
 };
 
-exports.list = function(code, condition, start, limit, callback_) {
+/**
+ * 获取菜品一览
+ * @param {Object} handler 上下文对象
+ * @param {Function} callback 返回菜品一览
+ */
+exports.list = function(handler, callback) {
+
+  var code = handler.code
+    , start = handler.start || 0
+    , limit = handler.count || 20
+    , keyword = handler.keyword
+    , condition = { valid: 1 };
+
+  if (keyword) {
+    keyword = util.quoteRegExp(keyword);
+    condition.name = new RegExp(keyword.toLowerCase(), "i");
+  }
 
   menu.total(code, condition, function (err, count) {
 
     menu.getList(code, condition, start, limit,  function(err, result){
       if (err) {
-        return callback_(new error.InternalServer(err));
+        return callback(new error.InternalServer(err));
       }
 
-      return callback_(err, {items: result, totalItems: count});
-
+      return callback(err, {items: result, totalItems: count});
     });
   });
 };
