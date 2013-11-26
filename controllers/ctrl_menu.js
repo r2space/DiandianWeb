@@ -9,6 +9,7 @@
 var _           = require('underscore')
   , async     = require('async')
   , menu        = require('../modules/mod_menu.js')
+  , item        = require('../modules/mod_item.js')
   , smart       = require("smartcore")
   , error       = smart.core.errors;
 
@@ -16,12 +17,13 @@ exports.add = function(code, uid, menuData, callback_){
   var now = new Date();
 
   var newMenu = {
-    name: menuData.name,
-    page: menuData.page,
-    status: menuData.status,
-    items : menuData.items,
-    editat: now,
-    editby: uid
+    name    : menuData.name,
+    comment: menuData.comment,
+    status  : menuData.status,
+    page    : menuData.page,
+    items   : menuData.items,
+    editat  : now,
+    editby  : uid
   };
 
   var id = menuData.id;
@@ -57,8 +59,15 @@ exports.get = function(code, user_, menuId, callback_){
       return callback_(new error.InternalServer(err));
     }
 
-    async.forEach( );
-    callback_(err, result);
+    async.forEach(result.items, function(it, call2){
+      item.get(code, it.itemId, function(e, res) {
+        it._doc.image = res.bigimage;
+        call2(e);
+      });
+
+    }, function(err) {
+      callback_(err, result);
+    });
   });
 };
 

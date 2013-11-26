@@ -1,11 +1,11 @@
 
-var core   = smart.core
-  , log    = smart.framework.log
-  , file   = smart.core.dbfile
-  , desk   = require("../apis/desk")
-  , json   = smart.core.json
-//  , menu  = require("../apis/menu")
-  , item   = require("../apis/item")
+var core     = smart.core
+  ,log        = smart.framework.log
+  , file       = smart.core.dbfile
+  , apis  = require("./apis.js")
+  , desk  = require("../apis/desk")
+  , menu  = require("../apis/menu")
+  , item  = require("../apis/item")
   , tag    = require("../apis/tag")
 //var apis    = require('./apis')
 //  , website = require('./website');
@@ -17,7 +17,7 @@ var core   = smart.core
  */
 
 exports.guiding = function (app) {
-//  apis.guiding(app);
+  apis.guiding(app);
 //  website.guiding(app);
   app.get("/",function(req, res) {
     res.render("login", {"title": "login"});
@@ -43,17 +43,15 @@ exports.guiding = function (app) {
     core.user.logout(req, res);
   });
 
-  // 菜品
+  /*-------------- 菜品 ---------------*/
   app.get("/menu/item/list", function(req, res) {
     res.render("menu_item_list", {"title": "item", user: req.session.user});
   });
 
-  //菜品增加
   app.get("/menu/item/add", function(req, res) {
-    res.render("menu_item_add", {"title": "新增菜品", user: req.session.user, itemId: ""});
+    res.render("menu_item_add", {"title": "item", user: req.session.user, itemId: ""});
   });
 
-  // 获取图片
   app.get('/picture/:id', function(req, res){
     file.image(req, res, function(err, doc){
       req.setAttribute("code","diandian");
@@ -61,55 +59,12 @@ exports.guiding = function (app) {
     });
   });
 
-
   app.get('/menu/item/edit/:id', function (req, res) {
     res.render("menu_item_add", {"title": "item", user: req.session.user, itemId:req.params.id});
   });
 
-  // 桌台
-  app.get("/shop/desk/list", function(req, res) {
-    res.render("shop_desk_list", {"title": "desk", user: req.session.user});
-  });
-
-  // 增加桌台
-  app.get('/shop/desk/add', function(req, res){
-    res.render("shop_desk_add", {"title": "desk", user: req.session.user, deskId: ""});
-  });
-
-  app.get('/shop/desk/edit/:id', function (req, res) {
-    res.render("shop_desk_add", {"title": "desk", user: req.session.user, deskId:req.params.id});
-  });
-
-  //设备列表
-  app.get("/shop/device/list", function(req, res) {
-    res.render("shop_device_list", {"title": "device", user: req.session.user});
-  });
-
-  // APIs
-  // Tag
-  app.get('/tag/search.json', function(req, res){
-    tag.search(req, res);
-  });
-
-  app.get('/menu/list.json', function(req, res){
-    menu.list(req, res);
-  });
-
-
-  app.get('/desk/list.json', function(req, res){
-    desk.list(req, res);
-  });
-
   app.get('/item/list.json', function(req, res){
     item.list(req, res);
-  });
-
-  app.post('/desk/add.json', function(req, res){
-    desk.add(req, res);
-  });
-
-  app.post('/desk/update.json', function(req, res){
-    desk.update(req, res);
   });
 
   app.post('/item/add.json', function(req, res){
@@ -124,14 +79,6 @@ exports.guiding = function (app) {
     item.updateimage(req, res);
   });
 
-  app.delete('/desk/remove.json', function (req, res) {
-    desk.remove(req,res);
-  });
-
-  app.get('/desk/findOne.json', function (req, res) {
-    desk.findOne(req,res);
-  });
-
   app.delete('/item/remove.json', function (req, res) {
     item.remove(req,res);
   });
@@ -140,19 +87,85 @@ exports.guiding = function (app) {
     item.findOne(req,res);
   });
 
-  //菜单
+  /*-------------- 菜单 ---------------*/
   app.get("/menu/menu/list", function(req, res) {
     res.render("menu_menu_list", {"title": "menu", user: req.session.user});
   });
 
-  //菜品增加
-  app.get("/menu/item/add", function(req, res) {
-    res.render("menu_item_add", {"title": "新增菜品", user: req.session.user});
+  app.get("/menu/menu/add", function(req, res) {
+    res.render("menu_menu_add", {"title": "menu", user: req.session.user, menuId: ""});
   });
 
-  //菜单增加
-  app.get("/menu/menu/add", function(req, res) {
-    res.render("menu_menu_add", {"title": "新增菜单", user: req.session.user});
+  app.get('/menu/menu/edit/:id', function (req, res) {
+    res.render("menu_menu_add", {"title": "menu", user: req.session.user, menuId:req.params.id});
   });
+
+  app.get('/menu/list.json', function(req, res){
+    menu.list(req, res);
+  });
+
+  app.post('/menu/add.json', function(req, res){
+    menu.add(req, res);
+  });
+
+  app.post('/menu/update.json', function(req, res){
+    menu.update(req, res);
+  });
+
+  app.delete('/menu/remove.json', function (req, res) {
+    menu.remove(req,res);
+  });
+
+  app.get('/menu/findOne.json', function (req, res) {
+    menu.findOne(req,res);
+  });
+
+  /*-------------- 桌台 ---------------*/
+  app.get("/shop/desk/list", function(req, res) {
+    res.render("shop_desk_list", {"title": "desk", user: req.session.user});
+  });
+
+  app.get('/shop/desk/add', function(req, res){
+    res.render("shop_desk_add", {"title": "desk", user: req.session.user, deskId: ""});
+  });
+
+  app.get('/shop/desk/edit/:id', function (req, res) {
+    res.render("shop_desk_add", {"title": "desk", user: req.session.user, deskId:req.params.id});
+  });
+
+  app.get("/shop/device/list", function(req, res) {
+    res.render("shop_device_list", {"title": "device", user: req.session.user});
+  });
+
+
+  // APIs
+  app.get('/menu/list.json', function(req, res){
+    menu.setting(req, res);
+  });
+
+  app.get('/desk/list.json', function(req, res){
+    desk.list(req, res);
+  });
+
+  app.post('/desk/add.json', function(req, res){
+    desk.add(req, res);
+  });
+
+  app.post('/desk/update.json', function(req, res){
+    desk.update(req, res);
+  });
+
+  app.delete('/desk/remove.json', function (req, res) {
+    desk.remove(req,res);
+  });
+
+  app.get('/desk/findOne.json', function (req, res) {
+    desk.findOne(req,res);
+  });
+
+  app.get('/tag/search.json', function(req, res){
+    tag.search(req, res);
+  });
+
 
 };

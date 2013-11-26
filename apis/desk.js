@@ -2,7 +2,27 @@ var smart  = require("smartcore")
   , response    = smart.framework.response
   , util    = smart.framework.util
   , errors  = smart.core.errors
-  , desk    = require('../controllers/ctrl_desk');
+  , desk    = require('../controllers/ctrl_desk')
+  , service = require('../modules/mod_service.js');
+
+
+// 获取App  的台位 一览
+exports.appDeskList = function(req_, res_) {
+
+  var code = "diandian"
+    , start = req_.query.start || 0
+    , limit = req_.query.count || 20
+    , condition = {
+      valid: 1
+    };
+
+
+
+  desk.appList(code, condition, start, limit , function(err, result) {
+    response.send(res_, err, result);
+  });
+};
+
 
 // 获取指定桌台
 exports.findOne = function(req_, res_) {
@@ -69,4 +89,25 @@ exports.remove = function(req_, res_) {
     response.send(res_, err, result);
   });
 };
+
+exports.wsRefresh = function(data, callback) {
+  var code = "diandian"
+    , uid = ""
+    , deskId = data.deskId;
+
+  desk.get(code, uid, deskId, function(err, result) {
+    if(err)
+      return callback(err, result);
+
+    service.findStatus(code, deskId, function(err,serviceDocs){
+      if(err)
+        return callback(err, result);
+
+      if(serviceDocs && serviceDocs.length > 0)
+        result._doc.service = serviceDocs[0];
+
+      callback(err, result);
+    });
+  });
+}
 

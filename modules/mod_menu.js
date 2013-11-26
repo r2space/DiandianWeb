@@ -16,14 +16,16 @@ var mongo       = require("mongoose")
  */
 var Menu = new schema({
     name        : {type: String, description: "名称"}
+  , comment     : {type: String, description: "介绍"}
   , page        : {type: Number, description: "页数"}
-  , status      : {type: Number, description: "状态 0:保密 1:公开中", default: 0}
+  , status      : {type: Number, description: "状态 0:保密 1:公开", default: 0}
   , items       : [{
         index   : {type: Number, description: "位置 1~9"}
       , itemId  : {type: String, description: "菜品ID"}
       , row      : {type: Number, description: "行数"}
       , column  : {type: Number, description: "列数"}
     }]
+  , sortLevel   : {type: Number, description: "表示顺序", default: 10}
   , valid       : {type: Number, description: "删除 0:无效 1:有效", default: 1}
   , createat    : {type: Date,   description: "创建时间"}
   , createby    : {type: String, description: "创建者"}

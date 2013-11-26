@@ -13,7 +13,7 @@ var http        = smart.lang.http
   , loader      = smart.framework.loader
   , log         = smart.framework.log
   , routes      = require("./routes")
-  , websocket   = require("./websocket");
+  , websocket   = require("./ws/websocket");
 
 var app = express();
 
@@ -44,24 +44,24 @@ var server = http.createServer(app).listen(app.get("port"), function(){
   log.info("Express server listening on port " + app.get("port"));
 });
 
-//websocket.startup(server);
+websocket.startup(server);
 
-var io = require('socket.io').listen(server);
-io.configure('development', function(){
-  io.set('log level', 1);
-});
-
-io.sockets.on('connection', function (socket) {
-
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    socket.emit('news', { hello: 'fsafsdfdfsafsdfdsafsdf' });
-  });
-
-  socket.on('reconn', function (data) {
-    socket.emit('reconn ed', { hello: 'success1' });
-  });
-
-
-});
+//var io = require('socket.io').listen(server);
+//io.configure('development', function(){
+//  io.set('log level', 1);
+//});
+//
+//io.sockets.on('connection', function (socket) {
+//
+//  socket.emit('news', { hello: 'world' });
+//  socket.on('my other event', function (data) {
+//    socket.emit('news', { hello: 'fsafsdfdfsafsdfdsafsdf' });
+//  });
+//
+//  socket.on('reconn', function (data) {
+//    socket.emit('reconn ed', { hello: 'success1' });
+//  });
+//
+//
+//});
 

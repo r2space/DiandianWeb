@@ -7,7 +7,7 @@
 <script>
     var socket = io.connect('http://localhost:3000/');
     socket.on('connect', function(){
-        socket.on('client', function(data){
+        socket.on('message', function(data){
             alert(data);
         });
         socket.on('disconnect', function(){
@@ -16,7 +16,7 @@
     });
 
     function send() {
-        socket.emit("client", {action:"test"});
+        socket.emit("message", {action:"test"});
     }
 </script>
 <input type="button" name="连接" value="连接" onclick="connect()"/>
