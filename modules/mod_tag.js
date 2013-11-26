@@ -9,6 +9,7 @@
 "use strict";
 
 var mongo       = require("mongoose")
+  , smart       = require("smartcore").core.util
   , conn        = require("./connection")
   , schema      = mongo.Schema;
 

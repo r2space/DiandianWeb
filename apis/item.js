@@ -28,7 +28,7 @@ exports.list = function(req_, res_) {
 // 添加
 exports.add = function(req_, res_) {
 
-  var code = req_.session.user.companycode
+  var code = "diandian"
     , uid = req_.session.user._id;
 
   item.add(code,uid, req_.body, function(err, result) {
@@ -39,7 +39,7 @@ exports.add = function(req_, res_) {
 // 更新
 exports.update = function(req_, res_) {
 
-  var code = req_.session.user.companycode
+  var code = "diandian"
     , uid = req_.session.user._id;
 
   item.add(code, uid, req_.body, function(err, result) {
