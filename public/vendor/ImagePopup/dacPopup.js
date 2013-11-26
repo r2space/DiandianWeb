@@ -280,12 +280,12 @@ function ImagePopup(opt, callback) {
   }
   var filterStore =  function(){
     var that = this;
-    /*var url_tags = "/tag/search.json?count=100&start=0";
+    var url_tags = "/tag/search.json?count=100&start=0";
     smart.doget(url_tags,function(err,result){
       console.log(result);
       _initTagsStore(result);
       _redner_tags(_listener_tags);
-    }); */ // TODO
+    });
   }
 
   loadStore();

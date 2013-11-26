@@ -14,6 +14,7 @@ var  ph        = require('path')
   , auth      = smart.core.auth
   , group     = smart.mod.group
   , log  =smart.framework.log
+  , tag       = require('./ctrl_tag')
   , item   = require('../modules/mod_item.js');
 
 /**
@@ -63,9 +64,64 @@ exports.add = function(code_, uid_, item_, callback_){
     , itemMethod        : item_.itemMethod
     , bigimage          : item_.bigimage
     , smallimage        : item_.smallimage
+    , tags              : item_.tags
     , editat: now
     , editby: uid_
   };
+
+//  item_.tags = _.compact(item_.tags);
+//
+//  var tasks = [];
+//
+//  // 获取原来的tag一览
+//  tasks.push(function(cb) {
+//    item.get(code_, item_._id, function(err, data) {
+//      cb(err, data.tags);
+//    });
+//  });
+//
+//  // 新增的tag，添加到tag表
+//  tasks.push(function(data, cb) {
+//    var add = _.difference(item_.tags, data);
+//
+//    if (add && add.length > 0) {
+//      tag.add(code_, uid_, add, function(err, result){
+//        cb(err, data);
+//      });
+//    } else {
+//      cb(null, data);
+//    }
+//  });
+//
+//  // 删除的tag，从tag表移除
+//  tasks.push(function(data, cb) {
+//    var remove = _.difference(data, item_.tags);
+//
+//    if (remove && remove.length > 0) {
+//      tag.remove(code_, uid_, remove, function(err, result){
+//        cb(err, data);
+//      });
+//    } else {
+//      cb(null, data);
+//    }
+//  });
+//
+//  // 删除的tag，从tag表移除
+//  tasks.push(function(data, cb) {
+//    var remove = _.difference(data, item_.tags);
+//
+//    if (remove && remove.length > 0) {
+//      tag.remove(code_, uid_, remove, function(err, result){
+//        cb(err, data);
+//      });
+//    } else {
+//      cb(null, data);
+//    }
+//  });
+//
+//  async.waterfall(tasks, function(err, result){
+//    return callback_(err, result);
+//  });
 
   var id = item_.id;
 

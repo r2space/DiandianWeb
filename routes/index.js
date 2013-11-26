@@ -6,6 +6,7 @@ var core     = smart.core
   , desk  = require("../apis/desk")
   , menu  = require("../apis/menu")
   , item  = require("../apis/item")
+  , tag    = require("../apis/tag")
 //var apis    = require('./apis')
 //  , website = require('./website');
 
@@ -132,6 +133,10 @@ exports.guiding = function (app) {
     res.render("shop_desk_add", {"title": "desk", user: req.session.user, deskId:req.params.id});
   });
 
+  app.get("/shop/device/list", function(req, res) {
+    res.render("shop_device_list", {"title": "device", user: req.session.user});
+  });
+
 
   // APIs
   app.get('/menu/list.json', function(req, res){
@@ -156,6 +161,10 @@ exports.guiding = function (app) {
 
   app.get('/desk/findOne.json', function (req, res) {
     desk.findOne(req,res);
+  });
+
+  app.get('/tag/search.json', function(req, res){
+    tag.search(req, res);
   });
 
 

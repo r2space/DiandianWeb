@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <% include common/required.html %>
+  <link href="/stylesheets/diandian.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="/javascript/shop_device_list.js"></script>
+</head>
+<body>
+
+<% include common/navbar.html %>
+
+<div class="main-container container-fluid">
+  <a class="menu-toggler" id="menu-toggler" href="#">
+    <span class="menu-text"></span>
+  </a>
+
+  <% include common/sidebar.html %>
+
+  <div class="main-content">
+    <div class="breadcrumbs" id="breadcrumbs">
+      <ul class="breadcrumb">
+        <li>
+          <i class="icon-home icon-large"></i>
+          <a href="#"><%= i('html.label.common.home') %><!-- ホーム--></a>
+          <span class="divider">
+              <i class="icon-chevron-right arrow-icon"></i>
+            </span>
+        </li>
+        <li class="active"><%= i('html.label.shop.ipad') %><!-- 設備一覧--></li>
+      </ul><!--.breadcrumb-->
+    </div>
+    <div class="page-content">
+      <div class="row tableheader col-lg-12">
+        <div class="pull-right" style="width: 300px">
+          <form class="search-form">
+            <div class="input-group">
+              <input type="text" placeholder="<%= i('html.label.common.search') %>" class="form-control"  autocomplete="off" />
+              <span class="input-group-addon">
+                <i class="icon-search"></i>
+              </span>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <table class="table table-hover">
+            <thead>
+            <th class="col-lg-1"><%= i('html.label.device.no') %><!-- 番号--></th>
+            <th class="col-lg-2"><%= i('html.label.device.type') %><!-- 種別--></th>
+            <th class="col-lg-3"><%= i('html.label.device.dno') %><!-- 設備番号--></th>
+            <th class="col-lg-2"><%= i('html.label.common.operation') %><!-- 操作--></th>
+            </thead>
+          </table>
+        </div>
+        <div class="col-lg-10" id="deviceAndUser_list">
+        </div>
+        <!--/span-->
+      </div>
+    </div>
+    <div class="pagination-area" id="pagination_area"></div>
+
+  </div><!--/.main-content-->
+
+</div><!--/.main-container-->
+</body>
+</html>
