@@ -9,7 +9,7 @@ exports.guiding = function(app){
 
   // APIs
   app.get('/api/menu/list.json', function(req, res){
-    menu.setting(req, res);
+    menu.appList(req, res);
   });
 
   app.get('/api/desk/list.json', function(req, res){

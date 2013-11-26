@@ -71,6 +71,14 @@ exports.remove = function(req_, res_) {
   });
 };
 
+exports.appList = function(req_, res_){
+  var code = req_.session.user.companycode || "diandian"
+  var condition = {"status": 1};
+  menu.appList(code, condition, 0, 10 , function(err, result) {
+    response.send(res_, err, result);
+  });
+};
+
 exports.setting = function (req_, res_) {
 
   return res_.json(

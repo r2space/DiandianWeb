@@ -91,6 +91,68 @@ exports.list = function(code, condition, start, limit, callback_) {
       }
 
       return callback_(err, {items: result, totalItems: count});
+
     });
   });
 };
+
+exports.appList = function(code, condition, start, limit, callback_) {
+
+  menu.total(code, condition, function (err, count) {
+
+    menu.getList(code, condition, start, limit,  function(err, result){
+      if (err) {
+        return callback_(new error.InternalServer(err));
+      }
+      getEachMenuList(code,result,function(err,resultDocs){
+        return callback_(err, {items: resultDocs, totalItems: count});
+      });
+
+    });
+  });
+};
+
+function getEachMenuList(code,menuList, callback) {
+
+
+  var tempMenuList = [];
+  for(var i in menuList){
+    console.log(i);
+    menuList[i]._doc._index = i;
+  }
+
+
+  async.forEach(menuList, function (menu,cb) {
+    getItemListByMenu(code, menu,function(err,itemsListDocs){
+      console.log(menu._doc._index);
+      menu._doc.items = itemsListDocs;
+      tempMenuList[menu._doc._index] = menu;
+      cb(null,menu);
+    });
+  }, function (err, result) {
+
+    return callback(null ,tempMenuList);
+  });
+}
+
+function getItemListByMenu (code,menu,callback){
+  var itemList = menu.items;
+  var tempList = [];
+  for(var i in itemList){
+    itemList[i]._index = i;
+  }
+  async.forEach(itemList, function(itemObj,cb){
+
+    item.get(code, itemObj.itemId,function(err,itemDocs){
+
+      itemObj._doc.item = itemDocs;
+      tempList[itemObj._index] = itemObj;
+      cb(null,itemDocs);
+
+    });
+
+  } , function(err,result){
+    callback(null,tempList);
+  });
+}
+
