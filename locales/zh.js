@@ -120,4 +120,5 @@
   "html.button.menu.large.screenadd": "增加大格页",
   "html.button.menu.medium.screenadd": "增加六格页",
   "html.button.menu.small.screenadd": "增加九格页"
+
 }
