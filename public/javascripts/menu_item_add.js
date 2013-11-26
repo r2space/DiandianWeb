@@ -5,6 +5,8 @@ $(function () {
   render(itemId);
   events(itemId);
 
+  smart.view("tag").view.initialize("textBoxTag");
+
 });
 
 var bigimg;
@@ -73,6 +75,21 @@ function getItemData() {
     , bigimage: $("#uploadfile_big").val()
     , smallimage : $("#uploadfile_small").val()
   };
+  var tag = []
+    , inputTag = $("#itemType");
+
+  // 输入框输入的文字，也直接变成Tag
+  if (inputTag.val().length > 0) {
+    tag.push(inputTag.val());
+  }
+
+  $("#textBoxTag li").each(function(index){
+    if ($(this).attr("tagname").length > 0) {
+      tag.push($(this).attr("tagname"));
+    }
+  });
+
+  item.tags = tag;
 
   return item;
 }
@@ -105,7 +122,6 @@ function uploadFiles(files, uploudId) {
   // 发送文件
   smart.dopostData("/item/image/add.json", fd,function(err, result){
       if (uploudId == "small"){
-        console.log("dddd")
         $("#uploadfile_small").val(result.data);
       } else{
         $("#uploadfile_big").val(result.data);
@@ -126,16 +142,18 @@ function render(itemId) {
       if (err) {
         smart.error(err,i18n["js.common.search.error"],false);
       } else {
-      $("#itemName").val(result.itemName);
-      $("#itemPriceNormal").val(result.itemPriceNormal);
-      $("#itemPriceHalf").val(result.itemPriceHalf);
-      $("#itemPriceDiscount").val(result.itemPriceDiscount);
-      $("#itemType").val(result.itemType);
-      $("#itemComment").val(result.itemComment);
-      $("#itemMaterial").val(result.itemMaterial);
-      $("#itemMethod").val(result.itemMethod);
-      $("#uploadfile_small").val(result.smallimage);
-      $("#uploadfile_big").val(result.bigimage);
+        $("#itemName").val(result.itemName);
+        $("#itemPriceNormal").val(result.itemPriceNormal);
+        $("#itemPriceHalf").val(result.itemPriceHalf);
+        $("#itemPriceDiscount").val(result.itemPriceDiscount);
+        $("#itemType").val(result.itemType);
+        $("#itemComment").val(result.itemComment);
+        $("#itemMaterial").val(result.itemMaterial);
+        $("#itemMethod").val(result.itemMethod);
+        $("#uploadfile_small").val(result.smallimage);
+        $("#uploadfile_big").val(result.bigimage);
+        var tag = smart.view("tag").view;
+        tag.setDefaults(result.tags);
 
       }
     });

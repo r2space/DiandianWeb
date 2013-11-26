@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><%= title %></title>
-<% include common/required.html %>
-<link href="/stylesheets/diandian.css" rel="stylesheet" media="screen">
-<script type="text/javascript" src="/javascripts/menu_item_add.js"></script>
+  <title><%= title %></title>
+  <% include common/required.html %>
+  <link href="/stylesheets/diandian.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="/javascripts/menu_item_add.js"></script>
+  <script type="text/javascript" src="/javascripts/common.tag.view.js"></script>
 
 </head>
 <body>
@@ -97,7 +98,9 @@
         <div class="form-group" style="margin-top: 15px">
           <label for="itemType" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.type') %><!--类型--></label>
           <div class="col-lg-8 col-md-8">
-            <input type="text" name="itemType" class="form-control" id="itemType" placeholder="<%= i('html.label.item.info.type') %>">
+            <div id="textBoxTag" class="incrementBox">
+              <input type="text" name="itemType" class="form-control" id="itemType" placeholder="<%= i('html.label.item.info.type') %>">
+            </div>
           </div>
         </div>
         <div class="form-group">
@@ -141,6 +144,12 @@
  </div>
 </div>
 <!--/.main-container-->
+
+<script type="text/template" id="tmpl_tag_item">
+  <li class="tag">
+    <a href="#">{{tag}}</a>
+  </li>
+</script>
 
 
 
