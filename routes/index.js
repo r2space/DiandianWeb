@@ -6,7 +6,8 @@ var log       = smart.framework.log
   , menu      = require("../apis/menu")
   , item      = require("../apis/item")
   , tag       = require("../apis/tag")
-  , user      = require("../apis/user");
+  , user      = require("../apis/user")
+  , ac        = require("../controllers/ctrl_ac");
 
 /*
  * GET home page.
@@ -48,10 +49,7 @@ exports.guiding = function (app) {
   });
 
   app.get('/picture/:id', function(req, res){
-    file.image(req, res, function(err, doc){
-      req.setAttribute("code","diandian");
-      res.send(doc);
-    });
+    file.getImage(req, res);
   });
 
   app.get('/menu/item/edit/:id', function (req, res) {
@@ -168,5 +166,70 @@ exports.guiding = function (app) {
 
   app.get('/tag/search.json', function(req, res){
     tag.search(req, res);
+  });
+
+  app.get('/admin/users', function (req, res) {
+
+    ac.checkAdmin(req, res, function() {
+      res.render("admin_user_list", {user: req.session.user});
+    });
+  });
+
+  app.get('/admin/user/add', function (req, res) {
+    ac.checkAdmin(req, res, function() {
+      res.render("admin_user_add", {user: req.session.user, userId: ""});
+    });
+  });
+
+  app.get('/admin/user/edit/:userId', function (req, res) {
+    ac.checkAdmin(req, res, function() {
+      res.render("admin_user_add", {user: req.session.user, userId: req.params.userId});
+    });
+  });
+
+  app.put('/admin/user/add.json', function (req, res) {
+    ac.checkAdmin(req, res, function() {
+      user.add(req, res);
+    });
+  });
+
+  app.get('/admin/user/get.json', function (req, res) {
+    ac.checkAdmin(req, res, function() {
+      user.get(req, res);
+    });
+  });
+
+  app.post('/admin/user/update.json', function (req, res) {
+    ac.checkAdmin(req, res, function() {
+      user.update(req, res);
+    });
+  });
+
+  app.get('/admin/user/list.json', function (req, res) {
+    ac.checkAdmin(req, res, function() {
+      user.getList(req, res);
+    });
+  });
+
+  app.delete('/admin/user/remove.json', function (req, res) {
+    ac.checkAdmin(req, res, function() {
+      user.remove(req, res);
+    });
+  });
+
+  app.get('/admin/user/updatePassword', function (req, res) {
+    res.render("admin_user_updatePassword", {user: req.session.user});
+  });
+
+  app.post('/admin/user/updatePassword.json', function (req, res) {
+    user.updatePassword(req, res);
+  });
+
+  app.post('/admin/user/updatePattern.json', function (req, res) {
+    user.updatePassword(req, res);
+  });
+
+  app.get('/admin/user/checkPattern.json', function (req, res) {
+    user.isPatternRight(req, res);
   });
 };
