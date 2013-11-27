@@ -87,10 +87,10 @@ exports.remove = function(code, user_, menuId , callback_){
  * @param {Function} callback 返回菜品一览
  */
 exports.list = function(handler, callback) {
-  var code = handler.code
-    , start = handler.start || 0
-    , limit = handler.count || 20
-    , keyword = handler.keyword
+  var code = handler.params.code
+    , start = handler.params.start || 0
+    , limit = handler.params.count || 20
+    , keyword = handler.params.keyword
     , condition = { valid: 1 };
 
   if (keyword) {
