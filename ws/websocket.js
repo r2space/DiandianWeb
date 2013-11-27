@@ -11,8 +11,8 @@
  */
 
 var log         = smart.framework.log
-  , act      = require('./action')
-  , conf        = require("config");
+  , conf        = smart.util.config
+  , act         = require('./action');
 
 /* 定义事件 */
 var EVENT_CLIENT = "message"                                       // 客户端(浏览器,iPad...)通信用
