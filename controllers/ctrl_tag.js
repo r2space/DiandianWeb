@@ -6,9 +6,9 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var _         = require('underscore')
-  , tag       = require('../modules/mod_tag.js')
-  , async     = require('async');
+var _         = smart.util.underscore
+  , async     = smart.util.async
+  , tag       = require('../modules/mod_tag.js');
 
 /**
  * 给tag进行分类（如素材的tag，组的tag等），暂时没有使用

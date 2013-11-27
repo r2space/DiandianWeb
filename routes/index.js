@@ -1,16 +1,12 @@
 
-var core     = smart.core
-  ,log        = smart.framework.log
-  , file       = smart.core.dbfile
-  , apis  = require("./apis.js")
-  , desk  = require("../apis/desk")
-  , menu  = require("../apis/menu")
-  , item  = require("../apis/item")
-  , tag    = require("../apis/tag")
-//var apis    = require('./apis')
-//  , website = require('./website');
-
-
+var log       = smart.framework.log
+  , file      = smart.ctrl.file
+  , apis      = require("./apis.js")
+  , desk      = require("../apis/desk")
+  , menu      = require("../apis/menu")
+  , item      = require("../apis/item")
+  , tag       = require("../apis/tag")
+  , user      = require("../apis/user");
 
 /*
  * GET home page.
@@ -33,14 +29,13 @@ exports.guiding = function (app) {
 
   // 登陆
   app.get('/simplelogin', function (req, res) {
-    log.audit("login");
-    core.user.login(req, res, function(){}, "diandian");
+    user.simpleLogin(req, res);
   });
 
   // 注销
   app.get("/simplelogout", function (req, res) {
     log.audit("logout");
-    core.user.logout(req, res);
+    user.simpleLogout(req, res);
   });
 
   /*-------------- 菜品 ---------------*/
@@ -92,6 +87,10 @@ exports.guiding = function (app) {
     res.render("menu_menu_list", {"title": "menu", user: req.session.user});
   });
 
+  app.get("/menu/menu/open", function(req, res) {
+    res.render("menu_menu_open", {"title": "menu", user: req.session.user});
+  });
+
   app.get("/menu/menu/add", function(req, res) {
     res.render("menu_menu_add", {"title": "menu", user: req.session.user, menuId: ""});
   });
@@ -102,6 +101,10 @@ exports.guiding = function (app) {
 
   app.get('/menu/list.json', function(req, res){
     menu.list(req, res);
+  });
+
+  app.get('/menu/partialList.json', function(req, res){
+    menu.partialList(req, res);
   });
 
   app.post('/menu/add.json', function(req, res){
@@ -166,6 +169,4 @@ exports.guiding = function (app) {
   app.get('/tag/search.json', function(req, res){
     tag.search(req, res);
   });
-
-
 };

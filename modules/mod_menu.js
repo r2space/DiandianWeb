@@ -6,8 +6,8 @@
 
 "use strict";
 
-var mongo       = require("mongoose")
-  , conn        = require("./connection")
+var mongo       = smart.util.mongoose
+  , conn        = smart.framework.connection
   , schema      = mongo.Schema;
 
 /**
@@ -35,12 +35,12 @@ var Menu = new schema({
 
 /**
  * 使用定义好的Schema,通过公司Code处理工作站数据
- * @param {string} dbname
+ * @param {string} code
  * @returns {model} workstation model
  */
-function model(dbname) {
+function model(code) {
 
-  return conn(dbname).model("Menu", Menu);
+  return conn.model(code, "Menu", Menu);
 }
 
 /**
@@ -119,6 +119,24 @@ exports.getList = function(code, condition, start, limit, callback) {
     .skip(start || 0)
     .limit(limit || 20)
     .sort({editat: -1})
+    .exec(function(err, result) {
+      callback(err, result);
+    });
+};
+
+/**
+ * 获取指定字段的一览
+ * @param {string} code 公司code
+ * @param {object} condition 条件
+ * @param {function} callback 返回桌台一览
+ */
+exports.getPartialList = function(code, condition, field, callback) {
+
+  var menu = model(code);
+
+  menu.find(condition)
+    .sort({editat: -1})
+    .select(field)
     .exec(function(err, result) {
       callback(err, result);
     });

@@ -1,7 +1,8 @@
+var async     = smart.util.async
+  , response  = smart.framework.response
+  , seq       = require("../controllers/ctrl_seq.js");
+
 var code = "diandian";
-var seq = require("../controllers/ctrl_seq.js");
-var async = require('async')
-  , response = smart.framework.response
 
 exports.currVal = function (req_, res_) {
   var code = "diandian"

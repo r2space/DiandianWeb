@@ -1,9 +1,8 @@
-var smart  = require("smartcore")
-  , response    = smart.framework.response
-  , util    = smart.framework.util
-  , errors  = smart.core.errors
-  , desk    = require('../controllers/ctrl_desk')
-  , service = require('../modules/mod_service.js');
+var response  = smart.framework.response
+  , util      = smart.framework.util
+  , errors    = smart.framework.errors
+  , desk      = require('../controllers/ctrl_desk')
+  , service   = require('../modules/mod_service.js');
 
 
 // 获取App  的台位 一览

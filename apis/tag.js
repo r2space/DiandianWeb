@@ -6,11 +6,10 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var smart     = require("smartcore")
-  , response    = smart.framework.response
-  , util    = smart.framework.util
-  , errors  = smart.core.errors
-  , tag       = require('../controllers/ctrl_tag');
+var response    = smart.framework.response
+  , util        = smart.framework.util
+  , errors      = smart.framework.errors
+  , tag         = require('../controllers/ctrl_tag');
 
 // Tag一览
 exports.search = function(req_, res_) {

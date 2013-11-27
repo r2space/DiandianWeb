@@ -1,12 +1,11 @@
-var smart  = require("smartcore")
-  , response    = smart.framework.response
-  , errors  = smart.core.errors
-  , util    = smart.framework.util
-  , item    = require("../controllers/ctrl_item");
+var response  = smart.framework.response
+  , errors    = smart.framework.errors
+  , util      = smart.framework.util
+  , item      = require("../controllers/ctrl_item");
 
 // 获取一览
 exports.list = function(req_, res_) {
-
+  console.log("=========================================1");
   var code = "diandian"
     , start = req_.query.start || 0
     , limit = req_.query.count || 20

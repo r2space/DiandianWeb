@@ -31,9 +31,26 @@ module.exports = {
     , "sessionTimeout": 720 // 24 * 30 一个月
     , "tmp": "/tmp"
     , "hmackey": "smartcore"
-  },
+    , "i18n": {
+          "cache": "memory"
+        , "lang": "zh"
+        , "category": "diandian"
+      }
+    , "ignoreAuth": [
+        "^\/stylesheets"
+      , "^\/javascripts"
+      , "^\/vendor"
+      , "^\/images"
+      , "^\/video"
+      , "^\/$"
+      , "^\/simplelogin.*"
+      , "^\/simplelogout.*"
+      , "^\/login.*"
+      , "^\/register.*"
+    ]
+  }
 
-  "log": {
+  , "log": {
     "fluent": {
       "enable": "false"
       , "tag": "node"
@@ -53,6 +70,7 @@ module.exports = {
     , "queue_thumb": "smartThumb"
     , "maxListeners": 0
   },
+
   "websocket": {
     "center_server": {
       "primary": "http://localhost:3000"

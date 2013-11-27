@@ -6,8 +6,8 @@
 
 "use strict";
 
-var mongo       = require("mongoose")
-  , conn        = require("./connection")
+var mongo       = smart.util.mongoose
+  , conn        = smart.framework.connection
   , schema      = mongo.Schema;
 
 /**
@@ -17,8 +17,8 @@ var mongo       = require("mongoose")
 var Desk = new schema({
     name        : {type: String, description: "名称"}
   , type        : {type: Number, description: "类型 0:桌台 1:包间", default: 0}
-  , capacity   : {type: Number, description: "可容纳人数",  default: 4}
-  , sortLevel  : {type: Number, description: "表示顺序",  default: 10}
+  , capacity    : {type: Number, description: "可容纳人数",  default: 4}
+  , sortLevel   : {type: Number, description: "表示顺序",  default: 10}
   , valid       : {type: Number, description: "删除 0:无效 1:有效", default: 1}
   , createat    : {type: Date,   description: "创建时间"}
   , createby    : {type: String, description: "创建者"}
@@ -28,12 +28,12 @@ var Desk = new schema({
 
 /**
  * 使用定义好的Schema,通过公司Code处理工作站数据
- * @param {string} dbname
+ * @param {string} code
  * @returns {model} workstation model
  */
-function model(dbname) {
+function model(code) {
 
-  return conn(dbname).model("Desk", Desk);
+  return conn.model(code, "Desk", Desk);
 }
 
 /**

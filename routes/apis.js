@@ -1,8 +1,8 @@
-var desk  = require("../apis/desk")
-  , service  = require("../apis/service")
-  , seq  = require("../apis/seq")
-  , order = require("../apis/order")
-  , menu  = require("../apis/menu");
+var desk      = require("../apis/desk")
+  , service   = require("../apis/service")
+  , seq       = require("../apis/seq")
+  , order     = require("../apis/order")
+  , menu      = require("../apis/menu");
 
 
 exports.guiding = function(app){

@@ -6,9 +6,8 @@
 
 "use strict";
 
-var mongo       = require("mongoose")
-  , smart       = require("smartcore").core.util
-  , conn        = require("./connection")
+var mongo       = smart.util.mongoose
+  , conn        = smart.framework.connection
   , schema      = mongo.Schema;
 
 /**
@@ -39,7 +38,7 @@ var Item = new schema({
  */
 function model(dbname) {
 
-  return conn(dbname).model("Item", Item);
+  return conn.model(dbname, "Item", Item);
 }
 
 /**
