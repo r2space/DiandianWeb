@@ -35,6 +35,8 @@
   "html.label.menu.info.title": "菜单名称",
   "html.label.menu.info.comment": "菜单介绍",
   "html.label.menu.img": "预览图",
+  "html.label.menu.selectd": "已选菜单",
+  "html.label.menu.unselectd": "可选菜单",
   "html.label.menu.type.title": "菜单风格",
   "html.label.menu.contents.demo": "样式",
   "html.label.menu.contents.type": "类型",
@@ -104,6 +106,7 @@
   "html.button.menu.large.screenadd": "增加大格页",
   "html.button.menu.medium.screenadd": "增加六格页",
   "html.button.menu.small.screenadd": "增加九格页",
+  "html.button.menu.small.screendel": "删除当前页",
   "html.button.menu.item.select": "选择菜品",
   "html.button.synthetic.tag.all":"全部",
   "js.public.info.detaillist.loading":"正在努力加载。"

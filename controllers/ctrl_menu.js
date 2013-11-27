@@ -110,6 +110,22 @@ exports.list = function(handler, callback) {
   });
 };
 
+exports.partialList = function(code, condition, field, callback_) {
+
+  menu.total(code, condition, function (err, count) {
+
+    menu.getPartialList(code, condition, field, function(err, result){
+      if (err) {
+        return callback_(new error.InternalServer(err));
+      }
+
+      return callback_(err, {items: result, totalItems: count});
+
+    });
+  });
+};
+
+
 exports.appList = function(code, condition, start, limit, callback_) {
 
   menu.total(code, condition, function (err, count) {

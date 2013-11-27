@@ -35,6 +35,21 @@ exports.list = function(req, res) {
   });
 };
 
+// 获取指定字段一览
+exports.partialList = function(req_, res_) {
+
+  var code = req_.session.user.companycode
+    ,filed = req_.query.filed
+    , condition = {
+      valid: 1,
+      status: 1
+    };
+
+  menu.partialList(code, condition, filed, function(err, result) {
+    response.send(res_, err, result);
+  });
+};
+
 // 添加
 exports.add = function(req_, res_) {
 

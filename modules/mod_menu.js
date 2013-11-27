@@ -125,6 +125,24 @@ exports.getList = function(code, condition, start, limit, callback) {
 };
 
 /**
+ * 获取指定字段的一览
+ * @param {string} code 公司code
+ * @param {object} condition 条件
+ * @param {function} callback 返回桌台一览
+ */
+exports.getPartialList = function(code, condition, field, callback) {
+
+  var menu = model(code);
+
+  menu.find(condition)
+    .sort({editat: -1})
+    .select(field)
+    .exec(function(err, result) {
+      callback(err, result);
+    });
+};
+
+/**
  * 获取工作站件数
  * @param {string} code 公司Code
  * @param {object} condition 条件

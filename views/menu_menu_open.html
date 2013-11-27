@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <title><%= title %></title>
+  <% include common/required.html %>
+  <link href="/stylesheets/diandian.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="/vendor/jquery.gridly.js"></script>
+  <script type="text/javascript" src="/javascripts/menu_menu_open.js"></script>
+<style type="text/css">
+
+/* jQuery Gridly
+ * Copyright 2013 Kevin Sylvestre
+ * 1.2.1
+ */
+.gridly, .gridly > :not(.dragging) {
+  -webkit-transition: all 0.4s ease-in-out;
+  -moz-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+.gridly .dragging {
+  z-index: 800; 
+}
+.gridly-wrapper{
+  margin-top: 10px;
+  border: 2px dashed gray;
+}
+.gridly {
+  margin-left: 5px;
+  position: relative;
+  height: 40px;
+}
+
+.brick,.menu-item{
+  width: 60px;
+  height: 30px;
+  /*background-color: red;*/
+}
+.brick{
+  margin-top: 5px;
+  cursor:move;
+  background-color: #e9ee5c;
+}
+.brick >span{
+  width: auto;
+  display: table;
+  margin-top: 5px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.menu-item {
+  margin: 5px;
+  cursor: pointer;
+  border: 1px solid gray;
+}
+
+.menu-item >span {
+  width: auto;
+  display: table;
+  margin-top: 5px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.selected{
+  background-color: #e9ee5c;
+  border: 0px solid gray;
+}
+
+</style>
+</head>
+<body>
+
+<% include common/navbar.html %>
+
+<div class="main-container container-fluid">
+  <% include common/sidebar.html %>
+
+  <div class="main-content">
+    <div class="breadcrumbs" id="breadcrumbs">
+      <ul class="breadcrumb">
+        <li>
+          <i class="icon-home icon-large"></i>
+          <a href="/diandian"><%= i('html.label.common.home') %><!--主页--></a>
+              <span class="divider">
+                <i class="icon-chevron-right arrow-icon"></i>
+              </span>
+        </li>
+        <li class="active"><%= i('html.label.menu.menu') %><!--菜单--></li>
+      </ul><!--.breadcrumb-->
+    </div>
+
+    <div class="page-content">
+      <div class="row tableheader col-lg-8 col-md-12">
+        <div class="pull-left">
+          <h4><%= i('html.label.menu.selectd') %></h4>
+        </div>
+      </div>
+      <div class="row col-lg-8 col-md-12" >
+        <div class="gridly-wrapper">
+          <div class="gridly">
+          </div>
+        </div>
+      </div>
+      <div class="row tableheader col-lg-8 col-md-12">
+        <div class="pull-left">
+          <h4><%= i('html.label.menu.unselectd') %></h4>
+        </div>
+      </div>
+      <div class="row col-lg-8 col-md-12" >
+        <div class="menu-container">
+        </div>
+      </div>
+      <div class="col-lg-8 col-md-12" style="margin-top: 30px;padding: 0px;">
+        <div id="saveorder" name="saveorder" class="col-lg-4 col-md-4 btn btn-warning btn-lg">
+          <%= i('html.button.common.save') %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
