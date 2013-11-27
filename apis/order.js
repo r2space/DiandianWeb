@@ -7,7 +7,7 @@ var async = require('async')
   , response = smart.framework.response
 
 
-exports.list = function (req_, res_) {
+exports.appList = function (req_, res_) {
   var code = "diandian"
     , deskId = req_.query.deskId
     , serviceId = req_.query.serviceId

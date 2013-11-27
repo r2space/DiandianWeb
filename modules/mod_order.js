@@ -69,10 +69,18 @@ exports.getList = function(code, condition, start, limit, callback) {
 
   var order = model(code);
 
+  var sort = {};
+  if(condition.serviceId){
+
+    sort = {orderNum: 1,orderSeq:1};
+  } else {
+
+    sort = {createat : 1};
+  }
   order.find(condition)
     .skip(start || 0)
     .limit(limit || 20)
-    .sort({"orderSeq": 1})
+    .sort(sort)
     .exec(function(err, result) {
       callback(err, result);
     });

@@ -33,7 +33,7 @@ exports.guiding = function(app){
 
   //order
   app.get("/api/order/list.json" ,function(req,res){
-    order.list(req,res);
+    order.appList(req,res);
   });
 
 

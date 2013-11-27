@@ -8,6 +8,7 @@
 
 var _ = require('underscore')
   , order = require('../modules/mod_order.js')
+  , item = require('../modules/mod_item.js')
   , service = require('../modules/mod_service.js')
   , async = require('async')
   , smart = require("smartcore")
@@ -35,12 +36,35 @@ exports.getList = function (code, deskId, serviceId, start, limit, callback) {
       if (err) {
         return callback(new error.InternalServer(err));
       }
-      return callback(err, {items: result, totalItems: count});
+      getItemListByOrderList(code,result,function(err,resultWithItem){
+        return callback(err, {items: resultWithItem, totalItems: count});
+      });
+
     });
   });
 
 };
 
+
+function getItemListByOrderList (code,orderList,callback){
+  var tempList = [];
+  for(var i in orderList){
+    orderList[i]._doc._index = i;
+  }
+  async.forEach(orderList, function(itemObj,cb){
+
+    item.get(code, itemObj.itemId,function(err,itemDocs){
+
+      itemObj._doc.item = itemDocs;
+      tempList[itemObj._doc._index] = itemObj;
+      cb(null,itemDocs);
+
+    });
+
+  } , function(err,result){
+    callback(null,tempList);
+  });
+}
 
 
 
@@ -67,8 +91,12 @@ exports.add = function (code, uid, orderData, callback) {
     if (err) {
       return callback(new error.InternalServer(err));
     }
+    item.get(code, result.itemId,function(err,itemDocs){
+      result._doc.item = itemDocs;
+      callback(err, result);
+    });
 
-    callback(err, result);
   });
 
 };
+
