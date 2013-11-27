@@ -1,12 +1,12 @@
 
 var log       = smart.framework.log
-  , file      = smart.ctrl.file
   , apis      = require("./apis.js")
   , desk      = require("../apis/desk")
   , menu      = require("../apis/menu")
   , item      = require("../apis/item")
   , tag       = require("../apis/tag")
   , user      = require("../apis/user")
+  , file      = require("../apis/file")
   , ac        = require("../controllers/ctrl_ac");
 
 /*
