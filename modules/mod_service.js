@@ -42,12 +42,12 @@ var Service = new schema({
 
 /**
  * 使用定义好的Schema
- * @param {string} dbname
+ * @param {string} code
  * @returns {model} workstation model
  */
-function model(dbname) {
+function model(code) {
 
-  return conn(dbname).model("Service", Service);
+  return conn.model(code, "Service", Service);
 }
 exports.add = function(code, newService, callback) {
 

@@ -35,12 +35,12 @@ var Order = new schema({
 
 /**
  * 使用定义好的Schema
- * @param {string} dbname
+ * @param {string} code
  * @returns {model} workstation model
  */
-function model(dbname) {
+function model(code) {
 
-  return conn(dbname).model("Order", Order);
+  return conn.model(code, "Order", Order);
 }
 
 

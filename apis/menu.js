@@ -3,6 +3,7 @@ var response  = smart.framework.response
   , util      = smart.framework.util
   , errors    = smart.framework.errors
   , context   = smart.framework.context
+  , log       = smart.framework.log
   , menu      = require('../controllers/ctrl_menu');
 
 // 获取指定菜单

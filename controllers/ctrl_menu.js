@@ -87,7 +87,6 @@ exports.remove = function(code, user_, menuId , callback_){
  * @param {Function} callback 返回菜品一览
  */
 exports.list = function(handler, callback) {
-
   var code = handler.code
     , start = handler.start || 0
     , limit = handler.count || 20

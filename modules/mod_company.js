@@ -38,7 +38,7 @@ var Company = new schema({
  */
 function model() {
 
-  return conn().model("Company", Company);
+  return conn().model(undefined, "Company", Company);
 }
 
 /**

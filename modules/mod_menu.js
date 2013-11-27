@@ -35,12 +35,12 @@ var Menu = new schema({
 
 /**
  * 使用定义好的Schema,通过公司Code处理工作站数据
- * @param {string} dbname
+ * @param {string} code
  * @returns {model} workstation model
  */
-function model(dbname) {
+function model(code) {
 
-  return conn(dbname).model("Menu", Menu);
+  return conn.model(code, "Menu", Menu);
 }
 
 /**

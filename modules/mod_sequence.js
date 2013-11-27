@@ -30,12 +30,12 @@ var SequenceSchema = new schema({
 
 /**
  *
- * @param {string} dbname
+ * @param {string} code
  * @returns {model} workstation model
  */
-function model(dbname) {
+function model(code) {
 
-  return conn(dbname).model("Sequence", SequenceSchema);
+  return conn.model(code, "Sequence", SequenceSchema);
 }
 exports.hasSequenceByName = function (code, name, callback) {
   var Sequence = model(code);

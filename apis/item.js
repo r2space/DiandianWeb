@@ -6,7 +6,7 @@ var smart  = require("smartcore")
 
 // 获取一览
 exports.list = function(req_, res_) {
-
+  console.log("=========================================1");
   var code = "diandian"
     , start = req_.query.start || 0
     , limit = req_.query.count || 20

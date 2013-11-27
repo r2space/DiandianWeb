@@ -38,7 +38,7 @@ var Item = new schema({
  */
 function model(dbname) {
 
-  return conn(dbname).model("Item", Item);
+  return conn.model(dbname, "Item", Item);
 }
 
 /**
