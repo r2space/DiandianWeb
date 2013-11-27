@@ -1,19 +1,17 @@
 "use strict";
 
-var  ph        = require('path')
-  , fs        = require('fs')
-  , async     = require('async')
-  , _         = require('underscore')
-  , sync      = require('async')
-  , smart     = require("smartcore")
+var  ph       = smart.lang.path
+  , fs        = smart.lang.fs
+  , async     = smart.util.async
+  , _         = smart.util.underscore
   , gridfs    = smart.ctrl.file
   , error     = smart.framework.errors
   , user      = smart.ctrl.user
-  , confapp   = require('config').app
+  , confapp   = smart.util.config.app
   , auth      = smart.framework.auth
-  , log  =smart.framework.log
+  , log       = smart.framework.log
   , tag       = require('./ctrl_tag')
-  , item   = require('../modules/mod_item.js');
+  , item      = require('../modules/mod_item.js');
 
 /**
  * 获取菜品一览

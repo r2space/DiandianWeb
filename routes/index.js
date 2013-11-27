@@ -1,11 +1,11 @@
 
 var log       = smart.framework.log
-  , file      = smart.ctrl.file
   , apis      = require("./apis.js")
   , desk      = require("../apis/desk")
   , menu      = require("../apis/menu")
   , item      = require("../apis/item")
   , tag       = require("../apis/tag")
+  , file      = require("../apis/file")
   , user      = require("../apis/user");
 
 /*
@@ -48,10 +48,7 @@ exports.guiding = function (app) {
   });
 
   app.get('/picture/:id', function(req, res){
-    file.image(req, res, function(err, doc){
-      req.setAttribute("code","diandian");
-      res.send(doc);
-    });
+    file.getImage(req, res);
   });
 
   app.get('/menu/item/edit/:id', function (req, res) {
