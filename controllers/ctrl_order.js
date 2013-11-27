@@ -12,8 +12,60 @@ var _       = smart.util.underscore
   , error   = smart.framework.errors
   , order = require('../modules/mod_order.js')
   , item = require('../modules/mod_item.js')
+  , desk = require('../modules/mod_desk.js')
   , order   = require('../modules/mod_order.js')
   , service = require('../modules/mod_service.js');
+
+exports.getDeskList = function(handler, callback) {
+  var orderIds = handler.params.orderIds
+    , code = handler.params.code
+    , condition = { valid: 1 };
+
+  var ids = [];
+  ids = orderIds.split(",");
+  if (ids && ids.length > 0) {
+    condition._id = {$in: ids};
+  }
+
+  order.total(code, condition, function (err, count) {
+    if (err) {
+      return callback(new error.InternalServer(err));
+    }
+    order.getList(code, condition, 0, 20, function (err, result) {
+      if (err) {
+        return callback(new error.InternalServer(err));
+      }
+      getDeskListByOrderList(code,result,function(err,resultWithItem){
+        return callback(err, {items: resultWithItem, totalItems: count});
+      });
+
+    });
+  });
+
+}
+
+
+function getDeskListByOrderList (code,orderList,callback){
+  var tempList = [];
+  for(var i in orderList){
+    orderList[i]._doc._index = i;
+  }
+  async.forEach(orderList, function(itemObj,cb){
+
+    desk.get(code, itemObj.deskId,function(err,deskDocs){
+
+      itemObj._doc.desk = deskDocs;
+      tempList[itemObj._doc._index] = itemObj;
+      cb(null,deskDocs);
+
+    });
+
+  } , function(err,result){
+    callback(null,tempList);
+  });
+}
+
+
 
 
 exports.getList = function (code, deskId, serviceId, start, limit, callback) {

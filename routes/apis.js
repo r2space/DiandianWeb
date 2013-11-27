@@ -36,6 +36,9 @@ exports.guiding = function(app){
     order.appList(req,res);
   });
 
+  app.get("/api/order/deskList.json" ,function(req,res){
+    order.deskList(req,res);
+  });
 
 }
 
