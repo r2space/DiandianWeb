@@ -6,12 +6,11 @@
 
 "use strict";
 
-var _           = require('underscore')
+var _           = smart.util.underscore
+  , async       = smart.util.async
+  , error       = smart.framework.errors
   , desk        = require('../modules/mod_desk.js')
-  , service        = require('../modules/mod_service.js')
-  , async       = require('async')
-  , smart       = require("smartcore")
-  , error       = smart.framework.errors;
+  , service     = require('../modules/mod_service.js');
 
 exports.add = function(code, uid, deskData, callback){
   var now = new Date();

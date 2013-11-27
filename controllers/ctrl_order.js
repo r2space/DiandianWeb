@@ -6,13 +6,11 @@
 
 "use strict";
 
-var _ = require('underscore')
-  , order = require('../modules/mod_order.js')
-  , service = require('../modules/mod_service.js')
-  , async = require('async')
-  , smart = require("smartcore")
-  , error = smart.framework.errors;
-
+var _       = smart.util.underscore
+  , async   = smart.util.async
+  , error   = smart.framework.errors
+  , order   = require('../modules/mod_order.js')
+  , service = require('../modules/mod_service.js');
 
 
 exports.getList = function (code, deskId, serviceId, start, limit, callback) {

@@ -1,17 +1,12 @@
 
 "use strict";
 
-var _           = require('underscore')
-  , modService        = require('../modules/mod_service.js')
-  , async       = require('async')
-  , smart       = require("smartcore")
+var _           = smart.util.underscore
+  , async       = smart.util.async
   , user        = smart.ctrl.user
   , group       = smart.ctrl.group
-  , error       = smart.framework.errors;
-
-var mongo       = require("mongoose")
-  , schema      = mongo.Schema
-  , ObjectId    = schema.ObjectId;
+  , error       = smart.framework.errors
+  , modService  = require('../modules/mod_service.js');
 
 exports.startService = function(code,userId, deskId ,type,people,callback){
   var data = {

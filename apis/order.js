@@ -1,10 +1,11 @@
+var async     = smart.util.async
+  , response  = smart.framework.response
+  , act       = require('../ws/action')
+  , order     = require("../controllers/ctrl_order.js")
+  , seq       = require("../controllers/ctrl_seq.js")
+  , service   = require("../controllers/ctrl_service.js");
+
 var code = "diandian";
-var act   = require('../ws/action');
-var order = require("../controllers/ctrl_order.js");
-var seq = require("../controllers/ctrl_seq.js");
-var service = require("../controllers/ctrl_service.js");
-var async = require('async')
-  , response = smart.framework.response
 
 
 exports.list = function (req_, res_) {

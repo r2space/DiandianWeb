@@ -1,10 +1,9 @@
-var smart  = require("smartcore")
-  , response    = smart.framework.response
-  , util    = smart.framework.util
-  , errors  = smart.framework.errors
-  , service    = require('../controllers/ctrl_service')
-  , ws         = require('../ws/websocket')
-  , act         = require('../ws/action');
+var response  = smart.framework.response
+  , util      = smart.framework.util
+  , errors    = smart.framework.errors
+  , service   = require('../controllers/ctrl_service')
+  , ws        = require('../ws/websocket')
+  , act       = require('../ws/action');
 
 
 

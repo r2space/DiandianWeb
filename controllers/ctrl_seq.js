@@ -1,11 +1,10 @@
 "use strict";
 
-var _ = require('underscore')
-  , seq = require('../modules/mod_sequence.js')
-  , service = require('../modules/mod_service.js')
-  , async = require('async')
-  , smart = require("smartcore")
-  , error = smart.framework.errors;
+var _       = smart.util.underscore
+  , async   = smart.util.async
+  , error   = smart.framework.errors
+  , seq     = require('../modules/mod_sequence.js')
+  , service = require('../modules/mod_service.js');
 
 
 exports.getCurrVal = function (code, name, callback) {

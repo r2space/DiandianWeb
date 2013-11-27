@@ -1,8 +1,7 @@
-var smart  = require("smartcore")
-  , response    = smart.framework.response
-  , errors  = smart.framework.errors
-  , util    = smart.framework.util
-  , item    = require("../controllers/ctrl_item");
+var response  = smart.framework.response
+  , errors    = smart.framework.errors
+  , util      = smart.framework.util
+  , item      = require("../controllers/ctrl_item");
 
 // 获取一览
 exports.list = function(req_, res_) {

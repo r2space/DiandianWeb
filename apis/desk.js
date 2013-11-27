@@ -1,5 +1,4 @@
-var smart     = require("smartcore")
-  , response  = smart.framework.response
+var response  = smart.framework.response
   , util      = smart.framework.util
   , errors    = smart.framework.errors
   , desk      = require('../controllers/ctrl_desk')
