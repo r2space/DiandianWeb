@@ -105,6 +105,10 @@ exports.guiding = function (app) {
     menu.partialList(req, res);
   });
 
+  app.post('/menu/updateSort.json', function(req, res){
+    menu.updateSort(req, res);
+  });
+
   app.post('/menu/add.json', function(req, res){
     menu.add(req, res);
   });

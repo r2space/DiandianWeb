@@ -110,17 +110,48 @@ exports.list = function(handler, callback) {
   });
 };
 
-exports.partialList = function(code, condition, field, callback_) {
+exports.partialList = function(handler, callback) {
+
+  var code = handler.params.code
+    ,field = handler.params.field
+    , condition = {
+      valid: 1,
+      status: 1
+    };
 
   menu.total(code, condition, function (err, count) {
 
     menu.getPartialList(code, condition, field, function(err, result){
       if (err) {
-        return callback_(new error.InternalServer(err));
+        return callback(new error.InternalServer(err));
       }
+      return callback(err, {items: result, totalItems: count});
 
-      return callback_(err, {items: result, totalItems: count});
+    });
+  });
+};
 
+exports.updateSort = function(handler, callback) {
+  var code = handler.params.code
+  ,order = handler.attributes.order;
+
+  menu.getPartialList(code,{},'sortLevel',function(err,result){
+
+    async.forEach(result,function(it,call2){
+      it.sortLevel = order[it._id] || 10;
+      menu.update(code,it._id, { $set: { sortLevel: it.sortLevel }},function(err,result){
+        if(err){
+          callback(new error.InternalServer(err));
+        }else{
+          call2();
+        }
+      });
+    },function(err){
+      if(err){
+        return callback(new error.InternalServer(err));
+      }else{
+        return callback(err,{status:'OK'});
+      }
     });
   });
 };
