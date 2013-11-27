@@ -1,15 +1,17 @@
 var response  = smart.framework.response
   , errors    = smart.framework.errors
   , util      = smart.framework.util
+  , context   = smart.framework.context
+  , log       = smart.framework.log
   , item      = require("../controllers/ctrl_item");
 
 // 获取一览
 exports.list = function(req_, res_) {
-  console.log("=========================================1");
   var code = "diandian"
     , start = req_.query.start || 0
     , limit = req_.query.count || 20
     , keyword = req_.query.keyword
+    , tags = req_.query.tags
     , condition = {
       valid: 1
     };
@@ -19,18 +21,21 @@ exports.list = function(req_, res_) {
     condition.itemName = new RegExp(keyword.toLowerCase(), "i");
   }
 
-  item.list(code, condition, start, limit , function(err, result) {
+  item.list(code, condition, start, tags, limit , function(err, result) {
     response.send(res_, err, result);
   });
 };
 
 // 添加
 exports.add = function(req_, res_) {
+  var handler = new context().bind(req_, res_);
 
-  var code = "diandian"
-    , uid = req_.session.user._id;
+  console.log("11111111111111111111111111111111");
+  console.log(handler);
 
-  item.add(code,uid, req_.body, function(err, result) {
+  log.operation("begin: get menu list.", handler.uid);
+
+  item.add(handler, function(err, result) {
     response.send(res_, err, result);
   });
 };
@@ -47,21 +52,13 @@ exports.update = function(req_, res_) {
 };
 
 // uploud image
-exports.updateimage = function(req_, res_) {
+exports.updateimage = function(req, res) {
 
-  var code = "diandian"
-    , uid = req_.session.user._id;
+  var handler = new context().bind(req, res);
 
-  // Get file list from the request
-  var files = [];
-  if (req_.files.files instanceof Array) {
-    files = req_.files.files;
-  } else {
-    files.push(req_.files.files);
-  }
-  item.addimage(code, uid, files , function(err, result) {
-    console.log(result);
-    response.send(res_, err, result);
+  item.addimage(handler, function(err, result) {
+
+    response.send(res, err, result);
   });
 };
 

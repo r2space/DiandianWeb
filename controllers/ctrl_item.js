@@ -10,6 +10,7 @@ var  ph       = smart.lang.path
   , confapp   = smart.util.config.app
   , auth      = smart.framework.auth
   , log       = smart.framework.log
+  , file      = smart.ctrl.file
   , tag       = require('./ctrl_tag')
   , item      = require('../modules/mod_item.js');
 
@@ -19,7 +20,7 @@ var  ph       = smart.lang.path
  * @param limit_
  * @param callback
  */
-exports.list = function(code_, condition_, start_, limit_, callback_) {
+exports.list = function(code_, condition_, tag, start_, limit_, callback_) {
 
   item.total(code_, condition_, function (err, count) {
 
@@ -46,23 +47,23 @@ exports.searchOne = function( compid, callback_) {
 
 
 
-exports.add = function(code_, uid_, item_, callback_){
+exports.add = function(handler, callback_){
   var now = new Date();
 
   var newItem = {
-      itemName          : item_.itemName
-    , itemPriceNormal   : item_.itemPriceNormal
-    , itemPriceHalf     : item_.itemPriceHalf
-    , itemPriceDiscount : item_.itemPriceDiscount
-    , itemType          : item_.itemType
-    , itemComment       : item_.itemComment
-    , itemMaterial      : item_.itemMaterial
-    , itemMethod        : item_.itemMethod
-    , bigimage          : item_.bigimage
-    , smallimage        : item_.smallimage
-    , tags              : item_.tags
+      itemName          : handler.params.itemName
+    , itemPriceNormal   : handler.params.itemPriceNormal
+    , itemPriceHalf     : handler.params.itemPriceHalf
+    , itemPriceDiscount : handler.params.itemPriceDiscount
+    , itemType          : handler.params.itemType
+    , itemComment       : handler.params.itemComment
+    , itemMaterial      : handler.params.itemMaterial
+    , itemMethod        : handler.params.itemMethod
+    , bigimage          : handler.params.bigimage
+    , smallimage        : handler.params.smallimage
+    , tags              : handler.params.tags
     , editat: now
-    , editby: uid_
+    , editby: handler.uid
   };
 
 //  item_.tags = _.compact(item_.tags);
@@ -119,22 +120,22 @@ exports.add = function(code_, uid_, item_, callback_){
 //    return callback_(err, result);
 //  });
 
-  var id = item_.id;
-
-  if (id) {
-
-    item.update(code_, id, newItem, function(err, result){
-      if (err) {
-        return callback_(new error.InternalServer(err));
-      }
-
-      callback_(err, result);
-    });
-  } else {
+//  var id = item_.id;
+//
+//  if (id) {
+//
+//    item.update(code_, id, newItem, function(err, result){
+//      if (err) {
+//        return callback_(new error.InternalServer(err));
+//      }
+//
+//      callback_(err, result);
+//    });
+//  } else {
     newItem.createat = now;
-    newItem.createby = uid_;
+    newItem.createby = handler.uid;
 
-    item.add(code_, newItem, function(err, result){
+    item.add(handler.code, newItem, function(err, result){
       if (err) {
         return callback_(new error.InternalServer(err));
       }
@@ -142,7 +143,7 @@ exports.add = function(code_, uid_, item_, callback_){
       callback_(err, result);
     });
 
-  }
+//  }
 };
 /**
  * 更新菜品
@@ -194,35 +195,14 @@ exports.update = function(code_, uid_, item_, callback_) {
   }
 };
 
-exports.addimage = function(code_, uid_, files_, callback_) {
+exports.addimage = function(handler, callback) {
 
-  var result;
-
-  async.forEach(files_, function(file, callback){
-
-    var name = ph.basename(file.name);
-    var path = fs.realpathSync(ph.join(confapp.tmp, ph.basename(file.path)));
-    var metadata = {
-      "author": uid_
-
-    };
-
-
-    // To save the file to GridFS
-    gridfs.save(code_, name, path, metadata, "", function(err, doc){
-
-      if (err) {
-        return callback(new error.InternalServer(err));
-      }
-
-      result = doc._id;
-      callback(null,result);
-    });
-
-  },function(err){
-    return callback_(err, result);
+  file.add(handler, function(err, result){
+    if(err){
+      return callback(new error.InternalServer(err));
+    }
+    callback(err, result[0]._id);
   });
-
 };
 
 exports.remove = function(code_, user_, itemId_ , callback_){

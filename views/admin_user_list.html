@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= i('html.label.sidebar.personal.clerk') %></title>
+  <% include common/required.html %>
+  <link href="/stylesheets/diandian.css" rel="stylesheet" media="screen">
+
+  <script type="text/javascript" src="/javascripts/admin_user_list.js"></script>
+
+</head>
+<body>
+
+<% include common/navbar.html %>
+
+<div class="main-container container-fluid">
+  <% include common/sidebar.html %>
+
+  <div class="main-content">
+
+    <div class="page-content">
+      <div class="row tableheader">
+        <div class="pull-right" style="padding-bottom: 5px">
+          <a href="/admin/user/add" class="btn btn-default"><i class="icon-plus"></i>添加</a>
+        </div>
+        <div class="pull-right" style="width: 300px">
+          <form class="search-form" onsubmit="return false;">
+            <div class="input-group">
+              <input id = "user_search" type="text" placeholder="<%=i('html.label.user.search') %>" class="form-control"  autocomplete="off" />
+              <span id="doSearchUser" class="input-group-addon">
+                <i class="icon-search"></i>
+              </span>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th><%=i('html.label.user.id') %><!--ID--></th>
+              <th><%=i('html.label.user.name') %><!--姓名--></th>
+              <th><%=i('html.label.user.cellphone') %><!--手机号码--></th>
+              <th><%=i('html.label.user.admin') %><!--管理权限--></th>
+              <th><%=i('html.label.user.cash') %><!--收银权限--></th>
+              <th><%=i('html.label.user.entryDate') %><!--入职日期--></th>
+              <th><%=i('html.label.user.sex') %><!--性别--></th>
+              <th><%=i('html.label.user.birthday') %><!--生日--></th>
+              <th><%=i('html.label.common.operation') %><!--操作--></th>
+            </tr>
+            </thead>
+            <tbody id="user_list">
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="pagination-area" id="pagination_area"></div>
+    </div>
+
+  </div><!--/.main-content-->
+
+</div><!--/.main-container-->
+<footer>
+
+</footer>
+
+<script type="text/template" id="tmpl_user_list">
+  <tr>
+    <td>{{index}}</td>
+    <td>{{id}}</td>
+    <td>{{name}}</td>
+    <td>{{cellphone}}</td>
+    <td>
+      <$ if (admin === true) { $>
+      <i class="icon-ok"></i>
+      <$ } $>
+    </td>
+    <td>
+      <$ if (cash === true) { $>
+      <i class="icon-ok"></i>
+      <$ } $>
+    </td>
+    <td>{{entryDate}}</td>
+    <td>
+      <$ if (sex === '1') { $>
+        <%=i('html.label.user.sex.male')%>
+      <$ } else { $>
+        <%=i('html.label.user.sex.female')%>
+      <$ } $>
+    </td>
+    <td>{{birthday}}</td>
+    <td>
+      <a href="/admin/user/edit/{{_id}}" class="btn btn-default btn-sm" operation="edit"><%=i('html.button.common.edit') %><!--编辑--></a>
+    </td>
+  </tr>
+</script>
+
+<script>
+  var i18n = {
+    "js.common.search.error": "<%=i('js.common.search.error') %>"
+  };
+
+</script>
+
+</body>
+</html>
