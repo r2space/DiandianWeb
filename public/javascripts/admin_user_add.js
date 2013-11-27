@@ -32,15 +32,19 @@ function render() {
         new ButtonGroup("inputSex", result.sex).init();
         initDateSelect();
         // 出生年月日
-        var birthday = result.birthday.split(dateDelimiter);
-        $("#inputBirthYear").val(birthday[0]);
-        $("#inputBirthMonth").val(birthday[1]);
-        $("#inputBirthDay").val(birthday[2]);
+        if (result.birthday) {
+          var birthday = result.birthday.split(dateDelimiter);
+          $("#inputBirthYear").val(birthday[0]);
+          $("#inputBirthMonth").val(birthday[1]);
+          $("#inputBirthDay").val(birthday[2]);
+        }
         // 入职日期
-        var entryDate = result.entryDate.split(dateDelimiter);
-        $("#inputEntryYear").val(entryDate[0]);
-        $("#inputEntryMonth").val(entryDate[1]);
-        $("#inputEntryDay").val(entryDate[2]);
+        if(result.entryDate) {
+          var entryDate = result.entryDate.split(dateDelimiter);
+          $("#inputEntryYear").val(entryDate[0]);
+          $("#inputEntryMonth").val(entryDate[1]);
+          $("#inputEntryDay").val(entryDate[2]);
+        }
         // 手机号码
         $("#inputCellPhone").val(result.cellphone);
         // 权限

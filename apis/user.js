@@ -215,6 +215,9 @@ exports.get = function(req, res) {
 
     var userData;
     if(result) {
+
+      result.extend = result.extend ? result.extend : {};
+
       userData = {
         _id       : result._id
         , id        : result.userName
@@ -273,6 +276,9 @@ exports.getList = function(req, res) {
     var users = [];
     var uids = [];
     _.each(userResult.items, function(user) {
+
+      user.extend = user.extend ? user.extend : {};
+
       users.push({
         _id        : user._id
         , id         : user.userName
