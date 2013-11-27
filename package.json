@@ -6,7 +6,7 @@
     "start": "node app.js"
   },
   "dependencies": {
-      "smartcore": "0.1.6"
+      "smartcore": "0.1.7"
     , "socket.io": "*"
     , "socket.io-client": "*"
   },
