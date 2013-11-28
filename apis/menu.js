@@ -36,19 +36,26 @@ exports.list = function(req, res) {
 };
 
 // 获取指定字段一览
-exports.partialList = function(req_, res_) {
+exports.partialList = function(req, res) {
 
-  var code = req_.session.user.companycode
-    ,filed = req_.query.filed
-    , condition = {
-      valid: 1,
-      status: 1
-    };
+  var handler = new context().bind(req, res);
+  log.operation("begin: get partial menu list.", handler.uid);
 
-  menu.partialList(code, condition, filed, function(err, result) {
-    response.send(res_, err, result);
+  menu.partialList(handler, function(err, result) {
+    log.operation("finish: get partial menu list.", handler.uid);
+    response.send(res, err, result);
   });
 };
+
+// 更新菜单顺序
+exports.updateSort = function(req,res) {
+  var handler = new context().bind(req, res);
+  log.operation("begin: update menu list order.", handler.uid);
+  menu.updateSort(handler, function(err, result) {
+    log.operation("finish: update menu list order.", handler.uid);
+    response.send(res, err, result);
+  });
+}
 
 // 添加
 exports.add = function(req_, res_) {
