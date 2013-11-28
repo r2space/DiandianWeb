@@ -30,9 +30,6 @@ exports.list = function(req_, res_) {
 exports.add = function(req_, res_) {
   var handler = new context().bind(req_, res_);
 
-  console.log("11111111111111111111111111111111");
-  console.log(handler);
-
   log.operation("begin: get menu list.", handler.uid);
 
   item.add(handler, function(err, result) {

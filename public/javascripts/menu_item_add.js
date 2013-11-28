@@ -74,6 +74,7 @@ function getItemData() {
     , itemMethod : $("#itemMethod").val()
     , bigimage: $("#uploadfile_big").val()
     , smallimage : $("#uploadfile_small").val()
+    , type: $("#inputType").attr("value")
   };
   var tag = []
     , inputTag = $("#itemType");
@@ -152,11 +153,14 @@ function render(itemId) {
         $("#itemMethod").val(result.itemMethod);
         $("#uploadfile_small").val(result.smallimage);
         $("#uploadfile_big").val(result.bigimage);
+        new ButtonGroup("inputType", result.type).init();
         var tag = smart.view("tag").view;
         tag.setDefaults(result.tags);
 
       }
     });
+  }else {
+    new ButtonGroup("inputType", "1").init();
   }
 }
 

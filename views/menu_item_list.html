@@ -7,7 +7,11 @@
   <link href="/stylesheets/diandian.css" rel="stylesheet" media="screen">
   <script type="text/javascript" src="/javascripts/menu_item_list.js"></script>
   <script  type="text/javascript">
-    var i18n = {};
+    var i18n = {
+      "html.label.item.food": "<%=i('html.label.item.food') %>"
+      , "html.label.item.dish": "<%=i('html.label.item.dish') %>"
+      , "html.label.item.drinks": "<%=i('html.label.item.drinks') %>"
+    };
   </script>
 </head>
 <body>
@@ -107,7 +111,7 @@
       </a>
     </td>
     <td>{{itemName}}</td>
-    <td>{{itemType}}</td>
+    <td>{{type}}</td>
     <td>{{itemPrice}}</td>
     <td>{{editat}}</td>
     <td>

@@ -96,10 +96,10 @@
           <!--<button id="uploud_s" class="btn btn-default btn-sm " style="margin-left: -60px;">上传</button>-->
         </div>
         <div class="form-group" style="margin-top: 15px">
-          <label for="itemType" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.type') %><!--类型--></label>
+          <label for="itemType" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.tag') %><!--类型--></label>
           <div class="col-lg-8 col-md-8">
             <div id="textBoxTag" class="incrementBox">
-              <input type="text" name="itemType" class="form-control" id="itemType" placeholder="<%= i('html.label.item.info.type') %>">
+              <input type="text" name="itemType" class="form-control" id="itemType" placeholder="<%= i('html.label.item.info.tag') %>">
             </div>
           </div>
         </div>
@@ -124,17 +124,18 @@
                       rows="4"></textarea>
           </div>
         </div>
+        <div class="form-group">
+          <label for="inputType" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.type') %><!-- 类型--></label>
+          <div class="col-lg-8 col-md-8">
+            <div id="inputType" class="btn-group" value="1">
+              <button value="0" class="btn btn-sm btn-default btn-white" type="button"><%= i('html.label.item.info.food') %><!-- 主食--></button>
+              <button value="1" class="btn btn-sm btn-default btn-white"  type="button"><%= i('html.label.item.info.dish') %><!-- 菜品--></button>
+              <button value="2" class="btn btn-sm btn-default btn-white"  type="button"><%= i('html.label.item.info.drinks') %><!-- 酒水--></button>
+            </div>
+          </div>
+        </div>
       </form>
     </div>
-    <!--<div class="row col-lg-8 col-md-12 tableheader" style="margin-top: 30px">-->
-      <!--<div class="pull-left">-->
-        <!--<h4><%= i('html.label.item.x') %>&lt;!&ndash; 横&ndash;&gt;</h4>-->
-      <!--</div>-->
-      <!--<div class="pull-right">-->
-        <!--&lt;!&ndash; TODO ysl&ndash;&gt;-->
-        <!--<a data-toggle="modal"  href="#" class="btn btn-default" id="additemScreen"><i class="icon-plus">&nbsp;</i><%= i('html.button.item.screenadd') %>&lt;!&ndash; 追加スクリーン&ndash;&gt;</a>-->
-      <!--</div>-->
-    <!--</div>-->
     <div class="col-lg-8 col-md-12" style="margin-bottom: 30px;padding: 0px;">
       <div id="saveitem" name="saveitem" class="col-lg-4 col-md-4 btn btn-warning btn-lg">
         <%= i('html.button.common.save') %><!-- 保存-->
