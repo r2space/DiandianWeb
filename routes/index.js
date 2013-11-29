@@ -230,7 +230,7 @@ exports.guiding = function (app) {
   });
 
   app.post('/admin/user/updatePattern.json', function (req, res) {
-    user.updatePassword(req, res);
+    user.updatePattern(req, res);
   });
 
   app.get('/admin/user/checkPattern.json', function (req, res) {

@@ -2,6 +2,7 @@ var desk      = require("../apis/desk")
   , service   = require("../apis/service")
   , seq       = require("../apis/seq")
   , order     = require("../apis/order")
+  , user      = require("../apis/user")
   , menu      = require("../apis/menu");
 
 
@@ -39,6 +40,37 @@ exports.guiding = function(app){
   app.get("/api/order/deskList.json" ,function(req,res){
     order.deskList(req,res);
   });
+
+  app.get("/api/order/doneOrder.json" ,function(req,res){
+    order.doneOrder(req,res);
+  });
+
+  app.get("/api/order/backOrder.json" ,function(req,res){
+    order.backOrder(req,res);
+  });
+
+  app.post("/api/order/backOrder.json" , function(req,res){
+    order.backOrder(req,res);
+  });
+
+
+  app.get("/api/user/list.json" ,function(req,res){
+    user.getList(req, res);
+  });
+
+  app.get("/api/bill/get.json" ,function(req,res){
+
+  });
+
+  app.get("/api/bill/done.json" ,function(req,res){
+
+  });
+
+  app.get("/api/bill/orderList.json" ,function(req,res){
+
+  });
+
+
 
 }
 

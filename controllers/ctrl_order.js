@@ -13,12 +13,48 @@ var _       = smart.util.underscore
   , order = require('../modules/mod_order.js')
   , item = require('../modules/mod_item.js')
   , desk = require('../modules/mod_desk.js')
-  , order   = require('../modules/mod_order.js')
   , service = require('../modules/mod_service.js');
 
+exports.doneOrder = function(handler, callback) {
+  var code = handler.params.code
+    , orderId = handler.params.orderId
+
+  order.update(code,orderId,{ back: 1} ,function(err,result){
+
+    service.delUnfinishedCount(code,result.serviceId,function(err,serviceResult){
+      callback(err,result);
+    });
+
+  });
+
+
+};
+
+exports.backOrder = function(handler, callback) {
+  var code = handler.params.code
+    , orderIds = handler.params.orderIds
+  var tmpResult = [];
+
+  async.forEach(orderIds ,function(orderId,cb){
+
+    order.update(code,orderId,{ back: 2} ,function(err,result){
+      tmpResult.push(result);
+      service.delUnfinishedCount(code,result.serviceId,function(err,serviceResult){
+        cb(err,result);
+      });
+
+    });
+
+  },function(err,result){
+    callback(null,{items:tmpResult,totalItems:tmpResult.length});
+  });
+
+
+};
+
 exports.getDeskList = function(handler, callback) {
-  var orderIds = handler.params.orderIds
-    , code = handler.params.code
+  var code = handler.params.code
+    , orderIds = handler.params.orderIds
     , condition = { valid: 1 };
 
   var ids = [];
@@ -31,7 +67,7 @@ exports.getDeskList = function(handler, callback) {
     if (err) {
       return callback(new error.InternalServer(err));
     }
-    order.getList(code, condition, 0, 20, function (err, result) {
+    order.getList(code, condition, 0,50, function (err, result) {
       if (err) {
         return callback(new error.InternalServer(err));
       }
@@ -68,7 +104,7 @@ function getDeskListByOrderList (code,orderList,callback){
 
 
 
-exports.getList = function (code, deskId, serviceId, start, limit, callback) {
+exports.getList = function (code, deskId, serviceId,back, start, limit, callback) {
   var condition = {
     valid: 1
   };
@@ -78,6 +114,9 @@ exports.getList = function (code, deskId, serviceId, start, limit, callback) {
   }
   if (serviceId) {
     condition.serviceId = serviceId;
+  }
+  if (back){
+    condition.back = back;
   }
 
   order.total(code, condition, function (err, count) {
