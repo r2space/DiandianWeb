@@ -29,7 +29,7 @@ var Item = new schema({
  , itemMaterial        : { type: String, description: "菜品材料" }
  , valid       : {type: Number, description: "删除 0:无效 1:有效", default: 1}
  , tags         : [String]
- , type          :  {type: Number, description: "类型 0:主食 1:菜品 2:酒水", default: 1}
+ , type          :  {type: Number, description: "类型 0:主食 1:菜品 2:酒水 10:广告", default: 1}
 });
 
 /**

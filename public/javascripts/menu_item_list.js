@@ -43,7 +43,7 @@ function render(start, count, keyword) {
 //        , "image_b": row.bigimage
         , "itemName": row.itemName
         , "itemType": row.itemType
-        , "type" : row.type == 0 ? i18n["html.label.item.food"] : (row.type == 1 ? i18n["html.label.item.dish"]:i18n["html.label.item.drinks"])
+        , "type" : row.type == 0 ? i18n["html.label.item.food"] : (row.type == 1 ? i18n["html.label.item.dish"]:(row.type == 2 ? i18n["html.label.item.drinks"]:i18n["html.label.item.ad"]))
         , "itemPrice": row.itemPriceNormal
         , "editat": smart.date(row.editat)
       }));
