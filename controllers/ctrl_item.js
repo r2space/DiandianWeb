@@ -212,7 +212,7 @@ exports.addimage = function(handler, callback) {
 exports.remove = function(handler, callback){
   var uid = handler.uid
     , code = handler.code
-    , itemId = handler.params.itemId;
+    , itemId = handler.params.id;
 
   item.remove(code, uid, itemId, function(err, result){
     if (err) {
