@@ -124,11 +124,11 @@ exports.setDeviceUser = function(req_, res_){
 };
 
 exports.deviceRegister = function(req_, res_) {
-  var deviceid = req_.query.deviceid
+  var deviceid = req_.body.deviceId
     , devicetoken = req_.query.token
     , code = "diandian"
-    , devicetype = req_.query.devicetype
-    , userid = req_.query.userid;
+    , devicetype = "iPad"
+    , userid = req_.body.userId;
   if(!userid){
     response.send(res_, err, {status:"6009"});
   }
