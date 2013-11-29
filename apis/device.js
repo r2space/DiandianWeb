@@ -96,23 +96,23 @@ exports.deny = function(req_, res_) {
 // * @param req_
 // * @param res_
 // */
-//exports.add = function(req_, res_) {
-//
-//  var description = req_.body.description
-//    , devicetype = req_.body.devicetype
-//    , deviceid = req_.body.deviceid
-//    , user = req_.session.user
-//    , confirm = req_.body.confirm
-//    , code = req_.session.user.companycode;
-//
-//  device.add (code, deviceid, user, description, devicetype, confirm, function(err, result) {
-//    if (err) {
-//      return res_.send(err.code, json.errorSchema(err.code, err.message));
-//    } else {
-//      return res_.send(json.dataSchema(result));
-//    }
-//  });
-//};
+exports.add = function(req_, res_) {
+
+  var description = req_.body.description
+    , devicetype = req_.body.devicetype
+    , deviceid = req_.body.deviceid
+    , user = req_.session.user
+    , confirm = req_.body.confirm
+    , code = req_.session.user.companycode;
+
+  device.add (code, deviceid, user, description, devicetype, confirm, function(err, result) {
+    if (err) {
+      return res_.send(err.code, json.errorSchema(err.code, err.message));
+    } else {
+      return res_.send(json.dataSchema(result));
+    }
+  });
+};
 exports.setDeviceUser = function(req_, res_){
   var deviceid = req_.query.deviceid
     , code = "diandian"

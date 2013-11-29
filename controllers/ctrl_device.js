@@ -220,10 +220,17 @@ function updateApplyFn(code, session_uid, device_id, user_id, allow_, callback_)
 }
 
 exports.deviceRegister = function (deviceid, devicetoken, userid, code, devicetype, callback_) {
-  exports.setDeviceUser(code, userid, deviceid, function () {
-    console.log("设置deivce  uid  " + userid);
-    return;
+  var object = {
+    "companycode":code, "devicetoken": devicetoken, "deviceid": deviceid, "deviceType": devicetype, "devstatus": 1, "userinfo": [
+      {
+        "userid": userid, "status": 0
+      }
+    ], createat: new Date(), createby: userid, editat: new Date(), editby: userid
+  }
+  device.add(code, object, function (err, result) {
+//        console.log("device.add");
+//        console.log(result);
+    return callback_(err, result);
   });
-  callback_(err, result)
 };
 
