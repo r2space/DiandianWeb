@@ -114,7 +114,7 @@ exports.replace = function(code, fileid, conditions, callback) {
  */
 exports.get = function(code, itemId, callback) {
   var item = model(code);
-
+  console.log(itemId)
 
   item.findOne({_id: itemId}, function(err, result) {
     callback(err, result);

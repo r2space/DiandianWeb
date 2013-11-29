@@ -3,48 +3,38 @@ var response  = smart.framework.response
   , util      = smart.framework.util
   , context   = smart.framework.context
   , log       = smart.framework.log
+  , _         = require('underscore')
   , item      = require("../controllers/ctrl_item");
 
 // 获取一览
-exports.list = function(req_, res_) {
-  var code = "diandian"
-    , start = req_.query.start || 0
-    , limit = req_.query.count || 20
-    , keyword = req_.query.keyword
-    , tags = req_.query.tags
-    , condition = {
-      valid: 1
-    };
+exports.list = function(req, res) {
 
-  if (keyword) {
-    keyword = util.quoteRegExp(keyword);
-    condition.itemName = new RegExp(keyword.toLowerCase(), "i");
-  }
+  var handler = new context().bind(req, res);
+  log.operation("begin: get item list.", handler.uid);
 
-  item.list(code, condition, start, tags, limit , function(err, result) {
-    response.send(res_, err, result);
+  item.list(handler, function(err, result) {
+    log.operation("finish: get item list.", handler.uid);
+    response.send(res, err, result);
   });
 };
 
 // 添加
-exports.add = function(req_, res_) {
-  var handler = new context().bind(req_, res_);
+exports.add = function(req, res) {
+  var handler = new context().bind(req, res);
 
   log.operation("begin: get menu list.", handler.uid);
 
   item.add(handler, function(err, result) {
-    response.send(res_, err, result);
+    response.send(res, err, result);
   });
 };
 
 // 更新
-exports.update = function(req_, res_) {
+exports.update = function(req, res) {
+  var handler = new context().bind(req, res);
 
-  var code = "diandian"
-    , uid = req_.session.user._id;
-
-  item.add(code, uid, req_.body, function(err, result) {
-    response.send(res_, err, result);
+  item.update(handler, function(err, result) {
+    response.send(res, err, result);
   });
 };
 
@@ -60,26 +50,24 @@ exports.updateimage = function(req, res) {
 };
 
 // 删除·
-exports.remove = function(req_, res_) {
+exports.remove = function(req, res) {
 
-  var code = req_.session.user.companycode
-    , uid = req_.session.user._id;
+  var handler = new context().bind(req, res);
 
-  item.remove(code, uid, req_.body.id, function(err, result) {
-    response.send(res_, err, result);
+  item.remove(handler, function(err, result) {
+    response.send(res, err, result);
   });
 };
 
 // 获取指定菜品
-exports.findOne = function(req_, res_) {
+exports.findOne = function(req, res) {
 
-  var code = req_.session.user.companycode
-    , uid = req_.session.user._id
-    , itemId = req_.query.itemId;
+  var handler = new context().bind(req, res);
 
-  item.get(code, uid, itemId, function(err, result) {
+  item.get(handler, function(err, result) {
     console.log(result);
-    response.send(res_, err, result);
+    console.log("-----------------------------")
+    response.send(res, err, result);
   });
 };
 
