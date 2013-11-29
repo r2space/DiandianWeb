@@ -219,3 +219,11 @@ function updateApplyFn(code, session_uid, device_id, user_id, allow_, callback_)
 
 }
 
+exports.deviceRegister = function (deviceid, devicetoken, userid, code, devicetype, callback_) {
+  exports.setDeviceUser(code, userid, deviceid, function () {
+    console.log("设置deivce  uid  " + userid);
+    return;
+  });
+  callback_(err, result)
+};
+
