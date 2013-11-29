@@ -37,7 +37,6 @@ function render(start, count) {
         "dev_index": index_dev++ + start
         , "dev_Type": row.deviceType
         , "dev_id": row.deviceid
-        , "userCount": row.userinfo.length
         , "devstatus" : row.devstatus
       });
 
@@ -49,10 +48,7 @@ function render(start, count) {
           "user_index": index_user++
           , "dev_id": row.deviceid
           , "user_id": user.userid
-          , "user_name": user.username
           , "user_status": user.status
-          , "user_createat": smart.date(user.createat)
-          , "user_lastat": smart.date(user.lastat)
         });
       });
 

@@ -4,7 +4,7 @@
   <title><%= title %></title>
   <% include common/required.html %>
   <link href="/stylesheets/diandian.css" rel="stylesheet" media="screen">
-  <script type="text/javascript" src="/javascript/shop_device_list.js"></script>
+  <script type="text/javascript" src="/javascripts/shop_device_list.js"></script>
 </head>
 <body>
 
@@ -55,14 +55,123 @@
           </table>
         </div>
         <div class="col-lg-10" id="deviceAndUser_list">
+          <!--<div>-->
+            <!--<table class="table table-hover" style="margin-bottom: 0px">-->
+              <!--<tbody>-->
+
+              <!--<tr>-->
+                <!--<td class="col-lg-1" style="border-top: 0;">1</td>-->
+                <!--<td class="col-lg-2" style="border-top: 0;">iPad</td>-->
+                <!--<td class="col-lg-3" style="border-top: 0;">f94e9d7d3255ad26f338667d145f6cb8d34caf4b</td>-->
+                <!--<td style="text-align: left;border-top: 0;" class="col-lg-2">-->
+
+                  <!--<a name="device" href="#" class="btn btn-default btn-sm" dev_id="f94e9d7d3255ad26f338667d145f6cb8d34caf4b" operation="deny">禁止&lt;!&ndash; 禁止&ndash;&gt;</a>-->
+
+                <!--</td>-->
+              <!--</tr>-->
+
+              <!--</tbody>-->
+            <!--</table>-->
+          <!--</div>-->
+          <!--<div class="col-lg-11" style="background-color: rgb(223, 204, 204);margin-left: 50px;font-size: 10px;">-->
+            <!--<table class="table table-hover" style="margin-bottom: 0px">-->
+              <!--<thead>-->
+              <!--<tr>-->
+                <!--<th>编号&lt;!&ndash; 番号&ndash;&gt;</th>-->
+                <!--<th>用户ID&lt;!&ndash; ユーザID&ndash;&gt;</th>-->
+                <!--<th>状态&lt;!&ndash; ステータス&ndash;&gt;</th>-->
+                <!--<th>操作&lt;!&ndash; 操作&ndash;&gt;</th>-->
+              <!--</tr>-->
+              <!--</thead>-->
+              <!--<tbody>-->
+
+              <!--<tr>-->
+                <!--<td>1</td>-->
+                <!--<td style="width: 200px;">userName</td>-->
+                <!--<td>-->
+
+                  <!--使用中&lt;!&ndash; 使用中&ndash;&gt;-->
+
+                <!--</td>-->
+                <!--<td style="text-align: left">-->
+
+                  <!--<a name="user" href="#" class="btn btn-default btn-sm" user_id="test01@dreamarts.co.jp" dev_id="f94e9d7d3255ad26f338667d145f6cb8d34caf4b" operation="deny">禁止&lt;!&ndash; 禁止&ndash;&gt;</a>-->
+
+                <!--</td>-->
+              <!--</tr>-->
+
+              <!--</tbody>-->
+            <!--</table>-->
+          <!--</div>-->
         </div>
         <!--/span-->
       </div>
     </div>
     <div class="pagination-area" id="pagination_area"></div>
-
   </div><!--/.main-content-->
-
 </div><!--/.main-container-->
+
+<script type="text/template" id="temp_deviceAndUser_list">
+  <div>
+    <table class="table table-hover" style="margin-bottom: 0px">
+      <tbody>
+      {{-devinfo}}
+      </tbody>
+    </table>
+  </div>
+  <div class="col-lg-11" style="background-color: rgb(223, 204, 204);margin-left: 50px;font-size: 10px;">
+    <table class="table table-hover" style="margin-bottom: 0px">
+      <thead>
+      <tr>
+        <th><%= i('html.label.device.user.no') %><!-- 番号--></th>
+        <th><%= i('html.label.device.user.id') %><!-- ユーザID--></th>
+        <!--<th><%= i('html.label.device.user.name') %>&lt;!&ndash; ユーザ名&ndash;&gt;</th>-->
+        <th><%= i('html.label.device.user.status') %><!-- ステータス--></th>
+        <!--<th><%= i('html.label.common.createat') %>&lt;!&ndash; 登録日&ndash;&gt;</th>-->
+        <!--<th><%= i('html.label.common.updateat') %>&lt;!&ndash; 最終使用日&ndash;&gt;</th>-->
+        <th><%= i('html.label.common.operation') %><!-- 操作--></th>
+      </tr>
+      </thead>
+      <tbody>
+      {{-userinfo}}
+      </tbody>
+    </table>
+  </div>
+</script>
+<script type="text/template" id="tmpl_device_list">
+  <tr>
+    <td class="col-lg-1" style="border-top: 0;width: 13.666666666666664%">{{dev_index}}</td>
+    <td class="col-lg-2" style="border-top: 0;">{{dev_Type}}</td>
+    <td class="col-lg-3" style="border-top: 0;">{{dev_id}}</td>
+    <td style="text-align: left;border-top: 0;" class="col-lg-2">
+      <$ if (devstatus == 1) {$>
+      <a name="device" href="#" class="btn btn-default btn-sm" dev_id="{{dev_id}}" operation="deny"><%= i('html.button.device.status.deny') %><!-- 禁止--></a>
+      <$ } else {$>
+      <a name="device" href="#" class="btn btn-default btn-sm" dev_id="{{dev_id}}" operation="allow"><%= i('html.button.device.status.allow') %><!-- 許可--></a>
+      <$ } $>
+    </td>
+  </tr>
+</script>
+<script type="text/template" id="tmpl_userinfo_list">
+  <tr>
+    <td>{{user_index}}</td>
+    <td style="width: 200px;">{{user_id}}</td>
+    <td>
+      <$ if (user_status == 1) {$>
+      <%= i('html.label.device.user.status.allow') %><!-- 使用中-->
+      <$ } else {$>
+      <%= i('html.label.device.user.status.deny') %><!-- 使用不可-->
+      <$ } $>
+    </td>
+    <td style="text-align: left">
+      <$ if (user_status == 1) {$>
+      <a name="user" href="#" class="btn btn-default btn-sm" user_id="{{user_id}}" dev_id="{{dev_id}}" operation="deny"><%= i('html.button.device.status.deny') %><!-- 禁止--></a>
+      <$ } else {$>
+      <a name="user" href="#" class="btn btn-default btn-sm" user_id="{{user_id}}" dev_id="{{dev_id}}" operation="allow"><%= i('html.button.device.status.allow') %><!-- 許可--></a>
+      <$ } $>
+    </td>
+  </tr>
+</script>
+
 </body>
 </html>

@@ -7,6 +7,7 @@ var log       = smart.framework.log
   , tag       = require("../apis/tag")
   , user      = require("../apis/user")
   , file      = require("../apis/file")
+  , device    = require("../apis/device")
   , ac        = require("../controllers/ctrl_ac");
 
 /*
@@ -138,8 +139,29 @@ exports.guiding = function (app) {
     res.render("shop_desk_add", {"title": "desk", user: req.session.user, deskId:req.params.id});
   });
 
+  /*--------------  设备---------------*/
   app.get("/shop/device/list", function(req, res) {
     res.render("shop_device_list", {"title": "device", user: req.session.user});
+  });
+
+  app.get('/device/list.json', function(req, res){
+    device.list(req, res);
+  });
+
+  app.put('/device/denyDeivce.json', function(req, res){
+    device.deviceDeny(req, res);
+  });
+
+  app.put('/device/allowDevice.json', function(req, res){
+    device.deviceAllow(req, res);
+  });
+
+  app.put('/device/allow.json', function(req, res){
+    device.allow(req, res);
+  });
+
+  app.put('/device/deny.json', function(req, res){
+    device.deny(req, res);
   });
 
 
