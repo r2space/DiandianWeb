@@ -7,11 +7,39 @@ var response  = smart.framework.response
   , act       = require('../ws/action')
   , order     = require("../controllers/ctrl_order.js")
   , seq       = require("../controllers/ctrl_seq.js")
-  , service   = require("../controllers/ctrl_service.js");
+  , service   = require("../controllers/ctrl_service.js")
+  , ws        = require('../ws/websocket')
+  , act       = require('../ws/action');
+
 
 var code = "diandian";
 
-exports.deskList = function(req,res){
+exports.backOrder = function (req,res) {
+  var handler = new context().bind(req, res);
+  log.operation("begin: get backOrder.", handler.uid);
+  order.backOrder(handler, function(err, result){
+    log.operation("finish: get deskList.", handler.uid);
+
+    ws.broadcast(act.dataBroadcast("refresh_desk", {deskId:handler.deskId}));
+    response.send(res, err, result);
+
+  });
+};
+
+exports.doneOrder = function (req,res) {
+  var handler = new context().bind(req, res);
+  log.operation("begin: get deskList.", handler.uid);
+  order.doneOrder(handler, function(err, result){
+    log.operation("finish: get deskList.", handler.uid);
+
+    ws.broadcast(act.dataBroadcast("refresh_desk", {deskId:result.deskId}));
+    ws.broadcast(act.dataBroadcast("refreshOrder", {deskId:result.deskId}));
+    response.send(res, err, result);
+
+  });
+};
+
+exports.deskList = function (req,res) {
   var handler = new context().bind(req, res);
   log.operation("begin: get deskList.", handler.uid);
 
@@ -30,9 +58,10 @@ exports.appList = function (req_, res_) {
     , serviceId = req_.query.serviceId
     , start = req_.query.start
     , limit = req_.query.limit
+    , back = req_.query.back
 
 
-  order.getList(code, deskId, serviceId, start, limit, function (err, result) {
+  order.getList(code, deskId, serviceId,back ,start, limit, function (err, result) {
     response.send(res_, err, result);
   });
 

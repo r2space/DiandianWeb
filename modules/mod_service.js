@@ -64,6 +64,12 @@ exports.addUnfinishedCount = function(code,servicdId,callback){
   service.findByIdAndUpdate(servicdId,{$inc:{unfinishedCount:1}},callback);
 };
 
+exports.delUnfinishedCount = function(code,servicdId,callback){
+  var service = model(code);
+
+  service.findByIdAndUpdate(servicdId,{$inc:{unfinishedCount:-1}},callback);
+};
+
 exports.findStatus = function(code,deskId,callback){
   var service = model(code);
 

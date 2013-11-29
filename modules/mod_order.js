@@ -22,8 +22,8 @@ var Order = new schema({
   , orderNum        :   {type: String, description: "订单组"}
   , userId          :   {type: String, description: "服务员的Id"}
   , itemId          :   {type: String, description: "名称"}
-  , type            :   {type: Number, description: "类型 0:桌台 1:包间", default: 0}
-  , back            :   {type: Number, description: "类型 0:不退 1:退菜", default: 0}
+  , type            :   {type: Number, description: "类型 0 大份 1 小份", default: 0}
+  , back            :   {type: Number, description: "类型 0:不退 1 已上菜  2:退菜", default: 0}
   , valid           :   {type: Number, description: "删除 0:无效 1:有效", default: 1}
   , remark          :   {type: String, description: "备注"}
 
@@ -55,6 +55,15 @@ exports.add = function(code, newOrder, callback) {
   });
 };
 
+exports.update = function(code ,orderId,newOrder, callback){
+
+  var order = model(code);
+
+  order.findByIdAndUpdate(orderId, newOrder, function(err, result) {
+    callback(err, result);
+  });
+
+};
 
 exports.total = function(code, condition, callback) {
 
@@ -84,4 +93,13 @@ exports.getList = function(code, condition, start, limit, callback) {
     .exec(function(err, result) {
       callback(err, result);
     });
+};
+
+exports.getBillOrderList = function(code,condition, callback){
+
+  var order = model(code);
+  order.find(condition).exec(function(err,result){
+    callback(err, result);
+  });
+
 };
