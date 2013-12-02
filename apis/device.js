@@ -11,61 +11,49 @@ var response  = smart.framework.response
   , util      = smart.framework.util
   , context   = smart.framework.context
   , log       = smart.framework.log
-  , device      = require("../controllers/ctrl_device");
+  , device    = require("../controllers/ctrl_device");
 
 // 获取设备一览
-exports.list = function(req_, res_) {
+exports.list = function(req, res) {
+  var handler = new context().bind(req, res);
+  log.operation("begin: get device list.", handler.uid);
 
-  var start = req_.query.start
-    , limit = req_.query.count
-    , code = "diandian";
-
-  device.list(code, start, limit, function(err, result) {
-    response.send(res_, err, result);
+  device.list(handler, function(err, result) {
+    log.operation("finish: get device list.", handler.uid);
+    response.send(res, err, result);
   });
 };
 
-//
-exports.countcompanyid = function(req_, res_) {
-  var code = "diandian";
-  device.countcompanyid (code, req_, res_, function(err, result) {
-    response.send(res_, err, result);
-  });
-};
+exports.deviceAllow = function(req, res) {
+  var handler = new context().bind(req, res);
+  log.operation("begin: allow an device.", handler.uid);
 
-exports.deviceAllow = function(req_, res_) {
-  var uid = req_.session.user._id
-    , devid = req_.body.device
-    , code = "diandian"
-
-  device.deviceallow (code, uid, devid, true, function(err, result) {
-    response.send(res_, err, result);
+  device.deviceallow (handler, true, function(err, result) {
+    log.operation("finish: allow an device.", handler.uid);
+    response.send(res, err, result);
   });
 }
-exports.deviceDeny = function(req_, res_) {
-  var uid = req_.session.user._id
-    , devid = req_.body.device
-    , code = "diandian";
+exports.deviceDeny = function(req, res) {
+  var handler = new context().bind(req, res);
+  log.operation("begin: deny an device.", handler.uid);
 
-  device.deviceallow (code, uid, devid, false, function(err, result) {
-    response.send(res_, err, result);
+  device.deviceallow (handler, false, function(err, result) {
+    log.operation("finish: allow an device.", handler.uid);
+    response.send(res, err, result);
   });
 }
 /**
  * 设置用户可用
- * @param req_
- * @param res_
+ * @param req
+ * @param res
  */
-exports.allow = function(req_, res_) {
+exports.allow = function(req, res) {
+  var handler = new context().bind(req, res);
+  log.operation("begin: allow an user.", handler.uid);
 
-  var uid = req_.session.user._id
-    , devid = req_.body.device
-    , userid = req_.body.user
-    , code = "diandian";
-
- // device.setUserDefault(req_.session.user.lang,req_.session.user.timezone);
-  device.allow (code, uid, devid, userid, true, function(err, result) {
-    response.send(res_, err, result);
+  device.allow (handler, true, function(err, result) {
+    log.operation("finish: allow an user.", handler.uid);
+    response.send(res, err, result);
   });
 };
 /**
@@ -73,15 +61,13 @@ exports.allow = function(req_, res_) {
  * @param req_
  * @param res_
  */
-exports.deny = function(req_, res_) {
+exports.deny = function(req, res) {
+  var handler = new context().bind(req, res);
+  log.operation("begin: deny an user.", handler.uid);
 
-  var uid = req_.session.user._id
-    , devid = req_.body.device
-    , userid = req_.body.user
-    , code = "diandian";
-
-  device.allow (code, uid, devid, userid, false, function(err, result) {
-    response.send(res_, err, result);
+  device.allow (handler, false, function(err, result) {
+    log.operation("finish: deny an user.", handler.uid);
+    response.send(res, err, result);
   });
 };
 
@@ -96,20 +82,16 @@ exports.deny = function(req_, res_) {
 // * @param req_
 // * @param res_
 // */
-exports.add = function(req_, res_) {
+exports.add = function(req, res) {
+  var handler = new context().bind(req, res);
+  log.operation("begin: add an device.", handler.uid);
 
-  var description = req_.body.description
-    , devicetype = req_.body.devicetype
-    , deviceid = req_.body.deviceid
-    , user = req_.session.user
-    , confirm = req_.body.confirm
-    , code = req_.session.user.companycode;
-
-  device.add (code, deviceid, user, description, devicetype, confirm, function(err, result) {
+  device.add (handler, function(err, result) {
+    log.operation("finish: add an device.", handler.uid);
     if (err) {
-      return res_.send(err.code, json.errorSchema(err.code, err.message));
+      return res.send(err.code, json.errorSchema(err.code, err.message));
     } else {
-      return res_.send(json.dataSchema(result));
+      return res.send(json.dataSchema(result));
     }
   });
 };
@@ -123,23 +105,12 @@ exports.setDeviceUser = function(req_, res_){
 
 };
 
-exports.deviceRegister = function(req_, res_) {
-  var deviceid = req_.body.deviceId
-    , devicetoken = req_.query.token
-    , code = "diandian"
-    , devicetype = "iPad"
-    , userid = req_.body.userId;
-  if(!userid){
-    response.send(res_, err, {status:"6009"});
-  }
-  if(!code){
-    response.send(res_, err, {status:"6008"});
-  }
-  if(!deviceid){
-    response.send(res_, err, {status:"6007"});
-  }
+exports.deviceRegister = function(req, res) {
+  var handler = new context().bind(req, res);
+  log.operation("begin: register an device.", handler.uid);
 
-  device.deviceRegister(deviceid,devicetoken, userid, code , devicetype , function(err, result) {
-    response.send(res_, err, result);
+  device.deviceRegister(handler, function(err, result) {
+    log.operation("finish: register an device.", handler.uid);
+    response.send(res, err, result);
   });
 };

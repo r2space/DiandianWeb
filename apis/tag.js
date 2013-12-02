@@ -9,17 +9,17 @@
 var response    = smart.framework.response
   , util        = smart.framework.util
   , errors      = smart.framework.errors
+  , context   = smart.framework.context
+  , log       = smart.framework.log
   , tag         = require('../controllers/ctrl_tag');
 
 // Tag一览
-exports.search = function(req_, res_) {
+exports.search = function(req, res) {
+  var handler = new context().bind(req, res);
+  log.operation("begin: search tags list", handler.uid);
 
-  var code = "diandian"
-    , keywords = req_.query.keywords
-    , start = req_.query.start
-    , limit = req_.query.count;
-
-  tag.search(code, keywords, start, limit, function(err, result) {
-    response.send(res_, err, result);
+  tag.search(handler, function(err, result) {
+    log.operation("finish: search tags list", handler.uid)
+    response.send(res, err, result);
   });
 };

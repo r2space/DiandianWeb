@@ -21,10 +21,10 @@ exports.list = function(req, res) {
 // 添加
 exports.add = function(req, res) {
   var handler = new context().bind(req, res);
-
-  log.operation("begin: get menu list.", handler.uid);
+  log.operation("begin: add an item.", handler.uid);
 
   item.add(handler, function(err, result) {
+    log.operation("finish: add an item.", handler.uid);
     response.send(res, err, result);
   });
 };
@@ -32,41 +32,43 @@ exports.add = function(req, res) {
 // 更新
 exports.update = function(req, res) {
   var handler = new context().bind(req, res);
+  log.operation("begin: update an item.", handler.uid);
 
   item.update(handler, function(err, result) {
+    log.operation("finish: update an item.", handler.uid);
     response.send(res, err, result);
   });
 };
 
 // uploud image
 exports.updateimage = function(req, res) {
-
   var handler = new context().bind(req, res);
+  log.operation("begin: upload an item.", handler.uid);
 
   item.addimage(handler, function(err, result) {
-
+    log.operation("finish: upload an item.", handler.uid);
     response.send(res, err, result);
   });
 };
 
 // 删除·
 exports.remove = function(req, res) {
-
   var handler = new context().bind(req, res);
+  log.operation("begin: remove an item.", handler.uid);
 
   item.remove(handler, function(err, result) {
+    log.operation("finish: remove an item.", handler.uid);
     response.send(res, err, result);
   });
 };
 
 // 获取指定菜品
 exports.findOne = function(req, res) {
-
   var handler = new context().bind(req, res);
+  log.operation("begin: get an item.", handler.uid);
 
   item.get(handler, function(err, result) {
-    console.log(result);
-    console.log("-----------------------------")
+    log.operation("finish: get an item.", handler.uid);
     response.send(res, err, result);
   });
 };
