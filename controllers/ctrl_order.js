@@ -10,6 +10,7 @@
 var _       = smart.util.underscore
   , async   = smart.util.async
   , error   = smart.framework.errors
+  , seq       = require("../controllers/ctrl_seq.js")
   , order = require('../modules/mod_order.js')
   , item = require('../modules/mod_item.js')
   , desk = require('../modules/mod_desk.js')
@@ -18,14 +19,34 @@ var _       = smart.util.underscore
 exports.doneOrder = function(handler, callback) {
   var code = handler.params.code
     , orderId = handler.params.orderId
+    , orderIds = handler.params.orderIds
+  var ids = [];
 
-  order.update(code,orderId,{ back: 1} ,function(err,result){
+  if(orderIds && orderIds.length >0 ){
+    ids = orderIds.split(",");
+  }
 
-    service.delUnfinishedCount(code,result.serviceId,function(err,serviceResult){
-      callback(err,result);
+  if(orderId && orderId.length > 0) {
+    ids.push(orderId);
+  }
+  var tmpResult = [];
+  async.forEach(ids,function(idStr,cb){
+
+    order.update(code,idStr,{ back: 1} ,function(err,orderResult){
+
+      service.delUnfinishedCount(code,orderResult.serviceId,function(err,serviceResult){
+        tmpResult.push(orderResult);
+        cb(err,orderResult);
+      });
+
     });
 
-  });
+  },function(err,result){
+
+    callback(err,tmpResult);
+
+  })
+
 
 
 };
@@ -55,12 +76,25 @@ exports.backOrder = function(handler, callback) {
 exports.getDeskList = function(handler, callback) {
   var code = handler.params.code
     , orderIds = handler.params.orderIds
-    , condition = { valid: 1 };
+    , type = handler.params.type
+    , condition = {
+        valid: 1
+      , back : 0
+    };
 
   var ids = [];
-  ids = orderIds.split(",");
+  if(orderIds && orderIds.length > 0  ){
+    ids = orderIds.split(",");
+  }
+
   if (ids && ids.length > 0) {
     condition._id = {$in: ids};
+  }
+
+  if(type == "item") {
+    condition.itemType = { $in: [1] };
+  } else {
+    condition.itemType = { $in: [0,2] };
   }
 
   order.total(code, condition, function (err, count) {
@@ -102,7 +136,45 @@ function getDeskListByOrderList (code,orderList,callback){
 }
 
 
+//, type          :  {type: Number, description: "类型 0:主食 1:菜品 2:酒水 10:广告", default: 1}
+exports.getItemList = function(handler, callback) {
+  var code = handler.params.code
+    , type = handler.params.type
+    , serviceId = handler.params.serviceId
+    , condition = {
+        valid: 1
+        , back : 0
+    };
+  if(type == "item") {
+    condition.itemType = {$in: [1]};
+  } else {
+    condition.itemType = {$in: [0,2]};
+  }
 
+  if (serviceId && serviceId.length >0){
+    condition.serviceId = serviceId;
+  }
+
+  var start = 0 ;
+  var limit = 100;
+
+  order.total(code, condition, function (err, count) {
+    if (err) {
+      return callback(new error.InternalServer(err));
+    }
+    order.getList(code, condition, start, limit, function (err, result) {
+      if (err) {
+        return callback(new error.InternalServer(err));
+      }
+
+      getItemListByOrderList(code,result,function(err,resultWithItem){
+        return callback(err, {items: resultWithItem, totalItems: count});
+      });
+
+    });
+  });
+
+};
 
 exports.getList = function (code, deskId, serviceId,back, start, limit, callback) {
   var condition = {
@@ -159,8 +231,52 @@ function getItemListByOrderList (code,orderList,callback){
 
 
 
+exports.addOrder = function(handler, callback) {
+  var orderList = handler.params.orderList;
+  var serviceId = handler.params.serviceId;
+  var deskId = handler.params.deskId;
+  var code = handler.params.code;
 
-exports.add = function (code, uid, orderData, callback) {
+  for (var i in orderList) {
+    orderList[i]._index = i
+    console.log(orderList[i]);
+  }
+
+  var tmpResult = [];
+  var tmpCurOrderNumSeq = "";
+  seq.getNextVal(code,"orderNum" ,function(err,orderNumSeq){
+    tmpCurOrderNumSeq = orderNumSeq;
+    async.forEach(orderList, function (orderObj, cb) {
+      seq.getNextVal(code,"orderSeq",function(err,seq){
+
+        orderObj.orderSeq = seq;
+        orderObj.orderNum = orderNumSeq;
+
+          add(code,'', orderObj, function (err, docs) {
+          tmpResult[orderObj._index] = docs;
+          service.addUnfinishedCount(code,orderObj.serviceId,function(){
+
+            cb(null, orderObj);
+          });
+
+        });
+      });
+
+    }, function (err, result) {
+
+        desk.get (code,deskId,function(err,deskObj) {
+          if(!deskObj){
+          return  callback(err, {items:tmpResult , orderNum :tmpCurOrderNumSeq , deskName : "外卖", now: new Date()});
+          }
+          callback(err, {items:tmpResult , orderNum :tmpCurOrderNumSeq , deskName : deskObj.name , now: new Date()});
+        });
+
+    });
+  });
+
+};
+
+function add (code, uid, orderData, callback) {
   var now = new Date();
 
   var newOrder = {
@@ -168,6 +284,7 @@ exports.add = function (code, uid, orderData, callback) {
     , serviceId   : orderData.serviceId
     , orderSeq    : orderData.orderSeq
     , orderNum    : orderData.orderNum
+    , itemType    : orderData.itemType
     , userId      : orderData.userId
     , itemId      : orderData.itemId
     , type        : orderData.type
@@ -191,3 +308,4 @@ exports.add = function (code, uid, orderData, callback) {
 
 };
 
+exports.add = add;

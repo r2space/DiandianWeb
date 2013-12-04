@@ -13,6 +13,7 @@ exports.appDeskList = function(req_, res_) {
     , limit = req_.query.count || 20
     , condition = {
       valid: 1
+
     };
 
 

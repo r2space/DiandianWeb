@@ -22,6 +22,7 @@ var Order = new schema({
   , orderNum        :   {type: String, description: "订单组"}
   , userId          :   {type: String, description: "服务员的Id"}
   , itemId          :   {type: String, description: "名称"}
+  , itemType        :   {type: String, description: "类型 item 的类型"}
   , type            :   {type: Number, description: "类型 0 大份 1 小份", default: 0}
   , back            :   {type: Number, description: "类型 0:不退 1 已上菜  2:退菜", default: 0}
   , valid           :   {type: Number, description: "删除 0:无效 1:有效", default: 1}
