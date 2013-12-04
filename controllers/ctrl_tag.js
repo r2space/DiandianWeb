@@ -61,10 +61,10 @@ exports.remove = function (code_, uid_, name_, callback_) {
 
 exports.search = function(handler, callback){
 
-  var code = handler.params.code
+  var code     = handler.params.code
     , keywords = handler.params.keywords
-    , start = handler.params.start
-    , limit = handler.params.count;
+    , start    = handler.params.start
+    , limit    = handler.params.count;
 
   var object = { scope: default_scope };
 

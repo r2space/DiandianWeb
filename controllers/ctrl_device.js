@@ -30,9 +30,9 @@ exports.setUserDefault = function (lang, timezone) {
  */
 exports.list = function (handler, callback_) {
 
-  var code  = handler.params.code
-    , start = handler.params.start || 0
-    , limit = handler.params.count || 20
+  var code      = handler.params.code
+    , start     = handler.params.start || 0
+    , limit     = handler.params.count || 20
     , condition = {
       valid: 1
     };
@@ -224,11 +224,11 @@ function updateApplyFn(code, session_uid, device_id, user_id, allow_, callback_)
 }
 
 exports.deviceRegister = function (handler, callback) {
-  var deviceid = handler.params.device
+  var deviceid    = handler.params.device
     , devicetoken = handler.params.devicetoken
-    , userid = handler.params.user
-    , code = "diandian"
-    , devicetype = handler.params.devicetype;
+    , userid      = handler.params.user
+    , code        = "diandian"
+    , devicetype  = handler.params.devicetype;
   var object = {
     "companycode":code, "devicetoken": devicetoken, "deviceid": deviceid, "deviceType": devicetype, "devstatus": 1, "userinfo": [
       {

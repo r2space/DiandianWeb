@@ -8,8 +8,69 @@
   <script type="text/javascript" src="/javascripts/common.tag.view.js"></script>
   <script  type="text/javascript">
     var i18n = {
+      "js.public.check.item.name":"<%=i('js.public.check.item.name') %>"
     }
   </script>
+  <style type="text/css">
+
+    /* jQuery Gridly
+     * Copyright 2013 Kevin Sylvestre
+     * 1.2.1
+     */
+    .gridly, .gridly > :not(.dragging) {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+    .gridly .dragging {
+      z-index: 800;
+    }
+    .gridly-wrapper{
+      margin-top: 10px;
+      border: 2px dashed gray;
+    }
+    .gridly {
+      margin-left: 5px;
+      position: relative;
+      height: 40px;
+    }
+
+    .brick,.menu-item{
+      width: 60px;
+      height: 30px;
+      /*background-color: red;*/
+    }
+    .brick{
+      margin-top: 5px;
+      cursor:move;
+      background-color: #e9ee5c;
+    }
+    .brick >span{
+      width: auto;
+      display: table;
+      margin-top: 5px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .menu-item {
+      margin: 5px;
+      cursor: pointer;
+      border: 1px solid gray;
+    }
+
+    .menu-item >span {
+      width: auto;
+      display: table;
+      margin-top: 5px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .selected{
+      background-color: #e9ee5c;
+      border: 0px solid gray;
+    }
+
+  </style>
 
 </head>
 <body>
@@ -35,7 +96,7 @@
             <i class="icon-chevron-right arrow-icon"></i>
           </span>
       </li>
-      <li class="active"><%= title %><!--增加菜品--></li>
+      <li class="active"><%= i('html.label.menu.itemadd') %><!--增加菜品--></li>
     </ul>
     <!--.breadcrumb-->
   </div>
@@ -139,6 +200,28 @@
             </div>
           </div>
         </div>
+        <div class="form-group">
+          <label  class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.tag') %><!--类型--></label>
+            <div class="col-lg-8 col-md-8">
+              <table id="inputpin" value="">
+                <tr>
+                  <th><div id="NO1" menu-id="NO1" menu-name="NO1" class="menu-item pull-left" value="1" type="checkbox"><span>招牌菜</span></div></th>
+                  <th><div id="NO2" menu-id="NO2" menu-name="NO2" class="menu-item pull-left" value="2" type="checkbox"><span>热卖菜</span></div></th>
+                  <th><div id="NO3" menu-id="NO3" menu-name="NO3" class="menu-item pull-left" value="3" type="checkbox"><span>新品菜</span></div></th>
+                  <th><div id="NO4" menu-id="NO4" menu-name="NO4" class="menu-item pull-left" value="4" type="checkbox"><span>营养菜</span></div></th>
+                  <th><div id="NO5" menu-id="NO5" menu-name="NO5" class="menu-item pull-left" value="5" type="checkbox"><span>优惠菜</span></div></th>
+                </tr>
+                <tr>
+                  <td><div style="float: left"> <img width="68px" src="/images/tuijian.png"> </div></td>
+                  <td><div style="float: left"> <img width="68px" src="/images/remai.png"> </div></td>
+                  <td><div style="float: left"> <img width="68px" src="/images/xinpin.png"> </div></td>
+                  <td><div style="float: left"> <img width="68px" src="/images/remai.png"> </div></td>
+                  <td><div style="float: left"> <img width="68px" src="/images/cuxiao.png"> </div></td>
+                </tr>
+              </table>
+            </div>
+        </div>
+
       </form>
     </div>
     <div class="col-lg-8 col-md-12" style="margin-bottom: 30px;padding: 0px;">

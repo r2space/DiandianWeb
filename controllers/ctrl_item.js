@@ -21,11 +21,11 @@ var  ph       = smart.lang.path
  * @param callback
  */
 exports.list = function(handler, callback_) {
-  var code = handler.params.code
-    , start = handler.params.start || 0
-    , limit = handler.params.count || 20
-    , keyword = handler.params.keyword
-    , tags = handler.params.tags
+  var code      = handler.params.code
+    , start     = handler.params.start || 0
+    , limit     = handler.params.count || 20
+    , keyword   = handler.params.keyword
+    , tags      = handler.params.tags
     , condition = {
       valid : 1
     };
@@ -87,6 +87,7 @@ exports.add = function(handler, callback){
     , smallimage        : handler.params.smallimage
     , tags              : handler.params.tags
     , type              : handler.params.type
+    , pin               : handler.params.pin
     , editat: now
     , editby: handler.uid
   };
@@ -158,6 +159,7 @@ exports.update = function(handler, callback) {
     , smallimage        : handler.params.smallimage
     , tags              : handler.params.tags
     , type              : handler.params.type
+    , pin               : handler.params.pin
     , editat: now
     , editby: handler.uid
   };
