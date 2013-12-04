@@ -27,6 +27,7 @@ function render(start, count, keyword) {
     if (smart.error(e, i18n["js.common.search.error"], true)) {
       return;
     }
+    console.log(result.items+"-----------");
     itemList = result.items;
     var tmpl = $("#tmpl_item_list").html()
       , container = $("#item_list")
@@ -40,20 +41,12 @@ function render(start, count, keyword) {
         "id": row._id
         , "index": index++ + start
         , "cover": imagetmp
-//        , "image_b": row.bigimage
         , "itemName": row.itemName
         , "itemType": row.itemType
         , "type" : row.type == 0 ? i18n["html.label.item.food"] : (row.type == 1 ? i18n["html.label.item.dish"]:(row.type == 2 ? i18n["html.label.item.drinks"]:i18n["html.label.item.ad"]))
         , "itemPrice": row.itemPriceNormal
         , "editat": smart.date(row.editat)
       }));
-
-//      var temp = $('#tmpl_slide').html();
-//      $("#slide").html("");
-//      $("#slide").append(_.template(temp, { files: row.smallimage }));
-//      $("#page").addClass("active");
-//      $("#slide").addClass("active");
-//      $("#itemModal").modal("show");
 
     });
     if(itemList.length == 0) {
@@ -72,14 +65,14 @@ function events() {
     var _keyword = '';
     _keyword =  $("#txt_search").val();
     smart.paginationInitalized = false;
-    render(0, 20,_keyword);
+    render(0, 20, _keyword);
   });
 
   $("#doSearch").bind("click",function(){
     var _keyword = '';
     _keyword =  $("#txt_search").val();
     smart.paginationInitalized = false;
-    render(0, 20,_keyword);
+    render(0, 20, _keyword);
   });
 
   // list events

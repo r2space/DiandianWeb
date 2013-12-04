@@ -1,16 +1,15 @@
 "use strict";
 
-var  ph       = smart.lang.path
-  , fs        = smart.lang.fs
+var fs        = smart.lang.fs
   , async     = smart.util.async
   , _         = smart.util.underscore
   , gridfs    = smart.ctrl.file
   , error     = smart.framework.errors
   , user      = smart.ctrl.user
-  , confapp   = smart.util.config.app
   , auth      = smart.framework.auth
   , log       = smart.framework.log
   , file      = smart.ctrl.file
+  , util      = smart.framework.util
   , tag       = require('./ctrl_tag')
   , item      = require('../modules/mod_item.js');
 
@@ -32,7 +31,7 @@ exports.list = function(handler, callback_) {
 
   if (keyword) {
     keyword = util.quoteRegExp(keyword);
-    condition.name = new RegExp(keyword.toLowerCase(), "i");
+    condition.itemName = new RegExp(keyword.toLowerCase(), "i");
   }
 
   if (tags){
