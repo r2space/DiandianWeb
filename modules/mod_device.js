@@ -24,8 +24,8 @@ var Device = new schema({
   , devstatus      : { type: String, description: "设备状态，1:使用中 0:使用不可" }
   , userinfo       : [{
       userid         : { type: String, description: "使用者ID" }
-    , username : { type: String, description: "使用者名" }
-    , status   : { type: String, description: "状态，1:使用中 0:使用不可 2:申请中 3:未注册用户申请中" }
+    , username       : { type: String, description: "使用者名" }
+    , status         : { type: String, description: "状态，1:使用中 0:使用不可 2:申请中 3:未注册用户申请中" }
   }]
   , description    : { type: String, description: "申请描述" }
   , valid          : { type: Number, description: "删除 0:无效 1:有效", default:1 }

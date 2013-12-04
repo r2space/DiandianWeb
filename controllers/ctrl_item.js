@@ -1,16 +1,15 @@
 "use strict";
 
-var  ph       = smart.lang.path
-  , fs        = smart.lang.fs
+var fs        = smart.lang.fs
   , async     = smart.util.async
   , _         = smart.util.underscore
   , gridfs    = smart.ctrl.file
   , error     = smart.framework.errors
   , user      = smart.ctrl.user
-  , confapp   = smart.util.config.app
   , auth      = smart.framework.auth
   , log       = smart.framework.log
   , file      = smart.ctrl.file
+  , util      = smart.framework.util
   , tag       = require('./ctrl_tag')
   , item      = require('../modules/mod_item.js');
 
@@ -20,11 +19,32 @@ var  ph       = smart.lang.path
  * @param limit_
  * @param callback
  */
-exports.list = function(code_, condition_, tag, start_, limit_, callback_) {
+exports.list = function(handler, callback_) {
+  var code      = handler.params.code
+    , start     = handler.params.start || 0
+    , limit     = handler.params.count || 20
+    , keyword   = handler.params.keyword
+    , tags      = handler.params.tags
+    , condition = {
+      valid : 1
+    };
 
-  item.total(code_, condition_, function (err, count) {
+  if (keyword) {
+    keyword = util.quoteRegExp(keyword);
+    condition.itemName = new RegExp(keyword.toLowerCase(), "i");
+  }
 
-    item.getList(code_, condition_, start_, limit_,  function(err, result){
+  if (tags){
+
+    var or = [];
+    _.each(tags.split(","), function(item){
+      or.push({tags: item});
+    });
+    condition.$or = or;
+  }
+  item.total(code, condition, function (err, count) {
+
+    item.getList(code, condition, start, limit,  function(err, result){
       if (err) {
         return callback_(new error.InternalServer(err));
       }
@@ -47,11 +67,14 @@ exports.searchOne = function( compid, callback_) {
 
 
 
-exports.add = function(handler, callback_){
-  var now = new Date();
+exports.add = function(handler, callback){
+  var now = new Date()
+    , uid = handler.uid
+    , code = handler.code
+    , tags = handler.params.tags;
 
   var newItem = {
-      itemName          : handler.params.itemName
+    itemName          : handler.params.itemName
     , itemPriceNormal   : handler.params.itemPriceNormal
     , itemPriceHalf     : handler.params.itemPriceHalf
     , itemPriceDiscount : handler.params.itemPriceDiscount
@@ -62,88 +85,51 @@ exports.add = function(handler, callback_){
     , bigimage          : handler.params.bigimage
     , smallimage        : handler.params.smallimage
     , tags              : handler.params.tags
+    , type              : handler.params.type
+    , pin               : handler.params.pin
     , editat: now
     , editby: handler.uid
   };
 
-//  item_.tags = _.compact(item_.tags);
-//
-//  var tasks = [];
-//
-//  // 获取原来的tag一览
-//  tasks.push(function(cb) {
-//    item.get(code_, item_._id, function(err, data) {
-//      cb(err, data.tags);
-//    });
-//  });
-//
-//  // 新增的tag，添加到tag表
-//  tasks.push(function(data, cb) {
-//    var add = _.difference(item_.tags, data);
-//
-//    if (add && add.length > 0) {
-//      tag.add(code_, uid_, add, function(err, result){
-//        cb(err, data);
-//      });
-//    } else {
-//      cb(null, data);
-//    }
-//  });
-//
-//  // 删除的tag，从tag表移除
-//  tasks.push(function(data, cb) {
-//    var remove = _.difference(data, item_.tags);
-//
-//    if (remove && remove.length > 0) {
-//      tag.remove(code_, uid_, remove, function(err, result){
-//        cb(err, data);
-//      });
-//    } else {
-//      cb(null, data);
-//    }
-//  });
-//
-//  // 删除的tag，从tag表移除
-//  tasks.push(function(data, cb) {
-//    var remove = _.difference(data, item_.tags);
-//
-//    if (remove && remove.length > 0) {
-//      tag.remove(code_, uid_, remove, function(err, result){
-//        cb(err, data);
-//      });
-//    } else {
-//      cb(null, data);
-//    }
-//  });
-//
-//  async.waterfall(tasks, function(err, result){
-//    return callback_(err, result);
-//  });
+  handler.params.tags = _.compact(handler.params.tags);
 
-//  var id = item_.id;
-//
-//  if (id) {
-//
-//    item.update(code_, id, newItem, function(err, result){
-//      if (err) {
-//        return callback_(new error.InternalServer(err));
-//      }
-//
-//      callback_(err, result);
-//    });
-//  } else {
+  var tasks = [];
     newItem.createat = now;
     newItem.createby = handler.uid;
 
-    item.add(handler.code, newItem, function(err, result){
+  tasks.push(function(cb){
+
+    item.add(code, newItem, function(err, result){
       if (err) {
-        return callback_(new error.InternalServer(err));
+        return cb(new error.InternalServer(err));
       }
 
-      callback_(err, result);
+      cb(err, result);
     });
+  });
 
-//  }
+  // 新增的tag，添加到tag表
+  tasks.push(function(result, cb) {
+    var add = _.difference(tags, result);
+
+      tag.add(code, uid, add, function(err, result){
+        cb(err, result);
+      });
+  });
+
+
+  // 删除的tag，从tag表移除
+  tasks.push(function(data, cb) {
+    var remove = _.difference(data, tags);
+    tag.remove(code, uid, remove, function(err, result){
+      cb(err, data);
+    });
+  });
+
+  async.waterfall(tasks, function(err, result){
+    return callback(err, result);
+  });
+
 };
 /**
  * 更新菜品
@@ -152,47 +138,66 @@ exports.add = function(handler, callback_){
  * @param callback_
  * @returns {*}
  */
-exports.update = function(code_, uid_, item_, callback_) {
+exports.update = function(handler, callback) {
 
-  var now = new Date();
+  var now = new Date()
+    , uid = handler.uid
+    , code = handler.code
+    , tags = handler.params.tags;
 
   var newItem = {
-      itemName : item_.itemName
-   , itemPriceNormal   : item_.itemPriceNormal
-   , itemPriceHalf     : item_.itemPriceHalf
-   , itemPriceDiscount : item_.itemPriceDiscount
-   , itemType : item_.itemType
-   , itemComment : item_.itemComment
-   , itemMaterial : item_.itemMaterial
-   , itemMethod : item_.itemMethod
-   , editat: now
-   , editby: uid_
+    itemName            : handler.params.itemName
+    , itemPriceNormal   : handler.params.itemPriceNormal
+    , itemPriceHalf     : handler.params.itemPriceHalf
+    , itemPriceDiscount : handler.params.itemPriceDiscount
+    , itemType          : handler.params.itemType
+    , itemComment       : handler.params.itemComment
+    , itemMaterial      : handler.params.itemMaterial
+    , itemMethod        : handler.params.itemMethod
+    , bigimage          : handler.params.bigimage
+    , smallimage        : handler.params.smallimage
+    , tags              : handler.params.tags
+    , type              : handler.params.type
+    , pin               : handler.params.pin
+    , editat: now
+    , editby: handler.uid
   };
+  var tasks = [];
+  newItem.createat = now;
+  newItem.createby = handler.uid;
 
-  var id = item_.id;
+  tasks.push(function(cb){
 
-  if (id) {
-
-    item.update(code_, id, newItem, function(err, result){
+    item.update(code, handler.params.id, newItem, function(err, result){
       if (err) {
-        return callback_(new error.InternalServer(err));
+        return cb(new error.InternalServer(err));
       }
 
-      callback_(err, result);
+      cb(err, result);
     });
-  } else {
-    newItem.createat = now;
-    newItem.createby = uid_;
+  });
 
-    item.add(code_, newItem, function(err, result){
-      if (err) {
-        return callback_(new error.InternalServer(err));
-      }
+  // 新增的tag，添加到tag表
+  tasks.push(function(result, cb) {
+    var add = _.difference(tags, result);
 
-      callback_(err, result);
+    tag.add(code, uid, add, function(err, result){
+      cb(err, result);
     });
+  });
 
-  }
+
+  // 删除的tag，从tag表移除
+  tasks.push(function(data, cb) {
+    var remove = _.difference(data, tags);
+    tag.remove(code, uid, remove, function(err, result){
+      cb(err, data);
+    });
+  });
+
+  async.waterfall(tasks, function(err, result){
+    return callback(err, result);
+  });
 };
 
 exports.addimage = function(handler, callback) {
@@ -205,22 +210,28 @@ exports.addimage = function(handler, callback) {
   });
 };
 
-exports.remove = function(code_, user_, itemId_ , callback_){
+exports.remove = function(handler, callback){
+  var uid = handler.uid
+    , code = handler.code
+    , itemId = handler.params.id;
 
-  item.remove(code_, user_, itemId_, function(err, result){
+  item.remove(code, uid, itemId, function(err, result){
     if (err) {
-      return callback_(new error.InternalServer(err));
+      return callback(new error.InternalServer(err));
     }
-    callback_(err, result);
+    callback(err, result);
   });
 };
 
-exports.get = function(code_, user_, itemId_, callback_){
+exports.get = function(handler, callback){
+  var uid = handler.uid
+    , code = handler.code
+    , itemId = handler.params.itemId;
 
-  item.get(code_, itemId_, function(err, result){
+  item.get(code, itemId, function(err, result){
     if (err) {
-      return callback_(new error.InternalServer(err));
+      return callback(new error.InternalServer(err));
     }
-    callback_(err, result);
+    callback(err, result);
   });
 };

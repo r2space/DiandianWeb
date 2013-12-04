@@ -14,13 +14,12 @@ var async     = smart.util.async
   , util      = smart.framework.util
   , device    = require('../modules/mod_device.js')
 
-var that_device = device;
 exports.lang = '';
 exports.timezone = '';
 
-exports.setUserDefault = function (lang_, timezone_) {
-  exports.lang = lang_;
-  exports.timezone = timezone_;
+exports.setUserDefault = function (lang, timezone) {
+  exports.lang = lang;
+  exports.timezone = timezone;
 };
 
 /**
@@ -29,10 +28,11 @@ exports.setUserDefault = function (lang_, timezone_) {
  * @param limit_
  * @param callback_
  */
-exports.list = function (code, start_, limit_, callback_) {
+exports.list = function (handler, callback_) {
 
-  var start = start_ || 0
-    , limit = limit_ || 20
+  var code      = handler.params.code
+    , start     = handler.params.start || 0
+    , limit     = handler.params.count || 20
     , condition = {
       valid: 1
     };
@@ -51,25 +51,27 @@ exports.list = function (code, start_, limit_, callback_) {
 };
 
 //允许禁止  设备
-exports.deviceallow = function (code, session_uid, device_, allow_, callback_) {
+exports.deviceallow = function (handler, allow, callback) {
+  var session_uid = handler.uid
+    , code        = "diandian"
+    , device_      = handler.params.device;
   checkDeviceId(code, device_, function (err, device_docs) {
     var docs = undefined;
     if (err) {
-      return callback_(null, 0);
+      return callback(null, 0);
     }
     if (device_docs) {
       docs = device_docs instanceof Array ? device_docs[0] : docs;
     } else {
-      return callback_(null, 0);
+      return callback(null, 0);
     }
 
-
     var device_update = {
-      devstatus: allow_ ? "1" : "0"
+      devstatus: allow ? "1" : "0"
     }
 
     device.update(code, docs._id, device_update, function (err, result) {
-      callback_(err, result);
+      callback(err, result);
     });
 
 
@@ -79,7 +81,14 @@ exports.deviceallow = function (code, session_uid, device_, allow_, callback_) {
 /**
  * 添加设备
  */
-exports.add = function (code, deviceid, user, description, devicetype, confirm, callback_) {
+exports.add = function (handler, callback) {
+  var description = handler.params.description
+    , devicetype  = "iPad"
+    , code        = "diandian"
+    , user        = handler.user
+    , confirm     = handler.params.confirm
+    , deviceid    = handler.params.device;
+
 
   // check device & user exists
   device.getList(code, {"deviceid": deviceid}, function (err, result) {
@@ -92,12 +101,12 @@ exports.add = function (code, deviceid, user, description, devicetype, confirm, 
         return u.userid == user.uid;
       });
       if (info) {
-        return callback_(null, {status: info.status});
+        return callback(null, {status: info.status});
       }
 
       // 如果仅仅是确认，则当没有数据的时候返回为申请的状态
       if (confirm) {
-        return callback_(null, {status: "3"});
+        return callback(null, {status: "3"});
       }
 
       // 否则给设备添加一个用户
@@ -109,7 +118,7 @@ exports.add = function (code, deviceid, user, description, devicetype, confirm, 
       // 更新
       device.update(code, d._id, object, function (err, result) {
         console.log(err);
-        return callback_(err, {status: "2"});
+        return callback(err, {status: "2"});
       });
 
       // 新规
@@ -117,7 +126,7 @@ exports.add = function (code, deviceid, user, description, devicetype, confirm, 
 
       // 如果仅仅是确认，则当没有数据的时候返回为申请的状态
       if (confirm) {
-        return callback_(null, {status: "3"});
+        return callback(null, {status: "3"});
       }
 
       var object = {
@@ -128,32 +137,27 @@ exports.add = function (code, deviceid, user, description, devicetype, confirm, 
         ], "description": description, createat: new Date(), createby: user.uid, editat: new Date(), editby: user.uid
       }
       device.add(code, object, function (err, result) {
-        return callback_(err, {status: "2"});
+        return callback(err, {status: "2"});
       });
     }
   });
 
 };
 
-//
-exports.deviceTotalByComId = function (code, compId_, callback_) {
-  device.totalByComId(code, compId_, function (err, result) {
-    if (err) {
-      return callback_(new error.InternalServer(err));
-    }
-    return callback_(err, result);
-  });
-};
+exports.allow = function (handler, allow, callback) {
+  var code = "diandian"
+    , session_uid = handler.uid
+    , device = handler.params.device
+    , user_id = handler.params.user;
 
-exports.allow = function (code, session_uid, device_, user_id, allow_, callback_) {
   // 初始化密码为邮件(user_id) 中"@"之前的字符
   /^(.*)@.*$/.test(user_id);
   var pass = RegExp.$1 == "" ? user_id : RegExp.$1;
   //pass = auth.sha256(pass);
-  findApply(code, device_, user_id, function(err,result){
+  findApply(code, device, user_id, function(err,result){
 
-    updateAllow(code, session_uid, result.deviceid, user_id, allow_, pass, function (err, result) {
-      callback_(err, result);
+    updateAllow(code, session_uid, result.deviceid, user_id, allow, pass, function (err, result) {
+      callback(err, result);
     });
   });
 
@@ -219,7 +223,12 @@ function updateApplyFn(code, session_uid, device_id, user_id, allow_, callback_)
 
 }
 
-exports.deviceRegister = function (deviceid, devicetoken, userid, code, devicetype, callback_) {
+exports.deviceRegister = function (handler, callback) {
+  var deviceid    = handler.params.device
+    , devicetoken = handler.params.devicetoken
+    , userid      = handler.params.user
+    , code        = "diandian"
+    , devicetype  = handler.params.devicetype;
   var object = {
     "companycode":code, "devicetoken": devicetoken, "deviceid": deviceid, "deviceType": devicetype, "devstatus": 1, "userinfo": [
       {
@@ -230,7 +239,7 @@ exports.deviceRegister = function (deviceid, devicetoken, userid, code, devicety
   device.add(code, object, function (err, result) {
 //        console.log("device.add");
 //        console.log(result);
-    return callback_(err, result);
+    return callback(err, result);
   });
 };
 

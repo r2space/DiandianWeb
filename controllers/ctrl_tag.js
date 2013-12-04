@@ -59,15 +59,20 @@ exports.remove = function (code_, uid_, name_, callback_) {
   });
 }
 
-exports.search = function(code_, keywords_, start_, limit_, callback_){
+exports.search = function(handler, callback){
+
+  var code     = handler.params.code
+    , keywords = handler.params.keywords
+    , start    = handler.params.start
+    , limit    = handler.params.count;
 
   var object = { scope: default_scope };
 
-  if (keywords_) {
-    object.name = new RegExp("^" + keywords_.toLowerCase() + ".*$", "i");
+  if (keywords) {
+    object.name = new RegExp("^" + keywords.toLowerCase() + ".*$", "i");
   }
 
-  tag.getList(code_, object, start_, limit_, function(err, result){
-    return callback_(err, result);
+  tag.getList(code, object, start, limit, function(err, result){
+    return callback(err, result);
   });
 }

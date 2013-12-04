@@ -13,7 +13,7 @@ var mongo       = smart.util.mongoose
   , schema      = mongo.Schema;
 
 /**
- * 素材集合
+ * Tag集合
  * @type {schema}
  */
 var Tag = new schema({
@@ -33,7 +33,7 @@ var Tag = new schema({
  */
 function model(code) {
 
-  return conn(code).model("Tag", Tag);
+  return conn.model(code, "Tag", Tag);
 }
 
 /**

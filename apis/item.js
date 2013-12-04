@@ -3,83 +3,73 @@ var response  = smart.framework.response
   , util      = smart.framework.util
   , context   = smart.framework.context
   , log       = smart.framework.log
+  , _         = require('underscore')
   , item      = require("../controllers/ctrl_item");
 
 // 获取一览
-exports.list = function(req_, res_) {
-  var code = "diandian"
-    , start = req_.query.start || 0
-    , limit = req_.query.count || 20
-    , keyword = req_.query.keyword
-    , tags = req_.query.tags
-    , condition = {
-      valid: 1
-    };
+exports.list = function(req, res) {
 
-  if (keyword) {
-    keyword = util.quoteRegExp(keyword);
-    condition.itemName = new RegExp(keyword.toLowerCase(), "i");
-  }
+  var handler = new context().bind(req, res);
+  log.operation("begin: get item list.", handler.uid);
 
-  item.list(code, condition, start, tags, limit , function(err, result) {
-    response.send(res_, err, result);
+  item.list(handler, function(err, result) {
+    log.operation("finish: get item list.", handler.uid);
+    response.send(res, err, result);
   });
 };
 
 // 添加
-exports.add = function(req_, res_) {
-  var handler = new context().bind(req_, res_);
-
-  log.operation("begin: get menu list.", handler.uid);
+exports.add = function(req, res) {
+  var handler = new context().bind(req, res);
+  log.operation("begin: add an item.", handler.uid);
 
   item.add(handler, function(err, result) {
-    response.send(res_, err, result);
+    log.operation("finish: add an item.", handler.uid);
+    response.send(res, err, result);
   });
 };
 
 // 更新
-exports.update = function(req_, res_) {
+exports.update = function(req, res) {
+  var handler = new context().bind(req, res);
+  log.operation("begin: update an item.", handler.uid);
 
-  var code = "diandian"
-    , uid = req_.session.user._id;
-
-  item.add(code, uid, req_.body, function(err, result) {
-    response.send(res_, err, result);
+  item.update(handler, function(err, result) {
+    log.operation("finish: update an item.", handler.uid);
+    response.send(res, err, result);
   });
 };
 
 // uploud image
 exports.updateimage = function(req, res) {
-
   var handler = new context().bind(req, res);
+  log.operation("begin: upload an item.", handler.uid);
 
   item.addimage(handler, function(err, result) {
-
+    log.operation("finish: upload an item.", handler.uid);
     response.send(res, err, result);
   });
 };
 
 // 删除·
-exports.remove = function(req_, res_) {
+exports.remove = function(req, res) {
+  var handler = new context().bind(req, res);
+  log.operation("begin: remove an item.", handler.uid);
 
-  var code = req_.session.user.companycode
-    , uid = req_.session.user._id;
-
-  item.remove(code, uid, req_.body.id, function(err, result) {
-    response.send(res_, err, result);
+  item.remove(handler, function(err, result) {
+    log.operation("finish: remove an item.", handler.uid);
+    response.send(res, err, result);
   });
 };
 
 // 获取指定菜品
-exports.findOne = function(req_, res_) {
+exports.findOne = function(req, res) {
+  var handler = new context().bind(req, res);
+  log.operation("begin: get an item.", handler.uid);
 
-  var code = req_.session.user.companycode
-    , uid = req_.session.user._id
-    , itemId = req_.query.itemId;
-
-  item.get(code, uid, itemId, function(err, result) {
-    console.log(result);
-    response.send(res_, err, result);
+  item.get(handler, function(err, result) {
+    log.operation("finish: get an item.", handler.uid);
+    response.send(res, err, result);
   });
 };
 

@@ -6,7 +6,19 @@
   <% include common/required.html %>
   <link href="/stylesheets/diandian.css" rel="stylesheet" media="screen">
   <script type="text/javascript" src="/vendor/jquery.gridly.js"></script>
+  <script  type="text/javascript">
+    var i18n = {
+      "js.common.search.error" : "<%=i('js.common.search.error') %>",
+      "js.common.list.empty"   : "<%=i('js.common.list.empty') %>",
+      "js.common.update.error" : "<%=i('js.common.update.error') %>"
+    };
+  </script>
   <script type="text/javascript" src="/javascripts/menu_menu_open.js"></script>
+  <script  type="text/javascript">
+    var i18n = {
+
+    };
+  </script>
 <style type="text/css">
 
 /* jQuery Gridly
@@ -108,7 +120,7 @@
           </div>
         </div>
       </div>
-      <div class="row tableheader col-lg-8 col-md-12">
+<!--       <div class="row tableheader col-lg-8 col-md-12">
         <div class="pull-left">
           <h4><%= i('html.label.menu.unselectd') %></h4>
         </div>
@@ -116,7 +128,7 @@
       <div class="row col-lg-8 col-md-12" >
         <div class="menu-container">
         </div>
-      </div>
+      </div> -->
       <div class="col-lg-8 col-md-12" style="margin-top: 30px;padding: 0px;">
         <div id="saveorder" name="saveorder" class="col-lg-4 col-md-4 btn btn-warning btn-lg">
           <%= i('html.button.common.save') %>

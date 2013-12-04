@@ -9,9 +9,8 @@ $(function () {
 
 });
 
-var bigimg;
-var smallimg;
-var tmpimg;
+var pin = [];
+
 
 function events(itemId) {
   $("#uploud_b").bind("click", function(){
@@ -27,6 +26,20 @@ function events(itemId) {
   });
   $("#uploadfile_s").bind("change", function(event){
     uploadFiles(event.target.files, "small");
+  });
+
+  $.each($(".menu-item"), function(idx, it) {
+    it.onclick = function(event){
+      var value   =  $(it).attr('value');
+      if($(it).hasClass("selected")){
+        pin = _.difference(pin,[value]);
+
+        $(it).removeClass("selected");
+      }else{
+        $(it).addClass("selected");
+        pin.push(value);
+      }
+    };
   });
 
   $("#saveitem").bind("click", function(event){
@@ -91,6 +104,8 @@ function getItemData() {
   });
 
   item.tags = tag;
+  item.pin = pin;
+
 
   return item;
 }
@@ -156,7 +171,10 @@ function render(itemId) {
         new ButtonGroup("inputType", result.type).init();
         var tag = smart.view("tag").view;
         tag.setDefaults(result.tags);
-
+        pin = result.pin;
+        for (var i = 0; i < result.pin.length; i++) {
+          $("#NO"+result.pin[i]).addClass("selected");
+        }
       }
     });
   }else {
@@ -167,7 +185,7 @@ function render(itemId) {
 function check_item(item) {
   var flag = 0;
   if (item.itemName == "") {
-    Alertify.log.error(i18n["js.public.check.desk.name"]);
+    Alertify.log.error(i18n["js.public.check.item.name"]);
     flag = 1;
   }
 

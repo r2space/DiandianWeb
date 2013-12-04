@@ -1,13 +1,9 @@
 $(function () {
   'use strict';
-
-  // add menu
   $("#addMenu").bind("click", function(event){
     window.location = "add";
   })
-  // show list
   render();
-  // get the events for buttons
   events();
 });
 
@@ -21,54 +17,21 @@ function render(){
     }
 
     var list = result.items;
-    console.log(list);
+    if(!list || list.length == 0 ){
+      container.html(i18n["js.common.list.empty"]);
+    }
+
     _.each(_.sortBy(list,'sortLevel'), function(row){
 
-      var menuItem = $('<div/>');
-      menuItem.attr('menu-id',row._id);
-      menuItem.attr('menu-name',row.name);
-      menuItem.addClass("menu-item pull-left");
-      if(row.sortLevel != 10){
-        menuItem.addClass("selected");
-        var brickItem = $('<div/>');
-        brickItem.attr('id','brick-'+row._id);
-        brickItem.addClass("brick");
-        brickItem.html('<span>'+row.name+'</span>');
-        $('.gridly').append(brickItem);
-      }
-      menuItem.html('<span>'+row.name+'</span>');
-      $('.menu-container').append(menuItem);
+      var brickItem = $('<div/>');
+      brickItem.attr('id','brick-'+row._id);
+      brickItem.addClass("brick");
+      brickItem.html('<span>'+row.name+'</span>');
+      $('.gridly').append(brickItem);
     });
 
     if($('.gridly').children.length > 0){
       initGridly();
-    }
-
-    $.each($(".menu-item"), function(idx, it) {
-      it.onclick = function(event){
-        var id   =  $(it).attr('menu-id');
-        var name =  $(it).attr('menu-name');
-        if($(it).hasClass("selected")){
-
-          $(it).removeClass("selected");
-          $('#brick-'+id).remove();
-
-        }else{
-
-          $(it).addClass("selected");
-          var brickItem = $('<div/>');
-          brickItem.attr('id','brick-'+id);
-          brickItem.addClass("brick");
-          brickItem.html('<span>'+name+'</span>');
-          $('.gridly').append(brickItem);
-
-        }
-        initGridly();
-      };
-    });
-
-    if(!list || list.length == 0 ){
-      container.html(i18n["js.common.list.empty"]);
     }
   });
 
@@ -86,7 +49,7 @@ function events () {
     });
 
     if (sort.length == 0 ){
-      Alertify.log.error(i18n["js.public.check.menu.name"]);
+      Alertify.log.error(i18n["js.common.list.empty"]);
     }else{
       var data = {};
       _.each(_.sortBy(sort,'level'),function(it,idx){
