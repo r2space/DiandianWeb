@@ -188,6 +188,18 @@ function check_item(item) {
     Alertify.log.error(i18n["js.public.check.item.name"]);
     flag = 1;
   }
+  if (item.bigimage == "") {
+    Alertify.log.error(i18n["js.public.check.item.bigimage"]);
+    flag = 1;
+  }
+  if (item.smallimage == "") {
+    Alertify.log.error(i18n["js.public.check.item.smallimage"]);
+    flag = 1;
+  }
+  if (item.itemPriceNormal == "") {
+    Alertify.log.error(i18n["js.public.check.item.price"]);
+    flag = 1;
+  }
 
   return flag;
 }
