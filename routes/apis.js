@@ -3,6 +3,8 @@ var desk      = require("../apis/desk")
   , seq       = require("../apis/seq")
   , order     = require("../apis/order")
   , user      = require("../apis/user")
+  , device      = require("../apis/device")
+  , bill      = require("../apis/bill")
   , menu      = require("../apis/menu");
 
 
@@ -37,6 +39,12 @@ exports.guiding = function(app){
     order.appList(req,res);
   });
 
+
+  //order
+  app.get("/api/order/itemList.json" ,function(req,res){
+      order.itemList(req,res);
+  });
+
   app.get("/api/order/deskList.json" ,function(req,res){
     order.deskList(req,res);
   });
@@ -59,18 +67,42 @@ exports.guiding = function(app){
   });
 
   app.get("/api/bill/get.json" ,function(req,res){
-
+    bill.createBill(req,res);
   });
 
-  app.get("/api/bill/done.json" ,function(req,res){
-
+  app.post("/api/bill/stop.json" ,function(req,res){
+    bill.stopBill(req,res);
   });
 
   app.get("/api/bill/orderList.json" ,function(req,res){
 
   });
 
+  app.post("/api/device/add.json" ,function(req,res){
+    device.deviceRegister(req,res);
+  });
 
+  app.post('/api/admin/user/updatePattern.json', function (req, res) {
+    user.updatePattern(req, res);
+  });
+
+  app.post('/api/admin/user/checkPattern.json', function (req, res) {
+    user.isPatternRight(req, res);
+  });
+
+  app.post('/api/service/change.json', function (req, res) {
+    service.changeDesk(req, res);
+  });
+
+
+
+  app.get("/api/service/takeoutList.json" ,function(req,res){
+    service.takeoutList(req,res);
+  });
+
+  app.post('/api/order/add.json', function (req, res) {
+    order.orderAdd(req, res);
+  });
 
 }
 

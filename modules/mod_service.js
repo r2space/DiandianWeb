@@ -49,6 +49,34 @@ function model(code) {
 
   return conn.model(code, "Service", Service);
 }
+
+
+/**
+ * 获取服务件数
+ * @param {string} code 公司Code
+ * @param {object} condition 条件
+ * @param {function} callback 返回服务件数
+ */
+
+exports.total = function(code, condition, callback) {
+
+  var service = model(code);
+
+  service.count(condition).exec(function(err, count) {
+    callback(err, count);
+  });
+};
+
+exports.get = function(code, serviceId, callback) {
+
+  var service = model(code);
+
+  service.findById(serviceId, function(err, result) {
+    callback(err, result);
+  });
+
+
+};
 exports.add = function(code, newService, callback) {
 
   var service = model(code);
@@ -70,10 +98,31 @@ exports.delUnfinishedCount = function(code,servicdId,callback){
   service.findByIdAndUpdate(servicdId,{$inc:{unfinishedCount:-1}},callback);
 };
 
+
+
+exports.getList = function(code, condition, callback) {
+
+  var service = model(code);
+  console.log(condition);
+  service.find(condition)
+    .sort({editat: -1})
+    .exec(function(err, result) {
+      callback(err, result);
+    });
+};
+
+exports.update = function(code,serviceId,newService ,callback){
+
+  var service = model(code);
+
+  service.findByIdAndUpdate(serviceId,newService,callback);
+
+};
+
 exports.findStatus = function(code,deskId,callback){
   var service = model(code);
 
-  service.find({deskId:deskId})
+  service.find({deskId:deskId, status : 1})
     .limit(1)
     .sort({editat: -1})
     .exec(function(err, result) {

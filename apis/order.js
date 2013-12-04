@@ -32,9 +32,9 @@ exports.doneOrder = function (req,res) {
   order.doneOrder(handler, function(err, result){
     log.operation("finish: get deskList.", handler.uid);
 
-    ws.broadcast(act.dataBroadcast("refresh_desk", {deskId:result.deskId}));
-    ws.broadcast(act.dataBroadcast("refreshOrder", {deskId:result.deskId}));
-    response.send(res, err, result);
+    ws.broadcast(act.dataBroadcast("refresh_desk", {deskId:result[0].deskId}));
+    ws.broadcast(act.dataBroadcast("refreshOrder", {deskId:result[0].deskId}));
+    response.send(res, err, {items:result,totalItems:result.length});
 
   });
 };
@@ -49,6 +49,18 @@ exports.deskList = function (req,res) {
     response.send(res, err, result);
 
   });
+
+};
+
+exports.itemList = function (req, res) {
+  var handler = new context().bind(req, res);
+  log.operation("begin: get appfoodAndDrinkList.", handler.uid);
+  order.getItemList(handler, function (err, result) {
+
+    log.operation("finish: get appfoodAndDrinkList.", handler.uid);
+    response.send(res, err, result);
+  });
+
 
 };
 
@@ -67,6 +79,17 @@ exports.appList = function (req_, res_) {
 
 }
 
+exports.orderAdd = function(req, res) {
+
+  var handler = new context().bind(req, res);
+  log.operation("begin: orderAdd  .", handler.uid);
+  order.addOrder(handler,function(err,result) {
+
+    ws.broadcast(act.dataBroadcast("refresh_desk", {}));
+
+    response.send(res, err, result);
+  });
+}
 
 exports.addOrder = function (data, callback) {
   var err = null;
@@ -76,6 +99,7 @@ exports.addOrder = function (data, callback) {
   var curDeskId = data.data.deskId;
   for (var i in orderList) {
     orderList[i]._index = i
+    console.log(orderList[i]);
   }
 
 
