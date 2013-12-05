@@ -75,6 +75,22 @@ exports.total = function(code, condition, callback) {
   });
 };
 
+exports.getOrderListByServiceId = function(code,serviceId,callback){
+  var order = model(code);
+
+  order.find({serviceId:serviceId},function(err,result){
+    if(err){
+      return callback(err);
+    }
+
+    if(!result){
+      return callback(null,[]);
+    }
+
+    callback(null,result);
+  });
+}
+
 exports.getList = function(code, condition, start, limit, callback) {
 
   var order = model(code);
