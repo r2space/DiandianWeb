@@ -118,7 +118,7 @@ exports.getList = function(code, condition, start, limit, callback) {
   menu.find(condition)
     .skip(start || 0)
     .limit(limit || 20)
-    .sort({editat: -1})
+    .sort({sortLevel: 1})
     .exec(function(err, result) {
       callback(err, result);
     });

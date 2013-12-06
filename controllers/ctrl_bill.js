@@ -33,7 +33,13 @@ exports.stopBill = function(handler, callback) {
 exports.createBill = function(handler, callback) {
   var code = handler.params.code
     , serviceId = handler.params.serviceId
-    , condition = { valid: 1 };
+    , condition = {
+        valid: 1 ,
+        serviceId :serviceId ,
+        back :{
+          $in:[0,1]
+        }
+    };
 
   var tmpAmount = 0 ;
   var tmpOrderList = [];

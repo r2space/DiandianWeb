@@ -92,8 +92,11 @@ exports.remove = function(req_, res_) {
 
 exports.appList = function(req_, res_){
   var code = req_.session.user.companycode || "diandian"
-  var condition = {"status": 1};
-  menu.appList(code, condition, 0, 10 , function(err, result) {
+  var condition = {
+      valid   : 1
+    , status  : 1
+  };
+  menu.appList(code, condition, 0, 8 , function(err, result) {
     response.send(res_, err, result);
   });
 };

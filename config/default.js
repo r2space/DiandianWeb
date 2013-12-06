@@ -1,7 +1,7 @@
 module.exports = {
 
   "db": {
-    "host": "mongo"
+    "host": "112.124.23.114"
     , "port": 27017
     , "dbname": "diandian"
     , "pool": 5

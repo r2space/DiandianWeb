@@ -188,14 +188,19 @@ exports.getList = function (code, deskId, serviceId,back, start, limit, callback
     condition.serviceId = serviceId;
   }
   if (back){
-    condition.back = back;
+    var _back = back.split(",");
+
+    condition.back = {$in : _back};
+
   }
+
+  console.log(condition);
 
   order.total(code, condition, function (err, count) {
     if (err) {
       return callback(new error.InternalServer(err));
     }
-    order.getList(code, condition, start, limit, function (err, result) {
+    order.getList(code, condition, start, 1000, function (err, result) {
       if (err) {
         return callback(new error.InternalServer(err));
       }
@@ -263,11 +268,11 @@ exports.addOrder = function(handler, callback) {
       });
 
     }, function (err, result) {
-
-        desk.get (code,deskId,function(err,deskObj) {
-          if(!deskObj){
+      console.log("deskId  :  " + deskId);
+        if (!deskId){
           return  callback(err, {items:tmpResult , orderNum :tmpCurOrderNumSeq , deskName : "外卖", now: new Date()});
-          }
+        }
+        desk.get (code,deskId,function(err,deskObj) {
           callback(err, {items:tmpResult , orderNum :tmpCurOrderNumSeq , deskName : deskObj.name , now: new Date()});
         });
 

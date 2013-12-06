@@ -128,4 +128,15 @@ exports.findStatus = function(code,deskId,callback){
     .exec(function(err, result) {
       callback(err, result);
     });
+};
+
+exports.checkStatus = function(code,deskId,callback){
+  var service = model(code);
+
+  service.find({deskId:deskId})
+    .limit(1)
+    .sort({editat: -1})
+    .exec(function(err, result) {
+      callback(err, result);
+    });
 }
