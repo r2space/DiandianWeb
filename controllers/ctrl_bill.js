@@ -53,15 +53,12 @@ exports.createBill = function(handler, callback) {
         item.get(code,orderObj.itemId,function(err,itemObj){
 
           if (orderObj.type == 0){
-
-
             tmpAmount = (parseInt(tmpAmount) + parseInt(itemObj.itemPriceNormal));
-
           } else {
-
             tmpAmount = (parseInt(tmpAmount) + parseInt(itemObj.itemPriceHalf));
-
           }
+
+
 
           cb(null,itemObj);
         });
