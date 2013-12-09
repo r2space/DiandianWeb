@@ -47,6 +47,7 @@ module.exports = {
       , "^\/simplelogout.*"
       , "^\/login.*"
       , "^\/register.*"
+      , "^\/archive"
     ]
   }
 
