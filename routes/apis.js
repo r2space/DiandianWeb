@@ -5,6 +5,7 @@ var desk      = require("../apis/desk")
   , user      = require("../apis/user")
   , device      = require("../apis/device")
   , bill      = require("../apis/bill")
+  , schedule      = require("../apis/schedule")
   , menu      = require("../apis/menu");
 
 
@@ -61,6 +62,9 @@ exports.guiding = function(app){
     order.backOrder(req,res);
   });
 
+  app.post("/api/order/freeOrder.json" , function(req,res){
+    order.freeOrder(req,res);
+  });
 
   app.get("/api/user/list.json" ,function(req,res){
     user.getList(req, res);
@@ -103,6 +107,20 @@ exports.guiding = function(app){
   app.post('/api/order/add.json', function (req, res) {
     order.orderAdd(req, res);
   });
+
+
+  app.post('/api/schedule/add.json', function (req, res) {
+    schedule.addSchedule(req, res);
+  });
+
+  app.get("/api/schedule/list.json" ,function(req,res){
+    schedule.getList(req,res);
+  });
+
+  app.post('/api/schedule/remove.json', function (req, res) {
+    schedule.removeSchedule(req, res);
+  });
+
 
 }
 
