@@ -49,7 +49,30 @@ exports.doneOrder = function(handler, callback) {
 
 
 
+}
+
+exports.freeOrder = function(handler, callback) {
+  var code = handler.params.code
+    , orderIds = handler.params.orderIds
+  var tmpResult = [];
+
+  async.forEach(orderIds ,function(orderId,cb){
+
+    order.update(code,orderId,{ back: 3} ,function(err,result){
+      tmpResult.push(result);
+
+        cb(err,result);
+
+
+    });
+
+  },function(err,result){
+    callback(null,{items:tmpResult,totalItems:tmpResult.length});
+  });
+
+
 };
+
 
 exports.backOrder = function(handler, callback) {
   var code = handler.params.code

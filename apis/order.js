@@ -14,6 +14,19 @@ var response  = smart.framework.response
 
 var code = "diandian";
 
+
+exports.freeOrder = function (req,res) {
+  var handler = new context().bind(req, res);
+  log.operation("begin: get backOrder.", handler.uid);
+  order.freeOrder(handler, function(err, result){
+    log.operation("finish: get deskList.", handler.uid);
+
+    ws.broadcast(act.dataBroadcast("refresh_desk", {deskId:handler.deskId}));
+    response.send(res, err, result);
+
+  });
+};
+
 exports.backOrder = function (req,res) {
   var handler = new context().bind(req, res);
   log.operation("begin: get backOrder.", handler.uid);
