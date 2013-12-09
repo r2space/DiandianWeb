@@ -25,6 +25,10 @@ exports.guiding = function (app) {
     res.render("login", {"title": "login"});
   });
 
+  app.get("/archive",function(req, res) {
+    res.render("archive", {"title": "archive"});
+  });
+
   app.get("/diandian",function(req, res) {
     res.render("diandian", {"title": "diandian", user: req.session.user});
   });
