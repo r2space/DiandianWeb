@@ -263,11 +263,19 @@ exports.getList = function(req, res) {
 
   var handler = new context().bind(req, res);
 
-  handler.addParams("userName", handler.params.keyword);
-  handler.addParams("realName", handler.params.keyword);
-  handler.addParams("and", false);
+  var keyword = handler.params.keyword;
 
-  ctrlUser.getListByKeywords(handler, function(err, userResult) {
+  var condition = {
+    "$or": [{
+      "userName": new RegExp(keyword, "i")
+    }, {
+      "first": new RegExp(keyword, "i")
+    }]
+  };
+
+  handler.addParams("condition", condition);
+
+  ctrlUser.getList(handler, function(err, userResult) {
 
     if (err) {
       return response.send(res, err);
