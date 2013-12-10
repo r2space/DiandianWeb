@@ -6,6 +6,7 @@ var desk      = require("../apis/desk")
   , device      = require("../apis/device")
   , bill      = require("../apis/bill")
   , schedule      = require("../apis/schedule")
+  , apn      = require("../apis/apn")
   , menu      = require("../apis/menu");
 
 
@@ -121,6 +122,10 @@ exports.guiding = function(app){
     schedule.removeSchedule(req, res);
   });
 
+
+  app.get("/api/test/apn.json" ,function(req,res){
+    apn.testApn(req,res);
+  });
 
 }
 
