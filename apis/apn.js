@@ -9,9 +9,9 @@ exports.testApn = function(req, res){
 }
 function sendApn(){
   var options = {
-    cert: './pem/pro.pem',                 /* Certificate file path */
-    key:  './pem/pro_key.pem',                  /* Key file path */
-    gateway: 'gateway.push.apple.com',/* gateway address  gateway.sandbox.push.apple.com  gateway.push.apple.com, port 2195*/
+    cert: './pem/cert.pem',                 /* Certificate file path */
+    key:  './pem/key.pem',                  /* Key file path */
+    gateway: 'gateway.sandbox.push.apple.com',/* gateway address  gateway.sandbox.push.apple.com  gateway.push.apple.com, port 2195*/
     port: 2195,                       /* gateway port */
     batchFeedback: true,
     errorCallback: errorHappened     /* Callback when error occurs function(err,notification) */
@@ -33,7 +33,7 @@ function sendApn(){
   note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
   note.badge = 1;
   note.sound = 'ping.aiff';
-  note.alert = 'You have a new message';
+  note.alert = {action:"refresh_desk",data: 'You have a new message'};
   note.payload = {'messageFrom': 'Caroline'};
   note.device = myDevice;
   apnsConnection.pushNotification(note,myDevice);
