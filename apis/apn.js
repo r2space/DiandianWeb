@@ -2,6 +2,8 @@ var apns = require("apn");
 
 
 exports.testApn = function(req, res){
+  var token = req.query.token;
+
   sendApn();
   res.json({"a":"a"});
 }
@@ -18,12 +20,15 @@ function sendApn(){
   var feedback = new apns.Feedback(options);
   feedback.on("feedback", function(devices) {
     devices.forEach(function(item) {
-      console.log(item);
+      console.log("feedback"+item);
+      console.log( item);
+
     });
   });
 
   var apnsConnection = new apns.Connection(options);
-  var myDevice = new apns.Device("b762a3736717c4e21cd1ebc80b695cd78cd544c0f49ad0fa80eb5decf9845687");
+
+  var myDevice = new apns.Device("b762a373 6717c4e2 1cd1ebc8 0b695cd7 8cd544c0 f49ad0fa 80eb5dec f9845687");
   var note = new apns.Notification();
   note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
   note.badge = 1;

@@ -224,11 +224,13 @@ function updateApplyFn(code, session_uid, device_id, user_id, allow_, callback_)
 }
 
 exports.deviceRegister = function (handler, callback) {
-  var deviceid    = handler.params.device
+  var deviceid    = handler.params.deviceId
     , devicetoken = handler.params.devicetoken
-    , userid      = handler.params.user
+    , userid      = handler.params.userId
     , code        = "diandian"
     , devicetype  = handler.params.devicetype;
+
+
   var object = {
     "companycode":code, "devicetoken": devicetoken, "deviceid": deviceid, "deviceType": devicetype, "devstatus": 1, "userinfo": [
       {
