@@ -75,7 +75,6 @@ exports.createBill = function(handler, callback) {
 
     });
 
-    //service.get   end
   });
 
 

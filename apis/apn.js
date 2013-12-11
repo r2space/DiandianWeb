@@ -28,7 +28,13 @@ function sendApn(){
 
   var apnsConnection = new apns.Connection(options);
 
-  var myDevice = new apns.Device("84df75fc 6aa230a3 d66e8d6c d147cd4a 29be2b3c 2124a601 388d383c b09552e8");
+
+//  6717c4e2 1cd1ebc8 0b695cd7 8cd544c0 f49ad0fa 80eb5dec f9845687
+//  var myDevice = new apns.Device("84df75fc 6aa230a3 d66e8d6c d147cd4a 29be2b3c 2124a601 388d383c b09552e8");
+
+
+  var myDevice = new apns.Device("6717c4e2 1cd1ebc8 0b695cd7 8cd544c0 f49ad0fa 80eb5dec f9845687");
+
   var note = new apns.Notification();
   note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
   note.badge = 1;
