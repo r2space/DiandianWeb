@@ -300,7 +300,14 @@ function ImagePopup(opt, callback) {
 //下拉刷新
 
 //先做单选
+
+
 };
 ImagePopup.prototype.show = function(){
   this.init();
+//  this.init();
 }
+
+//
+
+
