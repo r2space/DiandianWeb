@@ -88,6 +88,7 @@ function getItemData() {
     , bigimage: $("#uploadfile_big").val()
     , smallimage : $("#uploadfile_small").val()
     , type: $("#inputType").attr("value")
+    , printerIP: $("#printerType").attr("value")
   };
   var tag = []
     , inputTag = $("#itemType");
@@ -169,17 +170,65 @@ function render(itemId) {
         $("#uploadfile_small").val(result.smallimage);
         $("#uploadfile_big").val(result.bigimage);
         new ButtonGroup("inputType", result.type).init();
+        new ButtonGroup("printerType", result.printerIP).init();
         var tag = smart.view("tag").view;
         tag.setDefaults(result.tags);
         pin = result.pin;
         for (var i = 0; i < result.pin.length; i++) {
           $("#NO"+result.pin[i]).addClass("selected");
         }
+        smart.doget("/printer/list.json",function(err, result1){
+          if (err) {
+            smart.error(err,i18n["js.common.search.error"],false);
+          } else {
+            var tmpl = $("#printer_type").html()
+              , container = $("#printerType")
+              , index = 1;
+
+            container.html("");
+            _.each(result1.items, function(row){
+              if(row.type == "1"){
+
+                container.append(_.template(tmpl, {
+                  "id": row._id
+                  , "index": row.printerIP
+                  , "printerName": row.name
+                }));
+                temp = row.printerIP;
+              }
+              new ButtonGroup("printerType",result.printerIP).init();
+            });
+          }
+        });
       }
     });
   }else {
+    smart.doget("/printer/list.json",function(err, result){
+      if (err) {
+        smart.error(err,i18n["js.common.search.error"],false);
+      } else {
+        var tmpl = $("#printer_type").html()
+          , container = $("#printerType")
+          , index = 1;
+
+        container.html("");
+        _.each(result.items, function(row){
+          if(row.type == "1"){
+
+            container.append(_.template(tmpl, {
+              "id": row._id
+              , "index": row.printerIP
+              , "printerName": row.name
+             }));
+            temp = row.printerIP;
+          }
+          new ButtonGroup("printerType",row.printerIP).init();
+       });
+      }
+    });
     new ButtonGroup("inputType", "1").init();
   }
+
 }
 
 function check_item(item) {

@@ -27,7 +27,6 @@ function render(start, count, keyword) {
     if (smart.error(e, i18n["js.common.search.error"], true)) {
       return;
     }
-    console.log(result.items+"-----------");
     itemList = result.items;
     var tmpl = $("#tmpl_item_list").html()
       , container = $("#item_list")

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <title><%= title %></title>
+  <% include common/required.html %>
+  <link href="/stylesheets/diandian.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="/javascripts/shop_printer_list.js"></script>
+  <script  type="text/javascript">
+    var i18n = {
+      "js.common.search.error":"<%=i('js.common.search.error') %>"
+      ,"js.common.list.empty":"<%=i('js.common.list.empty') %>"
+      ,"js.common.dialog.ok":"<%=i('js.common.dialog.ok') %>"
+      ,"js.common.dialog.cancel":"<%=i('js.common.dialog.cancel') %>"
+      ,"js.common.delete.confirm":"<%=i('js.common.delete.confirm') %>"
+      ,"js.common.delete.error":"<%=i('js.common.delete.error') %>"
+      ,"js.common.delete.success":"<%=i('js.common.delete.success') %>"
+      ,"html.label.printer.kitchen":"<%=i('html.label.printer.kitchen') %>"
+      ,"html.label.printer.checkout":"<%=i('html.label.printer.checkout') %>"
+
+    };
+  </script>
+</head>
+<body>
+
+<% include common/navbar.html %>
+
+<div class="main-container container-fluid">
+  <% include common/sidebar.html %>
+
+  <div class="main-content">
+    <div class="breadcrumbs" id="breadcrumbs">
+      <ul class="breadcrumb">
+        <li>
+          <i class="icon-home icon-large"></i>
+          <a href="/diandian"><%= i('html.label.common.home') %></a>
+              <span class="divider">
+                <i class="icon-chevron-right arrow-icon"></i>
+              </span>
+        </li>
+        <li class="active"><%= i('html.label.shop.printer') %></li>
+      </ul><!--.breadcrumb-->
+    </div>
+
+    <div class="page-content">
+      <div class="row tableheader">
+
+        <div class="pull-right">
+          <button id="addPrinter" type="button" class="btn btn-default">
+            <i class="icon-plus icon-white"></i>
+            <span><%= i('html.button.printer.add') %></span>
+          </button>
+        </div>
+
+        <div class="pull-right" style="width: 300px">
+          <form class="search-form" onsubmit="return false;">
+            <div class="input-group">
+              <input id="txt_search" type="text" placeholder="<%= i('html.label.common.search') %>(<%= i('html.label.printer.name') %>)" class="form-control"  autocomplete="off" />
+                <span id="doSearch" class="input-group-addon">
+                  <i class="icon-search"></i>
+                </span>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- 一览表示 -->
+      <div id="list" class="row">
+        <div class="col-lg-12">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th><%= i('html.label.printer.no') %></th>
+              <th><%= i('html.label.printer.name') %></th>
+              <th><%= i('html.label.printer.IP') %></th>
+              <th><%= i('html.label.printer.type') %></th>
+              <!--th><%= i('html.label.common.updateat') %></th-->
+              <th><%= i('html.label.common.operation') %></th>
+            </tr>
+            </thead>
+            <tbody id="printer_list"></tbody>
+          </table>
+        </div><!--/span-->
+      </div>
+
+      <div class="pagination-area" id="pagination_area"></div>
+
+    </div>
+  </div>
+
+</div><!--/.main-container-->
+
+<script type="text/template" id="tmpl_printer_list">
+  <tr>
+    <td>{{index}}</td>
+    <td>{{name}}</td>
+    <td>{{IP}}</td>
+    <td>{{type}}</td>
+    <!--td>{{editat}}</td-->
+    <td>
+      <a href="#" class="btn btn-default btn-sm" index={{index}} rowId="{{id}}" operation="edit"><%= i('html.button.common.edit') %><!-- 編集--></a>
+      <a href="#" class="btn btn-default btn-sm" index={{index}} rowId="{{id}}" operation="delete"><%= i('html.button.common.delete') %><!--删除--></a>
+    </td>
+  </tr>
+</script>
+
+</body>
+</html>

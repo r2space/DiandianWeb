@@ -8,6 +8,7 @@ var log       = smart.framework.log
   , user      = require("../apis/user")
   , file      = require("../apis/file")
   , device    = require("../apis/device")
+  , printer   = require("../apis/printer")
   , ac        = require("../controllers/ctrl_ac");
 
 /*
@@ -167,6 +168,39 @@ exports.guiding = function (app) {
   app.put('/device/deny.json', function(req, res){
     device.deny(req, res);
   });
+
+  /*--------------  打印机---------------*/
+  app.get("/shop/printer/list", function(req, res) {
+    res.render("shop_printer_list", {"title": "printer", user: req.session.user});
+  });
+
+  app.get('/shop/printer/add', function(req, res){
+    res.render("shop_printer_add", {"title": "printer", user: req.session.user, printerId: ""});
+  });
+
+  app.get('/shop/printer/edit/:id', function (req, res) {
+    res.render("shop_printer_add", {"title": "printer", user: req.session.user, printerId:req.params.id});
+  });
+
+  app.get('/printer/list.json', function(req, res){
+    printer.list(req, res);
+  });
+
+  app.post('/printer/add.json', function(req, res){
+    printer.add(req, res);
+  });
+
+  app.post('/printer/update.json', function(req, res){
+    printer.update(req, res);
+  });
+
+  app.delete('/printer/remove.json', function (req, res) {
+    printer.remove(req,res);
+  });
+
+  app.get('/printer/findOne.json', function (req, res) {
+    printer.findOne(req,res);
+  })
 
 
   // APIs

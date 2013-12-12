@@ -87,6 +87,7 @@ exports.add = function(handler, callback){
     , tags              : handler.params.tags
     , type              : handler.params.type
     , pin               : handler.params.pin
+    , printerIP         : handler.params.printerIP
     , editat: now
     , editby: handler.uid
   };
@@ -159,6 +160,7 @@ exports.update = function(handler, callback) {
     , tags              : handler.params.tags
     , type              : handler.params.type
     , pin               : handler.params.pin
+    , printerIP         : handler.params.printerIP
     , editat: now
     , editby: handler.uid
   };

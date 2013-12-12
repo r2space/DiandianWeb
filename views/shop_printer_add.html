@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <title><%= title %></title>
+  <% include common/required.html %>
+  <link href="/stylesheets/diandian.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="/javascripts/shop_printer_add.js"></script>
+  <script  type="text/javascript">
+    var i18n = {
+      "js.common.update.error":"<%=i('js.common.update.error') %>"
+      ,"js.common.add.error":"<%=i('js.common.add.error') %>"
+      ,"js.common.search.error":"<%=i('js.common.search.error') %>"
+      ,"js.public.check.printer.name":"<%=i('js.public.check.printer.name') %>"
+      ,"js.public.check.printer.IP":"<%=i('js.public.check.printer.IP') %>"
+      ,"js.public.check.printer.type":"<%=i('js.public.check.printer.type') %>"
+
+    };
+  </script>
+</head>
+<body>
+
+<% include common/navbar.html %>
+
+<div class="main-container container-fluid">
+  <% include common/sidebar.html %>
+
+  <div class="main-content">
+    <div class="breadcrumbs" id="breadcrumbs">
+      <ul class="breadcrumb">
+        <li>
+          <i class="icon-home icon-large"></i>
+          <a href="/diandian"><%= i('html.label.common.home') %></a>
+          <span class="divider">
+            <i class="icon-chevron-right arrow-icon"></i>
+          </span>
+        </li>
+        <li>
+          <i class="icon-columns icon-large"></i>
+          <a href="/shop/printer/list"><%= i('html.label.shop.printer') %></a>
+            <span class="divider">
+                <i class="icon-chevron-right arrow-icon"></i>
+            </span>
+        </li>
+        <li class="active"><%= i('html.label.printer.add') %></li>
+      </ul><!--.breadcrumb-->
+    </div>
+
+    <div class="page-content">
+      <div class="row tableheader col-lg-8 col-md-12">
+        <div class="pull-left">
+          <h4><%= i('html.label.shop.printer') %></h4>
+        </div>
+      </div>
+      <div class="row col-lg-8 col-md-12">
+        <form class="form-horizontal" role="form" style="margin-top: 15px">
+          <input type="hidden" name="printerId" id="printerId" value= <%=printerId%> >
+          <div class="form-group">
+            <label for="name" class="control-label col-lg-2 col-md-2"><%= i('html.label.printer.name') %><!--打印机Name --></label>
+            <div class="col-lg-8 col-md-8">
+              <input type="text" class="form-control" name="name" id="name" placeholder="<%= i('html.label.printer.name') %>">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="IP" class="control-label col-lg-2 col-md-2"><%= i('html.label.printer.IP') %><!-- 打印机ip--></label>
+            <div class="col-lg-8 col-md-8">
+              <input type="text" class="form-control" name="IP" id="IP" placeholder="0.0.0.0">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="inputType" class="control-label col-lg-2 col-md-2"><%= i('html.label.printer.type') %><!-- 类型--></label>
+            <div class="col-lg-8 col-md-8">
+              <div id="inputType" class="btn-group" value="1">
+                <button value="1" class="btn btn-sm btn-default btn-white" type="button"><%= i('html.label.printer.kitchen') %><!-- 厨房--></button>
+                <button value="2" class="btn btn-sm btn-default btn-info" type="button"><%= i('html.label.printer.checkout') %><!-- 结账--></button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-lg-8" style="margin-bottom: 30px;padding: 0px;">
+        <div id="savePrinter" class="col-lg-4 btn btn-warning btn-lg">
+          <%= i('html.button.common.save') %><!-- 保存-->
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!--/.main-container-->
+
+</body>
+</html>

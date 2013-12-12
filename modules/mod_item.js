@@ -30,6 +30,7 @@ var Item = new schema({
  , valid                : {type: Number, description: "删除 0:无效 1:有效", default: 1}
  , tags                 : [String]
  , type                 :  {type: Number, description: "类型 0:主食 1:菜品 2:酒水 10:广告", default: 1}
+ , printerIP            : { type: String, description: "打印机IP" }
  , pin                  : {type: [String], description: "类型 1:招牌菜 2:热卖中 3:新品菜 4:营养菜 5:优惠菜", default: null}
 });
 
