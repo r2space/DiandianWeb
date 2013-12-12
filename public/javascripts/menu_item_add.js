@@ -45,6 +45,7 @@ function events(itemId) {
   $("#saveitem").bind("click", function(event){
 
     var item = getItemData();
+    console.log(item.printerId);
 
     if (!check_item(item)) {
 
@@ -88,7 +89,7 @@ function getItemData() {
     , bigimage: $("#uploadfile_big").val()
     , smallimage : $("#uploadfile_small").val()
     , type: $("#inputType").attr("value")
-    , printerIP: $("#printerType").attr("value")
+    , printerId: $("#printerType").attr("value")
   };
   var tag = []
     , inputTag = $("#itemType");
@@ -170,7 +171,7 @@ function render(itemId) {
         $("#uploadfile_small").val(result.smallimage);
         $("#uploadfile_big").val(result.bigimage);
         new ButtonGroup("inputType", result.type).init();
-        new ButtonGroup("printerType", result.printerIP).init();
+        new ButtonGroup("printerType", result.printerId).init();
         var tag = smart.view("tag").view;
         tag.setDefaults(result.tags);
         pin = result.pin;
@@ -191,12 +192,11 @@ function render(itemId) {
 
                 container.append(_.template(tmpl, {
                   "id": row._id
-                  , "index": row.printerIP
+                  , "index": row._id
                   , "printerName": row.name
                 }));
-                temp = row.printerIP;
               }
-              new ButtonGroup("printerType",result.printerIP).init();
+              new ButtonGroup("printerType",result.printerId).init();
             });
           }
         });
@@ -217,12 +217,11 @@ function render(itemId) {
 
             container.append(_.template(tmpl, {
               "id": row._id
-              , "index": row.printerIP
+              , "index": row._id
               , "printerName": row.name
              }));
-            temp = row.printerIP;
           }
-          new ButtonGroup("printerType",row.printerIP).init();
+          new ButtonGroup("printerType",row._id).init();
        });
       }
     });
