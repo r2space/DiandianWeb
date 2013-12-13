@@ -17,7 +17,7 @@ exports.createBill = function(req, res) {
   bill.createBill(handler, function(err, result) {
 
     log.operation("finish: createBill  .", handler.uid);
-    ws.broadcast(act.dataBroadcast("refresh_desk", {deskId:"528c27f0daa33c0031000001"}));
+    ws.broadcast(act.dataBroadcast("refresh_desk", {deskId:""}));
     response.send(res, err, result);
   });
 
@@ -32,7 +32,7 @@ exports.stopBill = function(req, res) {
   bill.stopBill(handler, function(err, result) {
 
     log.operation("finish: stopBill  .", handler.uid);
-    ws.broadcast(act.dataBroadcast("refresh_desk", {deskId:"528c27f0daa33c0031000001"}));
+    ws.broadcast(act.dataBroadcast("refresh_desk", {deskId:""}));
     response.send(res, err, result);
 
   });

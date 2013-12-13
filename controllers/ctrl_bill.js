@@ -37,7 +37,7 @@ exports.createBill = function(handler, callback) {
         valid: 1 ,
         serviceId :serviceId ,
         back :{
-          $in:[0,1]
+          $in:[0,1,2,3]
         }
     };
 
@@ -52,11 +52,14 @@ exports.createBill = function(handler, callback) {
 
         item.get(code,orderObj.itemId,function(err,itemObj){
 
-          if (orderObj.type == 0){
-            tmpAmount = (parseInt(tmpAmount) + parseInt(itemObj.itemPriceNormal));
-          } else {
-            tmpAmount = (parseInt(tmpAmount) + parseInt(itemObj.itemPriceHalf));
+          if(orderObj.back == 0 || orderObj.back == 1){
+            if (orderObj.type == 0){
+              tmpAmount = (parseInt(tmpAmount) + parseInt(itemObj.itemPriceNormal));
+            } else {
+              tmpAmount = (parseInt(tmpAmount) + parseInt(itemObj.itemPriceHalf));
+            }
           }
+
 
 
 

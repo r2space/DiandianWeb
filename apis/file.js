@@ -25,6 +25,7 @@ exports.getImage = function(req, res) {
   file.getImage(handler, function(err, result) {
 
     log.operation("finish: get image.", handler.uid);
+
     response.sendFile(res, err, result);
   });
 };

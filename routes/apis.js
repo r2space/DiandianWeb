@@ -7,6 +7,7 @@ var desk      = require("../apis/desk")
   , bill      = require("../apis/bill")
   , schedule      = require("../apis/schedule")
   , apn      = require("../apis/apn")
+  , printer   = require("../apis/printer")
   , menu      = require("../apis/menu");
 
 
@@ -125,6 +126,15 @@ exports.guiding = function(app){
 
   app.get("/api/test/apn.json" ,function(req,res){
     apn.testApn(req,res);
+  });
+
+
+  app.get("/api/printer/list.json" ,function(req,res){
+    printer.list(req,res);
+  });
+
+  app.get("/api/printer/get.json" ,function(req,res){
+    printer.findOne(req,res);
   });
 
 }
