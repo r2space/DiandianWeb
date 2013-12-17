@@ -36,7 +36,7 @@ exports.getImage = function(req, res) {
 
 
     // 返回错误信息
-    if (error) {amtlib.framework
+    if (error) {
       return res.send(error.code, createErrorSchema(error.code, error.message));
     }
     res.setHeader("Content-Type", data.fileInfo.contentType);
