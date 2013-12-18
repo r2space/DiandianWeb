@@ -398,6 +398,10 @@ exports.isPatternRight = function(req, res) {
       return response.send(res, err);
     }
 
+    if (!result.extend || !result.extend.pattern) {
+      return response.send(res, err, {isRight: -1});
+    }
+
     return response.send(res, err, {isRight: (result.extend.pattern === handler.params.pattern)});
   });
 };
