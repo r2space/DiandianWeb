@@ -107,8 +107,8 @@ exports.remove = function(handler, callback){
 };
 
 exports.get = function(handler, callback){
-  var uid = handler.uid
-    , code = handler.code
+  var uid = handler.params.uid
+    , code = handler.params.code
     , printerId = handler.params.printerId;
 
   printer.get(code, printerId, function(err, result){

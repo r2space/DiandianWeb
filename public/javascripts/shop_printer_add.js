@@ -53,8 +53,7 @@ function render(printerId) {
       } else {
 
         $("#name").val(result.name);
-        $("#capacity").val(result.capacity);
-        $("#sort").val(result.sortLevel);
+        $("#IP").val(result.printerIP);
         new ButtonGroup("inputType", result.type).init();
       }
     });

@@ -118,4 +118,19 @@ exports.total = function(code, condition, callback) {
   });
 };
 
+/**
+ * 获取指定打印机
+ * @param {string} code 公司code
+ * @param {string} printerId 打印机ID
+ * @param {function} callback 返回指定打印机
+ */
+exports.get = function(code, printerId, callback) {
+
+  var printer = model(code);
+
+  printer.findOne({valid: 1, _id: printerId}, function(err, result) {
+    callback(err, result);
+  });
+};
+
 
