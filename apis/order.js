@@ -14,6 +14,10 @@ var response  = smart.framework.response
 
 var code = "diandian";
 
+exports.wsRefresh = function (data, callback) {
+
+  callback(null, "orderList");
+}
 
 exports.freeOrder = function (req,res) {
   var handler = new context().bind(req, res);
@@ -22,6 +26,7 @@ exports.freeOrder = function (req,res) {
     log.operation("finish: get deskList.", handler.uid);
 
     ws.broadcast(act.dataBroadcast("refresh_desk", {deskId:handler.deskId}));
+    ws.broadcast(act.dataBroadcast("refresh_order", {}));
     response.send(res, err, result);
 
   });
@@ -34,6 +39,7 @@ exports.backOrder = function (req,res) {
     log.operation("finish: get deskList.", handler.uid);
 
     ws.broadcast(act.dataBroadcast("refresh_desk", {deskId:handler.deskId}));
+    ws.broadcast(act.dataBroadcast("refresh_order", {}));
     response.send(res, err, result);
 
   });
@@ -46,7 +52,7 @@ exports.doneOrder = function (req,res) {
     log.operation("finish: get deskList.", handler.uid);
 
     ws.broadcast(act.dataBroadcast("refresh_desk", {deskId:result[0].deskId}));
-    ws.broadcast(act.dataBroadcast("refreshOrder", {deskId:result[0].deskId}));
+    ws.broadcast(act.dataBroadcast("refresh_order", {}));
     response.send(res, err, {items:result,totalItems:result.length});
 
   });
@@ -99,7 +105,7 @@ exports.orderAdd = function(req, res) {
   order.addOrder(handler,function(err,result) {
 
     ws.broadcast(act.dataBroadcast("refresh_desk", {}));
-
+    ws.broadcast(act.dataBroadcast("refresh_order", {}));
     response.send(res, err, result);
   });
 }
