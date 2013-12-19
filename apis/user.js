@@ -67,6 +67,7 @@ exports.simpleLogin = function(req, res){
  */
 exports.simpleLogout = function(req, res){
 
+
   // TODO
   res.render("login", {"title": "login"});
 };
@@ -396,6 +397,10 @@ exports.isPatternRight = function(req, res) {
 
     if (err) {
       return response.send(res, err);
+    }
+
+    if (!result.extend || !result.extend.pattern) {
+      return response.send(res, err, {isRight: -1});
     }
 
     return response.send(res, err, {isRight: (result.extend.pattern === handler.params.pattern)});

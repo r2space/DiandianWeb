@@ -41,6 +41,7 @@ app.use(middleware.parseError);
  * 启动服务
  */
 var server = http.createServer(app).listen(app.get("port"), function(){
+
   log.info("Express server listening on port " + app.get("port"));
 });
 

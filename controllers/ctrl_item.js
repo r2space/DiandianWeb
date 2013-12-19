@@ -11,7 +11,8 @@ var fs        = smart.lang.fs
   , file      = smart.ctrl.file
   , util      = smart.framework.util
   , tag       = require('./ctrl_tag')
-  , item      = require('../modules/mod_item.js');
+  , item      = require('../modules/mod_item.js')
+  , dimg      = require('../core/dimg.js');
 
 /**
  * 获取菜品一览
@@ -104,7 +105,8 @@ exports.add = function(handler, callback){
       if (err) {
         return cb(new error.InternalServer(err));
       }
-
+//      dimg.thumbImage(result.bigimage,"diandian","items","bigimageThumb",result._id+"");
+//      dimg.thumbImage(result.smallimage,"diandian","items","smallimageThumb",result._id+"");
       cb(err, result);
     });
   });
@@ -128,6 +130,7 @@ exports.add = function(handler, callback){
   });
 
   async.waterfall(tasks, function(err, result){
+
     return callback(err, result);
   });
 
