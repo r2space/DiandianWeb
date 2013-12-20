@@ -15,6 +15,8 @@ var ctrlUser    = smart.ctrl.user
   , response    = smart.framework.response
   , _           = smart.util.underscore;
 
+var permission = require("../controllers/ctrl_ac.js");
+
 var FAKE_PASSWORD = "0000000000000000";
 
 function hasPermission(permissions, pcode) {
@@ -45,6 +47,8 @@ exports.simpleLogin = function(req, res){
   // パスワードのsha256文字列を取得する
   req.query.password = auth.sha256(req.query.password);
 
+  var handler = new context().bind(req, res);
+
   // 認証処理
   auth.simpleLogin(req, res, function(err, result) {
 
@@ -54,8 +58,11 @@ exports.simpleLogin = function(req, res){
     } else {
       log.audit("login succeed.", result._id);
     }
+    permission.checkCash(handler,function(err,exist){
+      result._doc.cash = exist;
+      response.send(res, err, result);
+    });
 
-    response.send(res, err, result);
   });
 };
 

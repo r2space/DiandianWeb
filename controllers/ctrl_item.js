@@ -12,7 +12,6 @@ var fs        = smart.lang.fs
   , util      = smart.framework.util
   , tag       = require('./ctrl_tag')
   , item      = require('../modules/mod_item.js')
-  , dimg      = require('../core/dimg.js');
 
 /**
  * 获取菜品一览

@@ -87,10 +87,10 @@ exports.getListByPage = function(code, condition, start, limit, callback) {
 exports.add = function(code, newDev, callback) {
 
   var Dev = model(code);
-  console.log(code);
+
+  console.log("插入新设备 devicetoken ：" + newDev.devicetoken);
+
   new Dev(newDev).save(function(err, result) {
-    console.log("new dev(dev_).save(function(err, result) {");
-    console.log(result);
     callback(err, result);
   });
 };

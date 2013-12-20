@@ -32,6 +32,7 @@ exports.getImage = function(req, res) {
   var handler = new context().bind(req, res);
 
   log.operation("begin: get image.", handler.uid);
+
   file.getImage(handler, function(error, data) {
 
 
@@ -45,8 +46,9 @@ exports.getImage = function(req, res) {
     // 返回JSON数据
     var expires = new Date();
     expires.setTime(expires.getTime() + 60 * 60 * 24 * 365 * 1000);
-    res.setHeader("Expires", expires.toUTCString());
-    res.setHeader("Cache-Control", "public, max-age=" + 60 * 60 * 24 * 365);
+//    res.setHeader("Expires", expires.toUTCString());
+//    res.setHeader("Cache-Control", "public, max-age=" + 60 * 60 * 24 * 365);
+    res.setHeader("Cache-Control", "public, max-age=0");
     res.setHeader("Last-Modified", data.fileInfo.updateAt);
     return res.send(data.fileData);
   });
