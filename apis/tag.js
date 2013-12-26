@@ -23,3 +23,13 @@ exports.search = function(req, res) {
     response.send(res, err, result);
   });
 };
+
+exports.appSearch = function(req,res){
+  var handler = new context().bind(req, res);
+  log.operation("begin: appSearch tags list", handler.uid);
+
+  tag.appSearch(handler, function(err, result) {
+    log.operation("finish: appSearch tags list", handler.uid)
+    response.send(res, err, result);
+  });
+}

@@ -11,7 +11,108 @@ var fs        = smart.lang.fs
   , file      = smart.ctrl.file
   , util      = smart.framework.util
   , tag       = require('./ctrl_tag')
+  , order       = require('../modules/mod_order.js')
   , item      = require('../modules/mod_item.js')
+  , soldout   = require('../modules/mod_soldout.js')
+
+
+/**
+ * 获取菜品一览
+ * @param start_
+ * @param limit_
+ * @param callback
+ */
+exports.appList = function(handler, callback_) {
+  var code      = handler.params.code
+    , start     = handler.params.start || 0
+    , limit     = handler.params.count || 20
+    , keyword   = handler.params.keyword
+    , tags      = handler.params.tags
+    // 售罄  0 全部 1 未售罄 2 售罄
+    , soldoutType      = handler.params.soldoutType || 2
+    , condition = {
+      valid : 1
+    };
+
+  if (keyword) {
+    keyword = util.quoteRegExp(keyword);
+    condition.itemName = new RegExp(keyword.toLowerCase(), "i");
+  }
+
+  if (tags){
+
+    var or = [];
+    _.each(tags.split(","), function(item){
+      or.push({tags: item});
+    });
+    condition.$or = or;
+  }
+
+
+  soldout.getList(code, {}, 0, 0, function (err, soldoutResult) {
+
+    var tmpSoldoutList = [];
+    if(soldoutResult && soldoutResult.length > 0) {
+      for(var i in soldoutResult) {
+        tmpSoldoutList.push(soldoutResult[i].itemId);
+      }
+    }
+
+    if ( soldoutType == 1 ) {
+      condition._id = {$nin : tmpSoldoutList};
+    } else if ( soldoutType == 2 ) {
+      condition._id = {$in : tmpSoldoutList};
+
+    } else {
+
+    }
+
+    item.total(code, condition, function (err, count) {
+
+      item.getList(code, condition, start, limit, function (err, result) {
+        if (err) {
+          return callback_(new error.InternalServer(err));
+        }
+        getItemSoldCount(code,soldoutType, result,tmpSoldoutList, function (err, itemWithTotal) {
+          return callback_(err, {items: itemWithTotal, totalItems: count});
+        });
+      });
+    });
+
+
+  });
+
+
+};
+
+
+function getItemSoldCount(code,soldoutType,itemList,soldoutResult,callback){
+  var tmpResult = [];
+
+  for(var i in itemList){
+    itemList[i]._doc._index = i;
+  }
+
+  async.forEach(itemList,function(itemObj,cb){
+    order.total(code,{itemId:itemObj._id},function(err,total){
+      itemObj._doc.amount = total;
+
+
+      if(soldoutResult.indexOf(itemObj._doc._id+"") > -1 ) {
+        itemObj._doc.soldout = 2;
+      } else {
+        itemObj._doc.soldout = 1;
+      }
+
+      tmpResult[itemObj._doc._index] = itemObj;
+
+      cb(err,total);
+    });
+  },function(err){
+    callback(err,tmpResult);
+  });
+}
+
 
 /**
  * 获取菜品一览

@@ -1,14 +1,17 @@
-var desk      = require("../apis/desk")
-  , service   = require("../apis/service")
-  , seq       = require("../apis/seq")
-  , order     = require("../apis/order")
-  , user      = require("../apis/user")
-  , device      = require("../apis/device")
-  , bill      = require("../apis/bill")
-  , schedule      = require("../apis/schedule")
-  , apn      = require("../apis/apn")
-  , printer   = require("../apis/printer")
-  , menu      = require("../apis/menu");
+var desk = require("../apis/desk")
+  , service = require("../apis/service")
+  , seq = require("../apis/seq")
+  , item = require("../apis/item")
+  , order = require("../apis/order")
+  , user = require("../apis/user")
+  , device = require("../apis/device")
+  , bill = require("../apis/bill")
+  , schedule = require("../apis/schedule")
+  , apn = require("../apis/apn")
+  , printer = require("../apis/printer")
+  , tag = require("../apis/tag")
+  , soldout = require("../apis/soldout")
+  , menu = require("../apis/menu");
 
 
 exports.guiding = function(app){
@@ -21,6 +24,15 @@ exports.guiding = function(app){
   app.get('/api/desk/list.json', function(req, res){
     desk.appDeskList(req, res);
   });
+
+  app.get('/api/item/list.json', function(req, res){
+    item.appList(req, res);
+  });
+
+  app.get('/api/tag/list.json', function(req, res){
+    tag.appSearch(req, res);
+  });
+
 
   app.get('/common/seq/initSeq.json', function(req, res){
     seq.initSeq(req, res);
@@ -137,6 +149,21 @@ exports.guiding = function(app){
     printer.findOne(req,res);
   });
 
+  app.post("/api/soldout/add.json", function(req,res){
+    soldout.add(req,res);
+  });
+  app.post("/api/soldout/remove.json", function(req,res){
+    soldout.remove(req,res);
+  });
+
+
+  app.post("/api/soldout/removeAll.json", function(req,res){
+    soldout.removeAll(req,res);
+  });
+
+  app.get("/api/soldout/list.json", function(req,res){
+    soldout.list(req,res);
+  });
 }
 
 

@@ -9,6 +9,21 @@ var response  = smart.framework.response
   , ws        = require('../ws/websocket')
   , act       = require('../ws/action');
 
+exports.getSoldOutList = function(req,res){
+  var handler = new context().bind(req, res);
+  log.operation("begin: setSoldList start.", handler.uid);
+}
+
+exports.setSoldOut = function(req,res){
+  var handler = new context().bind(req, res);
+  log.operation("begin: setSoldOut start.", handler.uid);
+  service.setSoldOut = function(err,result) {
+
+    log.operation("finish: setSoldOut.", handler.uid);
+
+    response.send(res, err, result);
+  }
+}
 
 
 exports.start = function(req, res) {

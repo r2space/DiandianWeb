@@ -76,3 +76,21 @@ exports.search = function(handler, callback){
     return callback(err, result);
   });
 }
+
+exports.appSearch = function(handler, callback){
+
+  var code     = handler.params.code
+    , keywords = handler.params.keywords
+    , start    = handler.params.start
+    , limit    = handler.params.count;
+
+  var object = { scope: default_scope };
+
+  if (keywords) {
+    object.name = new RegExp("^" + keywords.toLowerCase() + ".*$", "i");
+  }
+
+  tag.getList(code, object, start, limit, function(err, result){
+    return callback(err, {items:result});
+  });
+}

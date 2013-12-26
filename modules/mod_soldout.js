@@ -16,8 +16,8 @@ var mongo       = smart.util.mongoose
  * 过滤菜品已上完信息的表
  * @type {schema}
  */
-var Filter = new schema({
-    itemId               : { type: String, description: "菜品名称" }
+var Soldout = new schema({
+  itemId        : { type: String, description: "菜品名称" }
   , valid       : {type: Number, description: "删除 0:无效 1:有效", default: 1}
   , createat    : {type: Date,   description: "创建时间"}
   , createby    : {type: String, description: "创建者"}
@@ -27,16 +27,15 @@ var Filter = new schema({
 
 
 function model(code) {
-  return conn.model(code, "Filter", Filter);
+  return conn.model(code, "Soldout", Soldout);
 }
 
 exports.getList = function(code, condition, start, limit, callback) {
 
-  var filter = model(code);
+  var soldout = model(code);
 
-  filter.find(condition)
+  soldout.find(condition)
     .skip(start || 0)
-    .limit(limit || 20)
     .exec(function(err, result) {
       callback(err, result);
     });
@@ -44,31 +43,39 @@ exports.getList = function(code, condition, start, limit, callback) {
 
 exports.total = function(code, condition, callback) {
 
-  var filter = model(code);
+  var soldout = model(code);
 
-  filter.count(condition).exec(function(err, count) {
+  soldout.count(condition).exec(function(err, count) {
     callback(err, count);
   });
 
 };
 
-exports.remove = function (code, uid, filterId, callback) {
+exports.remove = function (code, itemId, callback) {
 
-  var filter = model(code);
+  var soldout = model(code);
 
-  filter.findByIdAndUpdate(filterId, {valid: 0, editat: new Date(), editby: uid}, function(err, result) {
+  soldout.remove({itemId:itemId}, function(err, result) {
     callback(err, result);
   });
 
 };
 
-exports.add = function(code, newFilter, callback) {
+exports.add = function(code, newSoldout, callback) {
 
-  var filter = model(code);
+  var soldout = model(code);
 
-  new filter(newFilter).save(function(err, result) {
+  new soldout(newSoldout).save(function(err, result) {
 
     callback(err, result);
   });
 
 };
+
+exports.removeAll = function(code,callback){
+  var soldout = model(code);
+  soldout.remove({},function(err,result){
+    callback(err,result);
+  });
+
+}

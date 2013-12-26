@@ -7,6 +7,18 @@ var response  = smart.framework.response
   , item      = require("../controllers/ctrl_item");
 
 // 获取一览
+exports.appList = function(req, res) {
+
+  var handler = new context().bind(req, res);
+  log.operation("begin: get item list.", handler.uid);
+
+  item.appList(handler, function(err, result) {
+    log.operation("finish: get item list.", handler.uid);
+    response.send(res, err, result);
+  });
+};
+
+// 获取一览
 exports.list = function(req, res) {
 
   var handler = new context().bind(req, res);
