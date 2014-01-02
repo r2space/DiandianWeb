@@ -9,6 +9,7 @@ var log       = smart.framework.log
   , file      = require("../apis/file")
   , device    = require("../apis/device")
   , printer   = require("../apis/printer")
+  , turnover   = require("../apis/turnover")
   , ac        = require("../controllers/ctrl_ac");
 
 /*
@@ -80,6 +81,16 @@ exports.guiding = function (app) {
 
   app.get('/item/findOne.json', function (req, res) {
     item.findOne(req,res);
+  });
+
+
+  app.get('/turnover/list.json', function (req, res) {
+    turnover.list(req,res);
+  });
+
+
+  app.get("/shop/turnover/list", function(req, res) {
+    res.render("turnover_turnover_list", {"title": "menu", user: req.session.user});
   });
 
   /*-------------- 菜单 ---------------*/
@@ -230,51 +241,51 @@ exports.guiding = function (app) {
 
   app.get('/admin/users', function (req, res) {
 
-    ac.checkAdmin(req, res, function() {
+//    ac.checkAdmin(req, res, function() {
       res.render("admin_user_list", {user: req.session.user});
-    });
+//    });
   });
 
   app.get('/admin/user/add', function (req, res) {
-    ac.checkAdmin(req, res, function() {
+//    ac.checkAdmin(req, res, function() {
       res.render("admin_user_add", {user: req.session.user, userId: ""});
-    });
+//    });
   });
 
   app.get('/admin/user/edit/:userId', function (req, res) {
-    ac.checkAdmin(req, res, function() {
+//    ac.checkAdmin(req, res, function() {
       res.render("admin_user_add", {user: req.session.user, userId: req.params.userId});
-    });
+//    });
   });
 
   app.put('/admin/user/add.json', function (req, res) {
-    ac.checkAdmin(req, res, function() {
+//    ac.checkAdmin(req, res, function() {
       user.add(req, res);
-    });
+//    });
   });
 
   app.get('/admin/user/get.json', function (req, res) {
-    ac.checkAdmin(req, res, function() {
+//    ac.checkAdmin(req, res, function() {
       user.get(req, res);
-    });
+//    });
   });
 
   app.post('/admin/user/update.json', function (req, res) {
-    ac.checkAdmin(req, res, function() {
+//    ac.checkAdmin(req, res, function() {
       user.update(req, res);
-    });
+//    });
   });
 
   app.get('/admin/user/list.json', function (req, res) {
-    ac.checkAdmin(req, res, function() {
+//    ac.checkAdmin(req, res, function() {
       user.getList(req, res);
-    });
+//    });
   });
 
   app.delete('/admin/user/remove.json', function (req, res) {
-    ac.checkAdmin(req, res, function() {
+//    ac.checkAdmin(req, res, function() {
       user.remove(req, res);
-    });
+//    });
   });
 
   app.get('/admin/user/updatePassword', function (req, res) {

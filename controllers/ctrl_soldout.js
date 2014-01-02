@@ -46,7 +46,7 @@ exports.remove = function (handler, callback) {
 
 
   soldout.remove(code,itemId,function(err,soldout){
-    if(err){
+    if (err) {
       return callback(err);
     }
     return callback(err,soldout);
