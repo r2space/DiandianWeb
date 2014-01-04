@@ -96,7 +96,7 @@ exports.getTakeoutList = function(handler, callback) {
 
   service.total(code, condition, function (err, count) {
 
-    service.getList(code,condition,function(err,result){
+    service.getList(code,condition,0,100,function(err,result){
       console.log(result);
       callback(err,{items: result, totalItems:count});
 
