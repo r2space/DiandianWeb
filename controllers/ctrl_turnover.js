@@ -81,6 +81,9 @@ exports.list = function(handler, callback) {
   }
 
   var tmpResult = [];
+  console.log("start :"  + start);
+
+  console.log("limit :"  + limit);
 
   service.getList(code,condition,start,limit,function(err,result){
     for(var i in result){
@@ -105,7 +108,7 @@ exports.list = function(handler, callback) {
         function(cb2){
 
          order.total(code,{serviceId:serviceObj._id,back:1},function(err,count){
-           console.log(count);
+
            tmpResult[serviceObj._index]._doc.orderCount = count;
            cb2();
          });
@@ -125,7 +128,6 @@ exports.list = function(handler, callback) {
         service.list(code,amountCondition,function(err,serviceList){
           var profitService = 0;
           for(var i in serviceList){
-            console.log(serviceList[i].profit);
             if(serviceList[i].profit)
               profitService = parseInt(profitService) + parseInt(serviceList[i].profit);
           }

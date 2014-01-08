@@ -35,7 +35,6 @@ app.use(middleware.timeout);      // 设定超时
 
 routes.guiding( app );
 
-app.use(middleware.parseError);
 
 /**
  * 启动服务
@@ -65,4 +64,4 @@ websocket.startup(server);
 //
 //
 //});
-
+module.exports = server
