@@ -135,14 +135,15 @@ exports.list = function(handler, callback_) {
     condition.itemName = new RegExp(keyword.toLowerCase(), "i");
   }
 
-  if (tags){
+  if (tags) {
 
     var or = [];
     _.each(tags.split(","), function(item){
       or.push({tags: item});
     });
-    condition.$or = or;
+    condition.$and = or;
   }
+
   item.total(code, condition, function (err, count) {
 
     item.getList(code, condition, start, limit,  function(err, result){
