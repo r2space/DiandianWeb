@@ -141,7 +141,7 @@ exports.list = function(handler, callback_) {
     _.each(tags.split(","), function(item){
       or.push({tags: item});
     });
-    condition.$and = or;
+    condition.$in = or;
   }
 
   item.total(code, condition, function (err, count) {
