@@ -45,7 +45,7 @@ exports.appList = function(handler, callback_) {
     _.each(tags.split(","), function(item){
       or.push({tags: item});
     });
-    condition.$or = or;
+    condition.$and = or;
   }
 
 
@@ -74,7 +74,15 @@ exports.appList = function(handler, callback_) {
           return callback_(new error.InternalServer(err));
         }
         getItemSoldCount(code,soldoutType, result,tmpSoldoutList, function (err, itemWithTotal) {
-          return callback_(err, {items: itemWithTotal, totalItems: count});
+          item.getList(code,condition,0,count, function(err,resultTag){
+            var tags = [];
+            for(var i in resultTag){
+              tags = _.union(tags, resultTag[i].tags);
+            }
+
+            return callback_(err, {items: itemWithTotal, totalItems: count, tags :tags});
+          });
+
         });
       });
     });
@@ -150,8 +158,15 @@ exports.list = function(handler, callback_) {
       if (err) {
         return callback_(new error.InternalServer(err));
       }
+      item.getList(code,condition,0,count, function(err,resultTag){
+        var tags = [];
+        for(var i in resultTag){
+          tags = _.union(tags, resultTag[i].tags);
+        }
 
-      return callback_(err, {items: result, totalItems: count});
+        return callback_(err, {items: result, totalItems: count, tags :tags});
+      });
+
     });
   });
 };

@@ -24,8 +24,8 @@
   ],
 
   "levels": {
-    "application": "DEBUG"
-    , "audit": "INFO"
-    , "operation": "INFO"
+    "application": "ERROR"
+    , "audit": "ERROR"
+    , "operation": "ERROR"
   }
 }
