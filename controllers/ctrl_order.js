@@ -267,7 +267,6 @@ exports.addOrder = function(handler, callback) {
 
   for (var i in orderList) {
     orderList[i]._index = i
-    console.log(orderList[i]);
   }
 
   var tmpResult = [];
@@ -291,7 +290,7 @@ exports.addOrder = function(handler, callback) {
       });
 
     }, function (err, result) {
-      console.log("deskId  :  " + deskId);
+
         if (!deskId){
           return  callback(err, {items:tmpResult , orderNum :tmpCurOrderNumSeq , deskName : "外卖", now: new Date()});
         }
@@ -327,8 +326,13 @@ function add (code, uid, orderData, callback) {
     if (err) {
       return callback(new error.InternalServer(err));
     }
-    item.get(code, result.itemId,function(err,itemDocs){
-      result._doc.item = itemDocs;
+    item.get(code, result.itemId,function(err1,itemDocs){
+      if (err1) {
+        console.log("order add error");
+      }
+      if(itemDocs)
+        result._doc.item = itemDocs;
+
       callback(err, result);
     });
 

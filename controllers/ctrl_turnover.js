@@ -67,7 +67,7 @@ exports.list = function(handler, callback) {
     endTimestamp.setMonth(nowstamp.getMonth());	//设置 Date 对象中月份 (0 ~ 11)。	1	3
     endTimestamp.setFullYear(nowstamp.getFullYear());
     endTimestamp.setHours(23);
-    endTimestamp.setMinutes(0);
+    endTimestamp.setMinutes(59);
     endTimestamp.setSeconds(0);
     endTimestamp.setMilliseconds(0);
   } else {

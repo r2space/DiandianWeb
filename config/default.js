@@ -8,9 +8,9 @@ module.exports = {
   },
 
   "testdb": {
-    "host": "mongo"
+    "host": "112.124.23.114"
     , "port": 27017
-    , "dbname": "developer"
+    , "dbname": "diandiantest"
     , "pool": 5
   },
 

@@ -11,8 +11,14 @@
     , "socket.io-client": "*"
   },
   "devDependencies": {
-      "less": "1.5.0"
-    , "csv": "0.3.6"
-    , "should": "2.0.2"
+    "less": "1.5.0",
+    "csv": "0.3.6",
+    "supertest": "*",
+    "should": "*",
+    "mocha": "*",
+    "rewire": "*",
+    "jscover": "*",
+    "pedding": "*",
+    "mm": "*"
   }
 }
