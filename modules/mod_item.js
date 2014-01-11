@@ -103,7 +103,8 @@ exports.remove = function(code, uid, itemId, callback) {
 
   var item = model(code);
 
-  item.findByIdAndRemove(itemId,  {valid: 0, editat: new Date(), editby: uid}, function(err, result) {
+
+  item.findByIdAndUpdate(itemId,  {valid: 0, editat: new Date(), editby: uid}, function(err, result) {
     callback(err, result);
   });
 };

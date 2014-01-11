@@ -76,5 +76,7 @@ function initGridly () {
     columns: 12
   });
   $('.gridly').css('height','40px');
+  $('.gridly div').css('min-width','60px');
+  $('.gridly div').css('width','auto');
 }
 

@@ -61,7 +61,8 @@ exports.get = function(code, user_, menuId, callback_){
 
     async.forEach(result.items, function(it, call2){
       item.get(code, it.itemId, function(e, res) {
-        it._doc.image = res.bigimage;
+        if(res && res.bigimage)
+          it._doc.image = res.bigimage;
         call2(e);
       });
 
