@@ -82,8 +82,8 @@ exports.update = function(handler, callback){
 
   newPrinter.createat = now;
   newPrinter.createby = uid;
-
-  printer.update(code, newPrinter, function(err, result){
+  console.log();
+  printer.update(code,handler.params.id, newPrinter, function(err, result){
     if (err) {
       return callback(new error.InternalServer(err));
     }
