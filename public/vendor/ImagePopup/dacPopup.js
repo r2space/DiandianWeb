@@ -225,7 +225,9 @@ function ImagePopup(opt, callback) {
         start = start + 15;
         if(ajaxStatus==0){
           ajaxStatus = 1;
-          loadStore();
+          loadStore(start,function(err,startResult){
+            start = startResult;
+          });
         }
 
       }
@@ -236,19 +238,20 @@ function ImagePopup(opt, callback) {
 //下拉刷新
 //filter
   };
-  var loadStore = function(){
+  var loadStore = function(_start,cb){
 //    var that = this;
     var tags = that._tags;
     ajaxStatus = 1 ;
     $("#hook").html(i18n["js.public.info.detaillist.loading"]);
 //    http://localhost:3000/item/list.json?start=0&count=20
-    var url = $tplUtil.format('/item/list.json?start={0}&count={1}&tags={2}',[start,count,cur_tags]);
+    var url = $tplUtil.format('/item/list.json?start={0}&count={1}&tags={2}&or=or',[_start,count,cur_tags]);
 
     smart.doget(url, function (err, result) {
       console.log(url);
       if (smart.error(err, i18n["js.common.search.error"], false)) {
         return;
       }
+//      cb.apply(null,_start);
 
       console.log(result);
       _initStore(result);

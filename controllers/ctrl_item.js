@@ -134,6 +134,7 @@ exports.list = function(handler, callback_) {
     , limit     = handler.params.count || 20
     , keyword   = handler.params.keyword
     , tags      = handler.params.tags
+    , or      = handler.params.or
     , condition = {
       valid : 1
     };
@@ -149,7 +150,12 @@ exports.list = function(handler, callback_) {
     _.each(tags.split(","), function(item){
       or.push({tags: item});
     });
-    condition.$in = or;
+    if(or){
+      condition.$or = or;
+    } else {
+      condition.$in = or;
+    }
+
   }
 
   item.total(code, condition, function (err, count) {
