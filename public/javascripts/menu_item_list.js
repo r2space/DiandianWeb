@@ -42,7 +42,7 @@ function render(start, count, keyword) {
         , "cover": imagetmp
         , "itemName": row.itemName
         , "itemType": row.itemType
-        , "type" : row.type == 0 ? i18n["html.label.item.food"] : (row.type == 1 ? i18n["html.label.item.dish"]:(row.type == 2 ? i18n["html.label.item.drinks"]:i18n["html.label.item.ad"]))
+        , "type" : row.type == 0 ? i18n["html.label.item.food"] : (row.type == 1 ? i18n["html.label.item.dish"]:(row.type == 2 ? i18n["html.label.item.drinks"]:(row.type == 3 ? i18n["html.label.item.seafood"]:i18n["html.label.item.ad"])))
         , "itemPrice": row.itemPriceNormal
         , "editat": smart.date(row.editat)
       }));

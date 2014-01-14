@@ -29,7 +29,7 @@ var Item = new schema({
  , itemMaterial         : { type: String, description: "菜品材料" }
  , valid                : {type: Number, description: "删除 0:无效 1:有效", default: 1}
  , tags                 : [String]
- , type                 :  {type: Number, description: "类型 0:主食 1:菜品 2:酒水 10:广告", default: 1}
+ , type                 :  {type: Number, description: "类型 0:主食 1:菜品 2:酒水 3:海鲜 10:广告", default: 1}
  , printerId            : { type: String, description: "打印机IP" }
  , pin                  : {type: [String], description: "类型 1:招牌菜 2:热卖中 3:新品菜 4:营养菜 5:优惠菜", default: null}
 });
