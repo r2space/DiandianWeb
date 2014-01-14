@@ -27,7 +27,9 @@ var Order = new schema({
   , back            :   {type: Number, description: "类型 0:不退 1 已上菜  2:退菜", default: 0}
   , valid           :   {type: Number, description: "删除 0:无效 1:有效", default: 1}
   , remark          :   {type: String, description: "备注"}
-
+  , amount          :   {type: String, description: "数量整数部分", default: "1"}
+  , amountNum       :   {type: String, description: "数量小数部分", default: "00"}
+  , amountPrice     :   {type: String, description: "价格", default: 0}
   , createat        :   {type: Date,   description: "创建时间"}
   , createby        :   {type: String, description: "创建者"}
   , editat          :   {type: Date,   description: "最终修改时间"}

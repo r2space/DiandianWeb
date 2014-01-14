@@ -55,11 +55,13 @@ exports.simpleLogin = function(req, res){
     if (err) {
       log.error(err, undefined);
       log.audit("login failed.", req.query.name);
+      return response.send(res, err, result);
     } else {
       log.audit("login succeed.", result._id);
     }
     permission.checkCash(handler,function(err,exist){
-      result._doc.cash = exist;
+      if(exist)
+        result._doc.cash = exist;
       response.send(res, err, result);
     });
 

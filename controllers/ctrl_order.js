@@ -320,7 +320,12 @@ function add (code, uid, orderData, callback) {
     , createby    : uid
     , editat      : now
     , editby      : uid
+    , amount      : orderData.amount
+    , amountNum   : orderData.amountNum
   };
+  console.log(orderData.amountPrice);
+  newOrder.amountPrice = orderData.amountPrice;
+  console.log(newOrder);
 
   order.add(code, newOrder, function (err, result) {
     if (err) {

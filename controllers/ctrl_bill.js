@@ -1,9 +1,10 @@
 "use strict";
-
+var ctrlUser    = smart.ctrl.user
 var _         = smart.util.underscore
   , async     = smart.util.async
   , error     = smart.framework.errors
   , util      = smart.framework.util
+
   , order      = require('../modules/mod_order.js')
   , service      = require('../modules/mod_service.js')
   , desk      = require('../modules/mod_desk.js')
@@ -53,11 +54,18 @@ exports.createBill = function(handler, callback) {
         item.get(code,orderObj.itemId,function(err,itemObj){
 
           if(orderObj.back == 0 || orderObj.back == 1){
+            var price = 0;
             if (orderObj.type == 0){
-              tmpAmount = (parseInt(tmpAmount) + parseInt(itemObj.itemPriceNormal));
+              price = parseInt(itemObj.itemPriceNormal);
             } else {
-              tmpAmount = (parseInt(tmpAmount) + parseInt(itemObj.itemPriceHalf));
+              price = parseInt(itemObj.itemPriceHalf);
             }
+
+            var amount = orderObj.amount + "." + orderObj.amountNum;
+            var amountFloat = parseFloat(amount);
+
+            tmpAmount = (parseFloat(tmpAmount) + parseFloat(price) * amountFloat);
+
           }
 
 
@@ -70,7 +78,11 @@ exports.createBill = function(handler, callback) {
 
         desk.get (code,serviceResult.deskId,function(err,deskObj) {
 
-          callback( null, {desk:deskObj,items:tmpOrderList,amount:tmpAmount} );
+          handler.addParams("uid",deskObj.createby);
+          ctrlUser.get(handler,function(err,userObj){
+            callback( null, {desk:deskObj,items:tmpOrderList,amount:tmpAmount,profit:tmpAmount,waiter:userObj.userName} );
+          });
+
 
         });
 
