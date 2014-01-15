@@ -25,7 +25,7 @@ var Order = new schema({
   , itemType        :   {type: String, description: "类型 item 的类型"}
   , itemPrice       :   {type: String, description: "类型 item 的价格"}
   , type            :   {type: Number, description: "类型 0 大份 1 小份", default: 0}
-  , back            :   {type: Number, description: "类型 0:不退 1 已上菜  2:退菜",index:true, default: 0}
+  , back            :   {type: Number, description: "类型 0:不退 1 已上菜  2:退菜  3: 免单",index:true, default: 0}
   , backOrderId     :   {type: String, description: "退菜前的OrderId"}
   , valid           :   {type: Number, description: "删除 0:无效 1:有效", default: 1}
   , remark          :   {type: String, description: "备注"}

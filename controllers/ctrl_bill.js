@@ -70,23 +70,29 @@ exports.createBill = function(handler, callback) {
           }
 
           var amount = orderObj.amount;
-          var amountFloat = parseFloat(amount);
 
-          if(orderObj.back == 0 || orderObj.back == 1){
-            tmpAmount = MyParseFloat(tmpAmount) + MyParseFloat(orderObj.amountPrice);
+
+          //已上菜 + 为上菜 + （免单菜-免单菜) - 退菜
+          if(orderObj.back == 0 || orderObj.back == 1 ||orderObj.back == 3) {
+
+            //排除免单
+            if(orderObj.back != 3)
+              tmpAmount = MyParseFloat(tmpAmount) + MyParseFloat(orderObj.amountPrice);
+
           } else {
-            console.log("退菜")
+
             tmpAmount = MyParseFloat(tmpAmount) - MyParseFloat(orderObj.amountPrice);
           }
-          console.log(tmpAmount);
 
-          order.getList(code,{backOrderId:orderObj._id},0,10000,function(err,backOrderList){
+          order.getList(code,{backOrderId:orderObj._id},0,100000,function(err,backOrderList){
             var totalBackAmount = 0
+
             if(backOrderList){
 
               for (var i in backOrderList) {
                 totalBackAmount = totalBackAmount + Number(backOrderList[i].amount);
               }
+
             }
             orderObj._doc.totalBackAmount = totalBackAmount;
             orderObj[orderObj._doc._index] = itemObj;
