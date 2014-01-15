@@ -101,7 +101,9 @@ exports.createBill = function(handler, callback) {
       } ,function(err,result){
 
         desk.get (code,serviceResult.deskId,function(err,deskObj) {
-
+          if(!deskObj) {
+            return callback( null, {desk:deskObj,items:tmpOrderList,amount:tmpAmount,profit:tmpAmount,waiter:"收银台"});
+          }
           handler.addParams("uid",deskObj.createby);
           ctrlUser.get(handler,function(err,userObj){
             callback( null, {desk:deskObj,items:tmpOrderList,amount:tmpAmount,profit:tmpAmount,waiter:userObj.userName} );
