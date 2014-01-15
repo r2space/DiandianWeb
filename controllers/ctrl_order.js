@@ -30,7 +30,7 @@ exports.doneOrder = function(handler, callback) {
     ids.push(orderId);
   }
   var tmpResult = [];
-  async.forEach(ids,function(idStr,cb){
+  async.forEach(ids,function(idStr,cb) {
 
     order.update(code,idStr,{ back: 1} ,function(err,orderResult){
 
@@ -74,23 +74,85 @@ exports.freeOrder = function(handler, callback) {
 };
 
 
+//_id : ""
+//wileBackAmount :""
+function MyParseFloat(price){
+  var priceInt = parseInt(price);
+  if(Number(priceInt) < Number(price)) {
+    return priceInt + 1;
+  } else {
+    return Number(price);
+  }
+}
+
+
 exports.backOrder = function(handler, callback) {
   var code = handler.params.code
-    , orderIds = handler.params.orderIds
+    , backOrderList = handler.params.backOrderList
   var tmpResult = [];
+  console.log(backOrderList);
+  async.forEach(backOrderList ,function(backOrderObj,cb) {
 
-  async.forEach(orderIds ,function(orderId,cb){
+    order.get(code,backOrderObj.orderId,function(err,orderDocs) {
 
-    order.update(code,orderId,{ back: 2} ,function(err,result){
-      tmpResult.push(result);
-      service.delUnfinishedCount(code,result.serviceId,function(err,serviceResult){
-        cb(err,result);
+      var amount = orderDocs.amount;
+
+
+
+      console.log(amount);
+
+      console.log(orderDocs.itemPrice);
+      console.log(orderDocs.amountPrice);
+      var now = new Date();
+      var newBackOrder = {
+          deskId      : orderDocs.deskId
+        , serviceId   : orderDocs.serviceId
+        , orderSeq    : orderDocs.orderSeq
+        , orderNum    : orderDocs.orderNum
+        , userId      : orderDocs.userId
+        , itemType    : orderDocs.itemType
+        , type        : orderDocs.type
+        , itemId      : orderDocs.itemId
+        , itemPrice   : orderDocs.itemPrice
+        , amountPrice : orderDocs.amountPrice
+        , amount      : orderDocs.amount
+        , back        : 2
+        , createat    : now
+        , createby    : handler.uid
+        , editat      : now
+        , editby      : handler.uid
+
+      };
+
+      newBackOrder.amount = backOrderObj.willBackAmount;
+      newBackOrder.backOrderId = backOrderObj.orderId;
+
+      var amountPrice = MyParseFloat(Number(backOrderObj.willBackAmount) * Number(orderDocs.itemPrice));
+      newBackOrder.amountPrice = amountPrice +""
+
+      console.log(newBackOrder);
+
+      add(code,'', newBackOrder, function (err, newBackOrderDocs) {
+
+          order.update(code,backOrderObj.orderId,{ back: 1} ,function(err,result){
+
+            service.delUnfinishedCount(code,result.serviceId,function(err,serviceResult){
+              tmpResult.push(newBackOrderDocs);
+              cb(err,null);
+            });
+
+          });
+
+
       });
+
+
 
     });
 
+
   },function(err,result){
-    callback(null,{items:tmpResult,totalItems:tmpResult.length});
+    callback(null,{ok:""});
   });
 
 
@@ -115,7 +177,7 @@ exports.getDeskList = function(handler, callback) {
   }
 
   if(type == "item") {
-    condition.itemType = { $in: [1] };
+    condition.itemType = { $in: [1,3] };
   } else {
     condition.itemType = { $in: [0,2] };
   }
@@ -169,7 +231,7 @@ exports.getItemList = function(handler, callback) {
         , back : 0
     };
   if(type == "item") {
-    condition.itemType = {$in: [1]};
+    condition.itemType = {$in: [1,3]};
   } else {
     condition.itemType = {$in: [0,2]};
   }
@@ -217,7 +279,7 @@ exports.getList = function (code, deskId, serviceId,back, start, limit, callback
 
   }
 
-  console.log(condition);
+
 
   order.total(code, condition, function (err, count) {
     if (err) {
@@ -247,8 +309,21 @@ function getItemListByOrderList (code,orderList,callback){
     item.get(code, itemObj.itemId,function(err,itemDocs){
 
       itemObj._doc.item = itemDocs;
-      tempList[itemObj._doc._index] = itemObj;
-      cb(null,itemDocs);
+
+      order.getList(code,{backOrderId:itemObj._id},0,100000,function(err,backOrderList){
+        var totalBackAmount = 0
+        if(backOrderList){
+
+          for (var i in backOrderList) {
+            totalBackAmount = totalBackAmount + Number(backOrderList[i].amount);
+          }
+        }
+        itemObj._doc.totalBackAmount = totalBackAmount;
+        tempList[itemObj._doc._index] = itemObj;
+        cb(null,itemDocs);
+
+      });
+
 
     });
 
@@ -280,13 +355,13 @@ exports.addOrder = function(handler, callback) {
         orderObj.orderNum = orderNumSeq;
 
           add(code,'', orderObj, function (err, docs) {
-          tmpResult[orderObj._index] = docs;
-          service.addUnfinishedCount(code,orderObj.serviceId,function(){
+            tmpResult[orderObj._index] = docs;
+            service.addUnfinishedCount(code,orderObj.serviceId,function(){
 
-            cb(null, orderObj);
+              cb(null, orderObj);
+            });
+
           });
-
-        });
       });
 
     }, function (err, result) {
@@ -309,40 +384,57 @@ function add (code, uid, orderData, callback) {
   var newOrder = {
       deskId      : orderData.deskId
     , serviceId   : orderData.serviceId
+    , backOrderId : orderData.backOrderId?orderData.backOrderId:""
     , orderSeq    : orderData.orderSeq
     , orderNum    : orderData.orderNum
-    , itemType    : orderData.itemType
     , userId      : orderData.userId
     , itemId      : orderData.itemId
-    , type        : orderData.type
     , remark      : orderData.remark
+    , type        : orderData.type
+    , back        : orderData.back ? orderData.back : 0
     , createat    : now
     , createby    : uid
     , editat      : now
     , editby      : uid
     , amount      : orderData.amount
-    , amountNum   : orderData.amountNum
   };
-  console.log(orderData.amountPrice);
-  newOrder.amountPrice = orderData.amountPrice;
-  console.log(newOrder);
 
-  order.add(code, newOrder, function (err, result) {
-    if (err) {
-      return callback(new error.InternalServer(err));
+
+
+  item.get(code, orderData.itemId, function (err1, itemDocs) {
+    if (err1) {
+      return callback(new error.InternalServer(err1));
     }
-    item.get(code, result.itemId,function(err1,itemDocs){
-      if (err1) {
-        console.log("order add error");
+
+    var price;
+    if (orderData.type == "0") {
+      console.log("大份");
+      price = itemDocs.itemPriceNormal;
+    } else {
+      console.log("小份");
+      price = itemDocs.itemPriceHalf;
+    }
+
+    newOrder.itemType = itemDocs.type;
+    newOrder.type = orderData.type;
+    newOrder.itemPrice = price;
+
+    var amountPirce = MyParseFloat(parseFloat(price) * parseFloat(orderData.amount));
+    newOrder.amountPrice = amountPirce+"";
+
+      order.add(code, newOrder, function (err, result) {
+      if (err) {
+        return callback(new error.InternalServer(err));
       }
-      if(itemDocs)
+
+      if (itemDocs)
         result._doc.item = itemDocs;
 
       callback(err, result);
     });
 
-  });
 
+  });
 };
 
 exports.add = add;

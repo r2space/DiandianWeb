@@ -10,7 +10,14 @@ var _         = smart.util.underscore
   , desk      = require('../modules/mod_desk.js')
   , menu      = require('../modules/mod_menu.js')
   , item      = require('../modules/mod_item.js');
-
+function MyParseFloat(price){
+  var priceInt = parseInt(price);
+  if(Number(priceInt) < Number(price)) {
+    return priceInt + 1;
+  } else {
+    return Number(price);
+  }
+}
 exports.stopBill = function(handler, callback) {
   var code      = handler.params.code
     , serviceId = handler.params.serviceId
@@ -49,29 +56,46 @@ exports.createBill = function(handler, callback) {
 
     order.getBillOrderList(code,condition,function(err,orderList){
       tmpOrderList = orderList;
+      for(var i in orderList){
+        orderList[i]._doc._index = i;
+      }
       async.forEach(orderList,function(orderObj,cb){
 
         item.get(code,orderObj.itemId,function(err,itemObj){
-
-          if(orderObj.back == 0 || orderObj.back == 1){
-            var price = 0;
-            if (orderObj.type == 0){
-              price = parseInt(itemObj.itemPriceNormal);
-            } else {
-              price = parseInt(itemObj.itemPriceHalf);
-            }
-
-            var amount = orderObj.amount + "." + orderObj.amountNum;
-            var amountFloat = parseFloat(amount);
-
-            tmpAmount = (parseFloat(tmpAmount) + parseFloat(price) * amountFloat);
-
+          var price = 0;
+          if (orderObj.type == 0){
+            price = parseInt(itemObj.itemPriceNormal);
+          } else {
+            price = parseInt(itemObj.itemPriceHalf);
           }
 
+          var amount = orderObj.amount;
+          var amountFloat = parseFloat(amount);
+
+          if(orderObj.back == 0 || orderObj.back == 1){
+            tmpAmount = MyParseFloat(tmpAmount) + MyParseFloat(orderObj.amountPrice);
+          } else {
+            console.log("退菜")
+            tmpAmount = MyParseFloat(tmpAmount) - MyParseFloat(orderObj.amountPrice);
+          }
+          console.log(tmpAmount);
+
+          order.getList(code,{backOrderId:orderObj._id},0,10000,function(err,backOrderList){
+            var totalBackAmount = 0
+            if(backOrderList){
+
+              for (var i in backOrderList) {
+                totalBackAmount = totalBackAmount + Number(backOrderList[i].amount);
+              }
+            }
+            orderObj._doc.totalBackAmount = totalBackAmount;
+            orderObj[orderObj._doc._index] = itemObj;
+            cb(null,orderObj);
+
+          });
 
 
-
-          cb(null,itemObj);
+//          cb(null,itemObj);
         });
 
       } ,function(err,result){

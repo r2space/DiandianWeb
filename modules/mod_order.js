@@ -23,13 +23,14 @@ var Order = new schema({
   , userId          :   {type: String, description: "服务员的Id"}
   , itemId          :   {type: String, description: "名称"}
   , itemType        :   {type: String, description: "类型 item 的类型"}
+  , itemPrice       :   {type: String, description: "类型 item 的价格"}
   , type            :   {type: Number, description: "类型 0 大份 1 小份", default: 0}
-  , back            :   {type: Number, description: "类型 0:不退 1 已上菜  2:退菜", default: 0}
+  , back            :   {type: Number, description: "类型 0:不退 1 已上菜  2:退菜",index:true, default: 0}
+  , backOrderId     :   {type: String, description: "退菜前的OrderId"}
   , valid           :   {type: Number, description: "删除 0:无效 1:有效", default: 1}
   , remark          :   {type: String, description: "备注"}
   , amount          :   {type: String, description: "数量整数部分", default: "1"}
-  , amountNum       :   {type: String, description: "数量小数部分", default: "00"}
-  , amountPrice     :   {type: String, description: "价格", default: 0}
+  , amountPrice     :   {type: String, description: "价格"}
   , createat        :   {type: Date,   description: "创建时间"}
   , createby        :   {type: String, description: "创建者"}
   , editat          :   {type: Date,   description: "最终修改时间"}
@@ -122,3 +123,10 @@ exports.getBillOrderList = function(code,condition, callback){
   });
 
 };
+
+exports.get = function(code,orderId,callback){
+  var order = model(code);
+  order.findById(orderId,function(err,result){
+    callback(err, result);
+  });
+}

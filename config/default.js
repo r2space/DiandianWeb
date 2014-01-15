@@ -11,7 +11,7 @@ module.exports = {
   "testdb": {
     "host": "112.124.23.114"
     , "port": 27017
-    , "dbname": "diandiantest"
+    , "dbname": "diandian"
     , "pool": 5
   },
 

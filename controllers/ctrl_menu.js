@@ -167,19 +167,43 @@ exports.appList = function(code, condition, start, limit, callback_) {
         return callback_(new error.InternalServer(err));
       }
       getEachMenuList(code,result,function(err,resultDocs){
-        return callback_(err, {items: resultDocs, totalItems: count});
+        getMenuImageIds(resultDocs,function(err,imageIds){
+          return callback_(err, {items: resultDocs, totalItems: count,imageIds:imageIds});
+        });
+
       });
 
     });
   });
 };
 
+function getMenuImageIds(resultDocs,callback){
+  var tempImageList = [];
+  for(var i in resultDocs){
+    var items = resultDocs[i].items;
+    console.log(items);
+    for(var j in items ){
+      var menuItems = items[j];
+      if(menuItems._doc.item._doc.bigimage){
+        tempImageList.push(menuItems._doc.item._doc.bigimage);
+      }
+
+      if(menuItems._doc.item._doc.smallimage){
+        tempImageList.push(menuItems._doc.item._doc.smallimage);
+      }
+
+    }
+  }
+  tempImageList = _.uniq(tempImageList);
+  callback(null,tempImageList);
+}
+
 function getEachMenuList(code,menuList, callback) {
 
 
   var tempMenuList = [];
   for(var i in menuList){
-    console.log(i);
+
     menuList[i]._doc._index = i;
   }
 
