@@ -110,6 +110,19 @@ exports.list = function(code, condition, callback) {
     });
 };
 
+exports.getTakeoutList = function(code, condition,start,limit, callback) {
+
+  var service = model(code);
+  console.log(condition);
+  service.find(condition)
+    .skip(start || 0)
+    .limit(limit || 20)
+    .sort({createat: 1})
+    .exec(function(err, result) {
+      callback(err, result);
+    });
+};
+
 exports.getList = function(code, condition,start,limit, callback) {
 
   var service = model(code);
