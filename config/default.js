@@ -1,7 +1,7 @@
 module.exports = {
 
   "db": {
-    "host":"112.124.23.114"
+    "host":"115.28.161.172"
 //    "host": "112.124.23.114"
     , "port": 27017
     , "dbname": "diandian"
@@ -11,7 +11,7 @@ module.exports = {
   "testdb": {
     "host": "112.124.23.114"
     , "port": 27017
-    , "dbname": "diandiantest"
+    , "dbname": "diandian"
     , "pool": 5
   },
 

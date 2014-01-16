@@ -76,6 +76,7 @@ exports.guiding = function(app){
     order.backOrder(req,res);
   });
 
+  //免单
   app.post("/api/order/freeOrder.json" , function(req,res){
     order.freeOrder(req,res);
   });

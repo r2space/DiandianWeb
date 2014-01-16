@@ -10,7 +10,14 @@ var _         = smart.util.underscore
   , desk      = require('../modules/mod_desk.js')
   , menu      = require('../modules/mod_menu.js')
   , item      = require('../modules/mod_item.js');
-
+function MyParseFloat(price){
+  var priceInt = parseInt(price);
+  if(Number(priceInt) < Number(price)) {
+    return priceInt + 1;
+  } else {
+    return Number(price);
+  }
+}
 exports.stopBill = function(handler, callback) {
   var code      = handler.params.code
     , serviceId = handler.params.serviceId
@@ -49,35 +56,60 @@ exports.createBill = function(handler, callback) {
 
     order.getBillOrderList(code,condition,function(err,orderList){
       tmpOrderList = orderList;
+      for(var i in orderList){
+        orderList[i]._doc._index = i;
+      }
       async.forEach(orderList,function(orderObj,cb){
 
         item.get(code,orderObj.itemId,function(err,itemObj){
-
-          if(orderObj.back == 0 || orderObj.back == 1){
-            var price = 0;
-            if (orderObj.type == 0){
-              price = parseInt(itemObj.itemPriceNormal);
-            } else {
-              price = parseInt(itemObj.itemPriceHalf);
-            }
-
-            var amount = orderObj.amount + "." + orderObj.amountNum;
-            var amountFloat = parseFloat(amount);
-
-            tmpAmount = (parseFloat(tmpAmount) + parseFloat(price) * amountFloat);
-
+          var price = 0;
+          if (orderObj.type == 0){
+            price = parseInt(itemObj.itemPriceNormal);
+          } else {
+            price = parseInt(itemObj.itemPriceHalf);
           }
 
+          var amount = orderObj.amount;
 
 
+          //已上菜 + 为上菜 + （免单菜-免单菜) - 退菜
+          if(orderObj.back == 0 || orderObj.back == 1 ||orderObj.back == 3) {
 
-          cb(null,itemObj);
+            //排除免单
+            if(orderObj.back != 3)
+              tmpAmount = MyParseFloat(tmpAmount) + MyParseFloat(orderObj.amountPrice);
+
+          } else {
+
+            tmpAmount = MyParseFloat(tmpAmount) - MyParseFloat(orderObj.amountPrice);
+          }
+
+          order.getList(code,{backOrderId:orderObj._id},0,100000,function(err,backOrderList){
+            var totalBackAmount = 0
+
+            if(backOrderList){
+
+              for (var i in backOrderList) {
+                totalBackAmount = totalBackAmount + Number(backOrderList[i].amount);
+              }
+
+            }
+            orderObj._doc.totalBackAmount = totalBackAmount;
+            orderObj[orderObj._doc._index] = itemObj;
+            cb(null,orderObj);
+
+          });
+
+
+//          cb(null,itemObj);
         });
 
       } ,function(err,result){
 
         desk.get (code,serviceResult.deskId,function(err,deskObj) {
-
+          if(!deskObj) {
+            return callback( null, {desk:deskObj,items:tmpOrderList,amount:tmpAmount,profit:tmpAmount,waiter:"收银台"});
+          }
           handler.addParams("uid",deskObj.createby);
           ctrlUser.get(handler,function(err,userObj){
             callback( null, {desk:deskObj,items:tmpOrderList,amount:tmpAmount,profit:tmpAmount,waiter:userObj.userName} );
