@@ -177,7 +177,7 @@ exports.getDeskList = function(handler, callback) {
   }
 
   if(type == "item") {
-    condition.itemType = { $in: [1,3] };
+    condition.itemType = { $in: [0,1,2,3] };
   } else {
     condition.itemType = { $in: [0,2] };
   }
