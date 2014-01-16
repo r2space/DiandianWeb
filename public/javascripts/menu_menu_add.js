@@ -9,6 +9,7 @@ $(function () {
   var pages = 0, cntGrid = 0;
   var gridWidth = 179, gridHeight = 135;
   var items = [];
+  var newItems = [];
 
   var menu = {};
   menu.id = $("#menuId").val();
@@ -41,6 +42,12 @@ $(function () {
     });
 
     $("#saveMenu").on("click", function(event){
+
+      if(items.currentPageIdx){
+        _.each(items,function(item){
+          delete item.currentPageIdx;
+        });
+      }
 
       menu.name    = $("#menuName").val();
       menu.comment = $("#menuComment").val();
@@ -105,8 +112,25 @@ $(function () {
     var space = $("#layoutLandscape");
     console.log("#gridPageDiv_"+ parseInt(space.scrollLeft()/549));
     var currentPage = $("#gridPageDiv_"+ parseInt(space.scrollLeft()/549));
+    var pagecounter = parseInt(space.scrollLeft()/549) + 1;
     currentPage.remove();
     main.width("-=549");
+    pages--;
+
+    var count = 0;
+    _.each(items,function(item){
+      if(item.currentPageIdx < pagecounter){
+        item.index = ++count;
+        newItems.push(item);
+      } else if(item.currentPageIdx > pagecounter){
+        item.index = ++count;
+        item.currentPageIdx = item.currentPageIdx - 1;
+        newItems.push(item);
+      }
+
+    });
+
+    items = newItems;
 
     var pageIdIdx = -1;
     var itemIdIdx = 1;
@@ -137,8 +161,13 @@ $(function () {
     pageDiv.attr('id', 'gridPageDiv_' + pages);
     main.css( "width", "+=549" );
 
+    // 加一页
+    pages++;
+
     if (screenNum === 1) {
       var it = {index: ++cntGrid, row:3, column:3};
+
+      it.currentPageIdx = pages;
 
       pageDiv.addClass("landscapePageLarge");
       var gridDiv = $('<div/>');
@@ -157,6 +186,7 @@ $(function () {
       main.append(pageDiv);
     } else if(screenNum === 2){
       var it = {index: ++cntGrid, row:2, column:2};
+      it.currentPageIdx = pages;
 
       pageDiv.addClass("landscapePageMedium");
       var gridDiv = $('<div/>');
@@ -175,6 +205,7 @@ $(function () {
 
       for (var i = 2; i < 7; i++){
         var it2 = {index: ++cntGrid, row:1, column:1};
+        it2.currentPageIdx = pages;
         var grid = $('<div/>');
         grid.attr('id', 'gridPageDiv_' + pages + '_' + i);
         grid.attr('index', cntGrid);
@@ -195,6 +226,8 @@ $(function () {
       for (var i = 1; i < 10; i++){
         var it = {index: ++cntGrid, row:1, column:1};
 
+        it.currentPageIdx = pages;
+
         var grid = $('<div/>');
         grid.attr('id', 'gridPageDiv_' + pages + '_' + i);
         grid.attr('index', cntGrid);
@@ -210,8 +243,7 @@ $(function () {
 
       main.append(pageDiv);
     }
-    // 加一页
-    pages++;
+
     // 菜品选择
     $.each($(".itemDiv"), function(idx, it) {
 
@@ -262,12 +294,21 @@ $(function () {
       var grid = oldItems[index-1];
 
       if (grid.row == 1) {
+        for(var j = index-1;j<index-1 +9;j++){
+          oldItems[i].currentPageIdx = (i+1);
+        }
         insertLandscapeScreenAfter(3, oldItems, grid.index);
         index += 9;
       } else if (grid.row == 2) {
+        for(var j = index-1;j<index-1+6;j++){
+          oldItems[i].currentPageIdx = (i+1);
+        }
         insertLandscapeScreenAfter(2, oldItems, grid.index);
         index += 6;
       } else if (grid.row == 3){
+        for(var j = index-1;j<index;j++){
+          oldItems[i].currentPageIdx = (i+1);
+        }
         insertLandscapeScreenAfter(1, oldItems, grid.index);
         index+=1;
       }

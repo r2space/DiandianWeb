@@ -87,7 +87,7 @@ function getItemData() {
     , itemMaterial : $("#itemMaterial").val()
     , itemMethod : $("#itemMethod").val()
     , bigimage: $("#uploadfile_big").val()
-    , smallimage : $("#uploadfile_small").val()
+    , smallimage : $("#uploadfile_big").val()
     , type: $("#inputType").attr("value")
     , printerId: $("#printerType").attr("value")
   };
@@ -147,6 +147,9 @@ function uploadFiles(files, uploudId) {
       if(smart.error(err, i18n["js.common.upload.error"], false)){
         return;
       }
+
+      $("#small_img").css("display", "block");
+      $("#small_img").attr("src", "/picture/" + result.data);
     }
 
   );
@@ -168,10 +171,14 @@ function render(itemId) {
         $("#itemComment").val(result.itemComment);
         $("#itemMaterial").val(result.itemMaterial);
         $("#itemMethod").val(result.itemMethod);
-        $("#uploadfile_small").val(result.smallimage);
+        $("#uploadfile_small").val(result.bigimage);
         $("#uploadfile_big").val(result.bigimage);
         new ButtonGroup("inputType", result.type).init();
         new ButtonGroup("printerType", result.printerId).init();
+
+        $("#small_img").css("display", "block");
+        $("#small_img").attr("src", "/picture/" + result.bigimage);
+
         var tag = smart.view("tag").view;
         tag.setDefaults(result.tags);
         pin = result.pin;
@@ -238,10 +245,6 @@ function check_item(item) {
   }
   if (item.bigimage == "") {
     Alertify.log.error(i18n["js.public.check.item.bigimage"]);
-    flag = 1;
-  }
-  if (item.smallimage == "") {
-    Alertify.log.error(i18n["js.public.check.item.smallimage"]);
     flag = 1;
   }
   if (item.itemPriceNormal == "") {

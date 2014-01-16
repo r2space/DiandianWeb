@@ -149,19 +149,20 @@
             <input type="text" name="itemPriceDiscount" class="form-control" id="itemPriceDiscount" placeholder="<%= i('html.label.item.info.price') %>">
           </div>
         </div>
+        <!--<div class="form-group" style="margin-top: 15px">-->
+          <!--<label for="uploadfile_s" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.SmaImg') %>&lt;!&ndash;小图&ndash;&gt;</label>-->
+          <!--<div class="col-lg-8 col-md-8">-->
+            <!--&lt;!&ndash;<input type="text" name="itemName" class="form-control" id="itemBigImg" placeholder="<%= i('html.label.item.info.BigImg') %>" style="width: 350px;">&ndash;&gt;-->
+            <!--<input type="file" name="image_s" id="uploadfile_s" style="display: hidden" multiple="multiple" accept=".mp4, .png, .jpg, .jpeg, .jpe, .gif, .bmp" />-->
+            <!--<input type="" id="uploadfile_small" style="display: none"/>-->
+          <!--</div>-->
+          <!--&lt;!&ndash;<button id="uploud_b" class="btn btn-default btn-sm " style="margin-left: -60px;">上传</button>&ndash;&gt;-->
+        <!--</div>-->
         <div class="form-group" style="margin-top: 15px">
-          <label for="uploadfile_s" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.SmaImg') %><!--小图--></label>
-          <div class="col-lg-8 col-md-8">
-            <!--<input type="text" name="itemName" class="form-control" id="itemBigImg" placeholder="<%= i('html.label.item.info.BigImg') %>" style="width: 350px;">-->
-            <input type="file" name="image_s" id="uploadfile_s" style="display: hidden" multiple="multiple" accept=".mp4, .png, .jpg, .jpeg, .jpe, .gif, .bmp" />
-            <input type="" id="uploadfile_small" style="display: none"/>
-          </div>
-          <!--<button id="uploud_b" class="btn btn-default btn-sm " style="margin-left: -60px;">上传</button>-->
-        </div>
-        <div class="form-group" style="margin-top: 15px">
-          <label for="uploadfile_b" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.BigImg') %><!--大图--></label>
+          <label for="uploadfile_b" class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.ItemImg') %><!--大图--></label>
           <div class="col-lg-8 col-md-8">
             <!--<input type="text" name="itemName" class="form-control" id="itemSmaImg" placeholder="<%= i('html.label.item.info.SmaImg') %>" style="width: 350px;">-->
+            <img id="small_img" style="display:none;width:96px;height:74px;"/>
             <input type="file" id="uploadfile_b" style="display: hidden" multiple="multiple" accept=".mp4, .png, .jpg, .jpeg, .jpe, .gif, .bmp" />
             <input type="" id="uploadfile_big" style="display: none"/>
           </div>
@@ -215,27 +216,27 @@
             </div>
           </div>
         </div>
-        <div class="form-group">
-          <label  class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.tag') %><!--类型--></label>
-            <div class="col-lg-8 col-md-8">
-              <table id="inputpin" value="">
-                <tr>
-                  <th><div id="NO1" menu-id="NO1" menu-name="NO1" class="menu-item pull-left" value="1" type="checkbox"><span>招牌菜</span></div></th>
-                  <th><div id="NO2" menu-id="NO2" menu-name="NO2" class="menu-item pull-left" value="2" type="checkbox"><span>热卖菜</span></div></th>
-                  <th><div id="NO3" menu-id="NO3" menu-name="NO3" class="menu-item pull-left" value="3" type="checkbox"><span>新品菜</span></div></th>
-                  <th><div id="NO4" menu-id="NO4" menu-name="NO4" class="menu-item pull-left" value="4" type="checkbox"><span>营养菜</span></div></th>
-                  <th><div id="NO5" menu-id="NO5" menu-name="NO5" class="menu-item pull-left" value="5" type="checkbox"><span>优惠菜</span></div></th>
-                </tr>
-                <tr>
-                  <td><div style="float: left"> <img width="68px" src="/images/tuijian.png"> </div></td>
-                  <td><div style="float: left"> <img width="68px" src="/images/remai.png"> </div></td>
-                  <td><div style="float: left"> <img width="68px" src="/images/xinpin.png"> </div></td>
-                  <td><div style="float: left"> <img width="68px" src="/images/remai.png"> </div></td>
-                  <td><div style="float: left"> <img width="68px" src="/images/cuxiao.png"> </div></td>
-                </tr>
-              </table>
-            </div>
-        </div>
+        <!--<div class="form-group">-->
+          <!--<label  class="control-label col-lg-2 col-md-2"><%= i('html.label.item.info.tag') %>&lt;!&ndash;类型&ndash;&gt;</label>-->
+            <!--<div class="col-lg-8 col-md-8">-->
+              <!--<table id="inputpin" value="">-->
+                <!--<tr>-->
+                  <!--<th><div id="NO1" menu-id="NO1" menu-name="NO1" class="menu-item pull-left" value="1" type="checkbox"><span>招牌菜</span></div></th>-->
+                  <!--<th><div id="NO2" menu-id="NO2" menu-name="NO2" class="menu-item pull-left" value="2" type="checkbox"><span>热卖菜</span></div></th>-->
+                  <!--<th><div id="NO3" menu-id="NO3" menu-name="NO3" class="menu-item pull-left" value="3" type="checkbox"><span>新品菜</span></div></th>-->
+                  <!--<th><div id="NO4" menu-id="NO4" menu-name="NO4" class="menu-item pull-left" value="4" type="checkbox"><span>营养菜</span></div></th>-->
+                  <!--<th><div id="NO5" menu-id="NO5" menu-name="NO5" class="menu-item pull-left" value="5" type="checkbox"><span>优惠菜</span></div></th>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                  <!--<td><div style="float: left"> <img width="68px" src="/images/tuijian.png"> </div></td>-->
+                  <!--<td><div style="float: left"> <img width="68px" src="/images/remai.png"> </div></td>-->
+                  <!--<td><div style="float: left"> <img width="68px" src="/images/xinpin.png"> </div></td>-->
+                  <!--<td><div style="float: left"> <img width="68px" src="/images/remai.png"> </div></td>-->
+                  <!--<td><div style="float: left"> <img width="68px" src="/images/cuxiao.png"> </div></td>-->
+                <!--</tr>-->
+              <!--</table>-->
+            <!--</div>-->
+        <!--</div>-->
 
       </form>
     </div>
