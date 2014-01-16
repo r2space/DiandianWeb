@@ -38,3 +38,10 @@ exports.getNextVal = function (code, name, callback) {
     seq.getNextVal(code, name, callback);
   });
 }
+
+exports.resultSeq = function(code,name,value,callback){
+
+  seq.resetSequence(code,name,value,function(err,result){
+    callback(err,result);
+  });
+}

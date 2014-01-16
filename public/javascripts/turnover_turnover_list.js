@@ -47,11 +47,14 @@ function render(start, count, keyword,startTime ,endTime) {
       imagetmp = "/picture/" + row.smallimage;
       container.append(_.template(tmpl, {
         "id": row._id ,
+        "billNum": row.billNum ,
         "people": row.people ,
         "deskName" : row.desk ?row.desk.name :"外卖" ,
         "orderCount" : row.orderCount ,
         "amount" : row.amount ,
         "profit" : row.profit ,
+        "userPay": row.userPay?row.userPay:row.profit,
+        "agio"  : row.agio,
         "status" : statusRender(row.status) ,
         "createat" : smart.date(row.createat) ,
         "editat" : smart.date(row.editat)

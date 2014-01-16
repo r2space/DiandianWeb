@@ -33,9 +33,14 @@ exports.guiding = function(app){
     tag.appSearch(req, res);
   });
 
+//  /common/seq/initSeq.json?name=BillSEQ&start=0&increment=1
 
   app.get('/common/seq/initSeq.json', function(req, res){
     seq.initSeq(req, res);
+  });
+
+  app.get('/common/seq/resetSeq.json', function(req, res){
+    seq.resetSeqSeq(req, res);
   });
   app.get('/common/seq/currVal.json', function(req, res){
     seq.currVal(req, res);

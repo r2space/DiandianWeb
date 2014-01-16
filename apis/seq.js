@@ -21,6 +21,7 @@ exports.nextVal = function (req_, res_) {
 
 }
 // 获取一览
+//  /common/seq/initSeq.json?name= &start=0&increment=1
 exports.initSeq = function (req_, res_) {
 
   var code = "diandian"
@@ -36,3 +37,13 @@ exports.initSeq = function (req_, res_) {
   });
 
 };
+
+exports.resetSeqSeq = function(req,res){
+  var code = "diandian"
+    , name = req.query.name
+    , start = req.query.start || 0
+  seq.resultSeq(code,name,start,function(err,result){
+    response.send(res, err, result);
+  });
+
+}

@@ -6,6 +6,7 @@ var _         = smart.util.underscore
   , util      = smart.framework.util
 
   , order      = require('../modules/mod_order.js')
+  , seq      = require('../controllers/ctrl_seq.js')
   , service      = require('../modules/mod_service.js')
   , desk      = require('../modules/mod_desk.js')
   , menu      = require('../modules/mod_menu.js')
@@ -23,18 +24,24 @@ exports.stopBill = function(handler, callback) {
     , serviceId = handler.params.serviceId
     , amount    = handler.params.amount
     , profit    = handler.params.profit
+    , userPay    = handler.params.userPay
     , agio      = handler.params.agio
     , preferential = handler.params.preferential;
 
-  service.update(code,serviceId,{
-    amount:amount ,
-    profit:profit ,
-    agio:agio ,
-    preferential:preferential ,
-    status : 3
-  },function(err,result){
-    callback( null, result);
+  seq.getNextVal(code,"BillSEQ",function(err,nextSeq){
+    service.update(code,serviceId,{
+      amount:amount ,
+      profit:profit ,
+      agio:agio ,
+      userPay :userPay,
+      preferential:preferential ,
+      status : 3,
+      billNum : nextSeq
+    },function(err,result){
+      callback( null, result);
+    });
   });
+
 
 }
 
