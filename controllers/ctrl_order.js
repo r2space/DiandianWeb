@@ -177,7 +177,7 @@ exports.getDeskList = function(handler, callback) {
   }
 
   if(type == "item") {
-    condition.itemType = { $in: [0,1,2,3] };
+    condition.itemType = { $in: [1,3] };
   } else {
     condition.itemType = { $in: [0,2] };
   }
@@ -231,7 +231,7 @@ exports.getItemList = function(handler, callback) {
         , back : 0
     };
   if(type == "item") {
-    condition.itemType = {$in: [0,1,2,3]};
+    condition.itemType = {$in: [1,3]};
   } else {
     condition.itemType = {$in: [0,2]};
   }
