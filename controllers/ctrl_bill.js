@@ -114,12 +114,17 @@ exports.createBill = function(handler, callback) {
       } ,function(err,result){
 
         desk.get (code,serviceResult.deskId,function(err,deskObj) {
+
           if(!deskObj) {
-            return callback( null, {desk:deskObj,items:tmpOrderList,amount:tmpAmount,profit:tmpAmount,waiter:"收银台"});
+            handler.addParams("uid",serviceResult.createby);
+            ctrlUser.get(handler,function(err,userObj){
+              return callback( null, {service:serviceResult,desk:{name:serviceResult.phone},items:tmpOrderList,amount:tmpAmount,profit:tmpAmount,waiter:userObj.userName});
+            });
+            return;
           }
-          handler.addParams("uid",deskObj.createby);
+          handler.addParams("uid",serviceResult.createby);
           ctrlUser.get(handler,function(err,userObj){
-            callback( null, {desk:deskObj,items:tmpOrderList,amount:tmpAmount,profit:tmpAmount,waiter:userObj.userName} );
+            callback( null, {service:serviceResult,desk:deskObj,items:tmpOrderList,amount:tmpAmount,profit:tmpAmount,waiter:userObj.userName} );
           });
 
 
