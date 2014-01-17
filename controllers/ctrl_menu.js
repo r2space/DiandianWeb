@@ -185,7 +185,7 @@ function getMenuImageIds(resultDocs,callback){
     for(var j in items ){
       var menuItems = items[j];
       if(menuItems._doc.item._doc.bigimage){
-        tempImageList.push(menuItems._doc.item._doc.bigimage);
+//        tempImageList.push(menuItems._doc.item._doc.bigimage);
       }
 
       if(menuItems._doc.item._doc.smallimage){
