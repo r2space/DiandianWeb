@@ -211,6 +211,7 @@ exports.add = function(handler, callback){
     , type              : handler.params.type
     , pin               : handler.params.pin
     , printerId         : handler.params.printerId
+    , discount          : handler.params.discount
     , editat: now
     , editby: handler.uid
   };
@@ -286,6 +287,7 @@ exports.update = function(handler, callback) {
     , type              : handler.params.type
     , pin               : handler.params.pin
     , printerId         : handler.params.printerId
+    , discount          : handler.params.discount
     , editat: now
     , editby: handler.uid
   };

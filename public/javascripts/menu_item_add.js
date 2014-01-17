@@ -90,6 +90,7 @@ function getItemData() {
     , smallimage : $("#uploadfile_big").val()
     , type: $("#inputType").attr("value")
     , printerId: $("#printerType").attr("value")
+    , discount: $("#discount").attr("value")
   };
   var tag = []
     , inputTag = $("#itemType");
@@ -175,6 +176,7 @@ function render(itemId) {
         $("#uploadfile_big").val(result.bigimage);
         new ButtonGroup("inputType", result.type).init();
         new ButtonGroup("printerType", result.printerId).init();
+        new ButtonGroup("discount", result.discount).init();
 
         $("#small_img").css("display", "block");
         $("#small_img").attr("src", "/picture/" + result.bigimage);
@@ -233,6 +235,7 @@ function render(itemId) {
       }
     });
     new ButtonGroup("inputType", "1").init();
+    new ButtonGroup("discount", "0").init();
   }
 
 }
