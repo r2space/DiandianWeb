@@ -38,7 +38,7 @@ exports.guiding = function(app){
   app.get('/common/seq/initSeq.json', function(req, res){
     seq.initSeq(req, res);
   });
-
+//http://115.28.161.172:3000/common/seq/resetSeq.json?name=BillSEQ&start=54
   app.get('/common/seq/resetSeq.json', function(req, res){
     seq.resetSeqSeq(req, res);
   });
