@@ -139,7 +139,7 @@ exports.getTurnoverList = function(code, condition,start,limit, callback) {
 exports.getList = function(code, condition,start,limit, callback) {
 
   var service = model(code);
-  
+
   service.find(condition)
     .skip(start || 0)
     .limit(limit || 20)

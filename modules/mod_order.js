@@ -31,6 +31,7 @@ var Order = new schema({
   , remark          :   {type: String, description: "备注"}
   , amount          :   {type: String, description: "数量整数部分", default: "1"}
   , amountPrice     :   {type: String, description: "价格"}
+  , discount        :   {type: Number, description: "菜品折扣： 0： 无折扣 1： 有折扣", default: 1}
   , createat        :   {type: Date,   description: "创建时间"}
   , createby        :   {type: String, description: "创建者"}
   , editat          :   {type: Date,   description: "最终修改时间"}
@@ -94,22 +95,29 @@ exports.getOrderListByServiceId = function(code,serviceId,callback){
   });
 }
 
-exports.getList = function(code, condition, start, limit, callback) {
+exports.getList = function(code, condition, start, limit, sort, callback) {
 
   var order = model(code);
 
-  var sort = {};
+  var conditionSort = {};
   if(condition.serviceId){
 
-    sort = {orderNum: 1,orderSeq:1};
+    conditionSort = {orderNum: 1,orderSeq:1};
   } else {
 
-    sort = {createat : 1};
+    conditionSort = {createat : 1};
   }
+  if(sort){
+    for(var i in sort){
+      conditionSort[i] = sort[i];
+    }
+    conditionSort = sort ;
+  }
+  console.log(sort);
   order.find(condition)
     .skip(start || 0)
     .limit(limit || 20)
-    .sort(sort)
+    .sort(conditionSort)
     .exec(function(err, result) {
       callback(err, result);
     });

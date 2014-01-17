@@ -186,7 +186,7 @@ exports.getDeskList = function(handler, callback) {
     if (err) {
       return callback(new error.InternalServer(err));
     }
-    order.getList(code, condition, 0,50, function (err, result) {
+    order.getList(code, condition, 0,50,null, function (err, result) {
       if (err) {
         return callback(new error.InternalServer(err));
       }
@@ -247,7 +247,7 @@ exports.getItemList = function(handler, callback) {
     if (err) {
       return callback(new error.InternalServer(err));
     }
-    order.getList(code, condition, start, limit, function (err, result) {
+    order.getList(code, condition, start, limit,null, function (err, result) {
       if (err) {
         return callback(new error.InternalServer(err));
       }
@@ -285,7 +285,7 @@ exports.getList = function (code, deskId, serviceId,back, start, limit, callback
     if (err) {
       return callback(new error.InternalServer(err));
     }
-    order.getList(code, condition, start, 1000, function (err, result) {
+    order.getList(code, condition, start, 1000,{itemType :1}, function (err, result) {
       if (err) {
         return callback(new error.InternalServer(err));
       }
@@ -310,7 +310,7 @@ function getItemListByOrderList (code,orderList,callback){
 
       itemObj._doc.item = itemDocs;
 
-      order.getList(code,{backOrderId:itemObj._id},0,100000,function(err,backOrderList){
+      order.getList(code,{backOrderId:itemObj._id},0,100000,null,function(err,backOrderList){
         var totalBackAmount = 0
         if(backOrderList){
 
@@ -423,6 +423,7 @@ function add (code, uid, orderData, callback) {
     newOrder.itemType = itemDocs.type;
     newOrder.type = orderData.type;
     newOrder.itemPrice = price;
+    newOrder.discount = itemDocs.discount?itemDocs.discount:0;
 
     var amountPirce = MyParseFloat(parseFloat(price) * parseFloat(orderData.amount));
     newOrder.amountPrice = amountPirce+"";

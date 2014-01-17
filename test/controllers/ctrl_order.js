@@ -85,6 +85,7 @@ describe('../../controllers/ctrl_order.js', function () {
     handler.addParams("orderList",orderList);
     handler.addParams("deskId","52a154e57c82db700d000004");
     Order.addOrder(handler, function (err, order) {
+      console.log(err);
       should.not.exist(err);
 
       done();

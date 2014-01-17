@@ -92,7 +92,7 @@ exports.createBill = function(handler, callback) {
             tmpAmount = MyParseFloat(tmpAmount) - MyParseFloat(orderObj.amountPrice);
           }
 
-          order.getList(code,{backOrderId:orderObj._id},0,100000,function(err,backOrderList){
+          order.getList(code,{backOrderId:orderObj._id},0,100000,null,function(err,backOrderList){
             var totalBackAmount = 0
 
             if(backOrderList){
