@@ -118,18 +118,20 @@ $(function () {
     pages--;
 
     var count = 0;
+    newItems = [];
     _.each(items,function(item){
       if(item.currentPageIdx < pagecounter){
         item.index = ++count;
         newItems.push(item);
       } else if(item.currentPageIdx > pagecounter){
         item.index = ++count;
-        item.currentPageIdx = item.currentPageIdx - 1;
+        item.currentPageIdx--;;
         newItems.push(item);
       }
 
     });
 
+    items = [];
     items = newItems;
 
     var pageIdIdx = -1;
@@ -294,21 +296,12 @@ $(function () {
       var grid = oldItems[index-1];
 
       if (grid.row == 1) {
-        for(var j = index-1;j<index-1 +9;j++){
-          oldItems[i].currentPageIdx = (i+1);
-        }
         insertLandscapeScreenAfter(3, oldItems, grid.index);
         index += 9;
       } else if (grid.row == 2) {
-        for(var j = index-1;j<index-1+6;j++){
-          oldItems[i].currentPageIdx = (i+1);
-        }
         insertLandscapeScreenAfter(2, oldItems, grid.index);
         index += 6;
       } else if (grid.row == 3){
-        for(var j = index-1;j<index;j++){
-          oldItems[i].currentPageIdx = (i+1);
-        }
         insertLandscapeScreenAfter(1, oldItems, grid.index);
         index+=1;
       }
