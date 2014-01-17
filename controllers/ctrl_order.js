@@ -319,8 +319,13 @@ function getItemListByOrderList (code,orderList,callback){
           }
         }
         itemObj._doc.totalBackAmount = totalBackAmount;
-        tempList[itemObj._doc._index] = itemObj;
-        cb(null,itemDocs);
+        desk.get(code,itemObj.deskId,function(err,deskDocs){
+
+          itemObj._doc.desk = deskDocs;
+          tempList[itemObj._doc._index] = itemObj;
+          cb(null,itemDocs);
+        });
+
 
       });
 

@@ -6,6 +6,7 @@ var _         = smart.util.underscore
   , util      = smart.framework.util
 
   , order      = require('../modules/mod_order.js')
+  , seq      = require('../controllers/ctrl_seq.js')
   , service      = require('../modules/mod_service.js')
   , desk      = require('../modules/mod_desk.js')
   , menu      = require('../modules/mod_menu.js')
@@ -23,18 +24,25 @@ exports.stopBill = function(handler, callback) {
     , serviceId = handler.params.serviceId
     , amount    = handler.params.amount
     , profit    = handler.params.profit
+    , userPay    = handler.params.userPay
     , agio      = handler.params.agio
     , preferential = handler.params.preferential;
-
-  service.update(code,serviceId,{
-    amount:amount ,
-    profit:profit ,
-    agio:agio ,
-    preferential:preferential ,
-    status : 3
-  },function(err,result){
-    callback( null, result);
+  var now = new Date();
+  seq.getNextVal(code,"BillSEQ",function(err,nextSeq){
+    service.update(code,serviceId,{
+      amount:amount ,
+      profit:profit ,
+      agio:agio ,
+      userPay :userPay,
+      preferential:preferential ,
+      status : 3,
+      billNum : nextSeq ,
+      editat:now
+    },function(err,result){
+      callback( null, result);
+    });
   });
+
 
 }
 
@@ -107,12 +115,17 @@ exports.createBill = function(handler, callback) {
       } ,function(err,result){
 
         desk.get (code,serviceResult.deskId,function(err,deskObj) {
+
           if(!deskObj) {
-            return callback( null, {desk:deskObj,items:tmpOrderList,amount:tmpAmount,profit:tmpAmount,waiter:"收银台"});
+            handler.addParams("uid",serviceResult.createby);
+            ctrlUser.get(handler,function(err,userObj){
+              return callback( null, {service:serviceResult,desk:{name:serviceResult.phone},items:tmpOrderList,amount:tmpAmount,profit:tmpAmount,waiter:userObj.userName});
+            });
+            return;
           }
-          handler.addParams("uid",deskObj.createby);
+          handler.addParams("uid",serviceResult.createby);
           ctrlUser.get(handler,function(err,userObj){
-            callback( null, {desk:deskObj,items:tmpOrderList,amount:tmpAmount,profit:tmpAmount,waiter:userObj.userName} );
+            callback( null, {service:serviceResult,desk:deskObj,items:tmpOrderList,amount:tmpAmount,profit:tmpAmount,waiter:userObj.userName} );
           });
 
 

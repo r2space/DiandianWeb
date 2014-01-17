@@ -55,7 +55,12 @@ exports.setCurrVal = function (code, name, value, callback) {
 
 };
 
-exports.resetSequence = function (code, name, callback) {
+exports.resetSequence = function (code, name,value,callback) {
+  var Sequence = model(code);
+
+  Sequence.findOneAndUpdate({name:name},{value:value},function(err,result){
+    callback(err,result);
+  });
 
 };
 

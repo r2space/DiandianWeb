@@ -85,7 +85,7 @@ exports.list = function(handler, callback) {
 
   console.log("limit :"  + limit);
 
-  service.getList(code,condition,start,limit,function(err,result){
+  service.getTurnoverList(code,condition,start,limit,function(err,result){
     for(var i in result){
       result[i]._index = i;
     }
