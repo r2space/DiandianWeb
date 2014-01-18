@@ -87,10 +87,10 @@ exports.add = function(code, newService, callback) {
   });
 };
 
-exports.addUnfinishedCount = function(code,servicdId,callback){
+exports.addUnfinishedCount = function(code,servicdId,count,callback){
   var service = model(code);
 
-  service.findByIdAndUpdate(servicdId,{$inc:{unfinishedCount:1}},callback);
+  service.findByIdAndUpdate(servicdId,{$inc:{unfinishedCount:count}},callback);
 };
 
 exports.delUnfinishedCount = function(code,servicdId,callback){

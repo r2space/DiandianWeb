@@ -62,8 +62,7 @@ exports.changeDesk = function(handler, callback) {
     , serviceId = handler.params.serviceId
     , deskId = handler.params.deskId
 
-  service.update(code,serviceId,{deskId:deskId},function(err,result){
-
+  service.update(code,serviceId,{deskId:deskId+""},function(err,result){
 
     updateOrderDeskId(code,serviceId,deskId,function(){
       callback(err,result);
@@ -77,7 +76,7 @@ exports.changeDesk = function(handler, callback) {
 function updateOrderDeskId (code,serviceId,deskId,callback){
   order.getOrderListByServiceId(code,serviceId,function(err,orderList){
      async.forEach(orderList,function(orderObj,cb){
-       order.update(code,orderObj._id,{deskId:deskId},function(err,result){
+       order.update(code,orderObj._id,{deskId:deskId+""},function(err,result){
          cb(null,result);
        });
      },function(err,result){

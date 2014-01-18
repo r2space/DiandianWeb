@@ -357,22 +357,26 @@ exports.addOrder = function(handler, callback) {
         orderObj.orderNum = orderNumSeq;
 
           add(code,'', orderObj, function (err, docs) {
-            tmpResult[orderObj._index] = docs;
-            service.addUnfinishedCount(code,orderObj.serviceId,function(){
 
+              tmpResult[orderObj._index] = docs;
+              serviceId = orderObj.serviceId;
               cb(null, orderObj);
-            });
+
 
           });
       });
 
     }, function (err, result) {
-
         if (!deskId){
-          return  callback(err, {items:tmpResult , orderNum :tmpCurOrderNumSeq , deskName : "外卖", now: new Date()});
+          service.addUnfinishedCount(code,serviceId,orderList.length,function(){
+            return callback(err, {items:tmpResult , orderNum :tmpCurOrderNumSeq , deskName : "外卖", now: new Date()});
+          });
+          return;
         }
         desk.get (code,deskId,function(err,deskObj) {
-          callback(err, {items:tmpResult , orderNum :tmpCurOrderNumSeq , deskName : deskObj.name , now: new Date()});
+          service.addUnfinishedCount(code,serviceId,orderList.length,function(){
+            callback(err, {items:tmpResult , orderNum :tmpCurOrderNumSeq , deskName : deskObj.name , now: new Date()});
+          });
         });
 
     });
