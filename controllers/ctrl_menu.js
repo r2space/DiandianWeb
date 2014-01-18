@@ -181,12 +181,9 @@ function getMenuImageIds(resultDocs,callback){
   var tempImageList = [];
   for(var i in resultDocs){
     var items = resultDocs[i].items;
-    console.log(items);
+
     for(var j in items ){
       var menuItems = items[j];
-      if(menuItems._doc.item._doc.bigimage){
-//        tempImageList.push(menuItems._doc.item._doc.bigimage);
-      }
 
       if(menuItems._doc.item._doc.smallimage){
         tempImageList.push(menuItems._doc.item._doc.smallimage);
@@ -210,7 +207,7 @@ function getEachMenuList(code,menuList, callback) {
 
   async.forEach(menuList, function (menu,cb) {
     getItemListByMenu(code, menu,function(err,itemsListDocs){
-      console.log(menu._doc._index);
+
       menu._doc.items = itemsListDocs;
       tempMenuList[menu._doc._index] = menu;
       cb(null,menu);

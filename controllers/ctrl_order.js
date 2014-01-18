@@ -60,10 +60,7 @@ exports.freeOrder = function(handler, callback) {
 
     order.update(code,orderId,{ back: 3} ,function(err,result){
       tmpResult.push(result);
-
         cb(err,result);
-
-
     });
 
   },function(err,result){
@@ -134,7 +131,7 @@ exports.backOrder = function(handler, callback) {
 
       add(code,'', newBackOrder, function (err, newBackOrderDocs) {
 
-          order.update(code,backOrderObj.orderId,{ back: 1} ,function(err,result){
+          order.update(code,backOrderObj.orderId,{ back: 1,hasBack:1} ,function(err,result){
 
             service.delUnfinishedCount(code,result.serviceId,function(err,serviceResult){
               tmpResult.push(newBackOrderDocs);
