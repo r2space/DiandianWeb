@@ -40,6 +40,7 @@ function render(start, count, keyword) {
         "id": row._id
         , "index": index++ + start
         , "cover": imagetmp
+        , "discount": row.discount === 0 ? i18n["html.label.item.info.no"] : i18n["html.label.item.info.yes"]
         , "itemName": row.itemName
         , "itemType": row.itemType
         , "type" : row.type == 0 ? i18n["html.label.item.food"] : (row.type == 1 ? i18n["html.label.item.dish"]:(row.type == 2 ? i18n["html.label.item.drinks"]:(row.type == 3 ? i18n["html.label.item.seafood"]:i18n["html.label.item.ad"])))
