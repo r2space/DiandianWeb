@@ -16,30 +16,55 @@ var _       = smart.util.underscore
   , desk = require('../modules/mod_desk.js')
   , service = require('../modules/mod_service.js');
 
+/**
+ * 上菜机能 可以传入数组 或者  单独的OrderId
+ * @param handler
+ * @param callback
+ */
 exports.doneOrder = function(handler, callback) {
   var code = handler.params.code
     , orderId = handler.params.orderId
     , orderIds = handler.params.orderIds
   var ids = [];
 
+  //当传入数组的时候 123,123,123  用","分割字符串。
   if(orderIds && orderIds.length >0 ){
     ids = orderIds.split(",");
   }
-
+  //传入当个Order的Id
   if(orderId && orderId.length > 0) {
     ids.push(orderId);
   }
   var tmpResult = [];
   async.forEach(ids,function(idStr,cb) {
 
-    order.update(code,idStr,{ back: 1} ,function(err,orderResult){
+    order.get(code,idStr,function(err,orderDocs){
+      if(!err){
+        return cb(null,null);
+      }
+      if(!orderDocs){
+        return cb(null,null);
+      }
+      //读取 Order 判断是否存在 back ＝＝ 1  防止重复上菜
+      if(orderDocs){
+        if(orderDocs.back == 1){
 
-      service.delUnfinishedCount(code,orderResult.serviceId,function(err,serviceResult){
-        tmpResult.push(orderResult);
-        cb(err,orderResult);
-      });
+              cb(err,orderDocs);
+
+        } else {
+          order.update(code,idStr,{ back: 1} ,function(err,orderResult){
+
+            service.delUnfinishedCount(code,orderResult.serviceId,function(err,serviceResult){
+              tmpResult.push(orderResult);
+              cb(err,orderResult);
+            });
+
+          });
+        }
+      }
 
     });
+
 
   },function(err,result){
 
@@ -49,7 +74,15 @@ exports.doneOrder = function(handler, callback) {
 
 
 
-}
+};
+
+
+/**
+ * 免单
+ * @param handler
+ * @param callback
+ */
+
 
 exports.freeOrder = function(handler, callback) {
   var code = handler.params.code
@@ -87,7 +120,7 @@ exports.backOrder = function(handler, callback) {
   var code = handler.params.code
     , backOrderList = handler.params.backOrderList
   var tmpResult = [];
-  console.log(backOrderList);
+
   async.forEach(backOrderList ,function(backOrderObj,cb) {
 
     order.get(code,backOrderObj.orderId,function(err,orderDocs) {
@@ -95,11 +128,6 @@ exports.backOrder = function(handler, callback) {
       var amount = orderDocs.amount;
 
 
-
-      console.log(amount);
-
-      console.log(orderDocs.itemPrice);
-      console.log(orderDocs.amountPrice);
       var now = new Date();
       var newBackOrder = {
           deskId      : orderDocs.deskId
@@ -127,20 +155,15 @@ exports.backOrder = function(handler, callback) {
       var amountPrice = MyParseFloat(Number(backOrderObj.willBackAmount) * Number(orderDocs.itemPrice));
       newBackOrder.amountPrice = amountPrice +""
 
-      console.log(newBackOrder);
+
 
       add(code,'', newBackOrder, function (err, newBackOrderDocs) {
-
           order.update(code,backOrderObj.orderId,{ back: 1,hasBack:1} ,function(err,result){
-
             service.delUnfinishedCount(code,result.serviceId,function(err,serviceResult){
               tmpResult.push(newBackOrderDocs);
               cb(err,null);
             });
-
           });
-
-
       });
 
 
@@ -218,7 +241,7 @@ function getDeskListByOrderList (code,orderList,callback){
 }
 
 
-//, type          :  {type: Number, description: "类型 0:主食 1:菜品 2:酒水 10:广告", default: 1}
+//, type :  {type: Number, description: "类型 0:主食 1:菜品 2:酒水 10:广告", default: 1}
 exports.getItemList = function(handler, callback) {
   var code = handler.params.code
     , type = handler.params.type
@@ -266,14 +289,14 @@ exports.getList = function (code, deskId, serviceId,back, start, limit, callback
   if (deskId) {
     condition.deskId = deskId;
   }
+
   if (serviceId) {
     condition.serviceId = serviceId;
   }
-  if (back){
+
+  if (back) {
     var _back = back.split(",");
-
     condition.back = {$in : _back};
-
   }
 
 
@@ -414,10 +437,10 @@ function add (code, uid, orderData, callback) {
 
     var price;
     if (orderData.type == "0") {
-      console.log("大份");
+      //大份
       price = itemDocs.itemPriceNormal;
     } else {
-      console.log("小份");
+      //小份
       price = itemDocs.itemPriceHalf;
     }
 
