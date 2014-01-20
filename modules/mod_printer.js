@@ -18,7 +18,9 @@ var Printer = new schema({
     name            :   {type: String, description: "打印机名字"}
   , printerIP       :   {type: String, description: "打印机的IP"}
   , type            :   {type: String, description: "打印类型 1:厨房打印 2：结账打印", default: 1}
+  , need            :   {type: Number, description: "0:不打印 1:打印", default: 1}
   , valid           :   {type: Number, description: "删除 0:无效 1:有效", default: 1}
+
   , createat        :   {type: Date,   description: "创建时间"}
   , createby        :   {type: String, description: "创建者"}
   , editat          :   {type: Date,   description: "最终修改时间"}
