@@ -39,16 +39,18 @@ exports.doneOrder = function(handler, callback) {
   async.forEach(ids,function(idStr,cb) {
 
     order.get(code,idStr,function(err,orderDocs){
-      if(!err){
+      if(err){
         return cb(null,null);
       }
       if(!orderDocs){
+
         return cb(null,null);
       }
       //读取 Order 判断是否存在 back ＝＝ 1  防止重复上菜
       if(orderDocs){
         if(orderDocs.back == 1){
 
+              tmpResult.push(orderDocs);
               cb(err,orderDocs);
 
         } else {
