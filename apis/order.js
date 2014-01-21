@@ -51,10 +51,12 @@ exports.doneOrder = function (req,res) {
   order.doneOrder(handler, function(err, result){
     log.operation("finish: get deskList.", handler.uid);
 
-    ws.broadcast(act.dataBroadcast("refresh_desk", {deskId:result[0].deskId}));
-    ws.broadcast(act.dataBroadcast("refresh_order", {}));
+
     response.send(res, err, {items:result,totalItems:result.length});
 
+  },function(err,result){
+    ws.broadcast(act.dataBroadcast("refresh_desk", {}));
+    ws.broadcast(act.dataBroadcast("refresh_order", {}));
   });
 };
 

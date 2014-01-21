@@ -21,7 +21,7 @@ var _       = smart.util.underscore
  * @param handler
  * @param callback
  */
-exports.doneOrder = function(handler, callback) {
+exports.doneOrder = function(handler, callback,sokcet) {
   var code = handler.params.code
     , orderId = handler.params.orderId
     , orderIds = handler.params.orderIds
@@ -54,12 +54,30 @@ exports.doneOrder = function(handler, callback) {
               cb(err,orderDocs);
 
         } else {
-          order.update(code,idStr,{ back: 1} ,function(err,orderResult){
+          order.update(code,idStr,{ back: 1 ,editby:handler.uid} ,function(err,orderResult){
 
-            service.delUnfinishedCount(code,orderResult.serviceId,function(err,serviceResult){
-              tmpResult.push(orderResult);
-              cb(err,orderResult);
-            });
+            setTimeout(function(){
+
+
+              order.get(code,idStr,function(err,orderDocs1){
+                if(orderDocs1.back == 1 && orderDocs1.editby == handler.uid){
+                  service.delUnfinishedCount(code,orderDocs1.serviceId,function(err,serviceResult) {
+                    console.log("delete  ok");
+                    sokcet(null,"ok");
+                  });
+                } else {
+                  sokcet(null,"ok");
+                }
+
+
+              });
+              console.log("timeou");
+
+            },2000);
+
+            tmpResult.push(orderResult);
+            cb(err,orderResult);
+
 
           });
         }
