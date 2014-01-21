@@ -54,8 +54,11 @@ exports.doneOrder = function(handler, callback,sokcet) {
               cb(err,orderDocs);
 
         } else {
-          order.update(code,idStr,{ back: 1 ,editby:handler.uid} ,function(err,orderResult){
 
+          var snow = new Date().getTime();
+          order.update(code,idStr,{ back: 1 ,editby:handler.uid} ,function(err,orderResult){
+            var enow = new Date().getTime();
+            var wait = snow - enow;
             setTimeout(function(){
 
 
@@ -73,7 +76,7 @@ exports.doneOrder = function(handler, callback,sokcet) {
               });
               console.log("timeou");
 
-            },2000);
+            },wait+1000);
 
             tmpResult.push(orderResult);
             cb(err,orderResult);
