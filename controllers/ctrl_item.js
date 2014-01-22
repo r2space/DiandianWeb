@@ -221,24 +221,29 @@ exports.add = function(handler, callback){
   var tasks = [];
     newItem.createat = now;
     newItem.createby = handler.uid;
-
+  var tmpResult;
   tasks.push(function(cb){
 
     item.add(code, newItem, function(err, result){
       if (err) {
         return cb(new error.InternalServer(err));
       }
+
+      tmpResult = result;
 //      dimg.thumbImage(result.bigimage,"diandian","items","bigimageThumb",result._id+"");
 //      dimg.thumbImage(result.smallimage,"diandian","items","smallimageThumb",result._id+"");
       cb(err, result);
     });
   });
 
+
   // 新增的tag，添加到tag表
   tasks.push(function(result, cb) {
     var add = _.difference(tags, result);
 
       tag.add(code, uid, add, function(err, result){
+
+
         cb(err, result);
       });
   });
@@ -254,7 +259,7 @@ exports.add = function(handler, callback){
 
   async.waterfall(tasks, function(err, result){
 
-    return callback(err, result);
+    return callback(err, tmpResult);
   });
 
 };
