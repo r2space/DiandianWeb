@@ -33,7 +33,7 @@ function render(start, count, keyword,startTime ,endTime) {
       , container = $("#turnover_list")
       , index = 1;
     $("#serviceTotal").html("账单数量：" + result.total + "个");
-    $("#serviceAmount").html("营业额：" +result.profit+ ".00元");
+    $("#serviceAmount").html("营业额：" +result.profit+ "元");
     container.html("");
     var statusRender = function(val){
       if(val == 1) {
@@ -43,13 +43,11 @@ function render(start, count, keyword,startTime ,endTime) {
       }
     }
     _.each(result.items, function(row){
-      var imagetmp = "";
-      imagetmp = "/picture/" + row.smallimage;
       container.append(_.template(tmpl, {
         "id": row._id ,
         "billNum": row.billNum ,
         "people": row.people ,
-        "deskName" : row.desk ?row.desk.name :"外卖" ,
+        "deskName" : row.desk ? row.desk.name :"外卖" ,
         "orderCount" : row.orderCount ,
         "amount" : row.amount ,
         "profit" : row.profit ,
@@ -73,7 +71,48 @@ function render(start, count, keyword,startTime ,endTime) {
 
 function events() {
 
+  $("#turnover_list").on("click", "a", function(event){
 
+    var target = $(event.target);
+    var operation = target.attr("operation")
+      , rowId = target.attr("rowId");
+
+    if (operation == "detail") {
+      var jsonUrl = "/turnover/findOne.json?";
+      jsonUrl += "sid=" + rowId;
+
+      smart.doget(jsonUrl, function(e, result){
+        if (smart.error(e, i18n["js.common.search.error"], true)) {
+          return;
+        }
+        var tmpl = $("#tmpl_oder_list").html()
+          , container = $("#order_list");
+        container.html("");
+        _.each(result.orders, function(row){
+          var state;
+          if(row.back == 0){
+            state = "未上";
+          }else if(row.back == 1){
+            state = "已上";
+          }else if(row.back == 2){
+            state = "退菜";
+          }else if(row.back == 3){
+            state = "免单";
+          }
+          container.append(_.template(tmpl, {
+            "name"        : row.item.itemName
+            ,"state"      : state
+            ,"type"       : row.type==0 ? "大份":"小份"
+            ,"amount"     : row.amount
+            ,"amountPrice": row.amountPrice
+          }));
+        });
+
+        $("#itemModal").modal("show");
+
+      });
+    }
+  });
 
   $("#doSearch").bind("click",function(){
     var fn = function(remindTime){

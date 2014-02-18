@@ -16,3 +16,12 @@ exports.list = function(req,res){
     response.send(res, err, result);
   });
 }
+exports.get = function(req,res){
+  var handler = new context().bind(req, res);
+  log.operation("begin: get turnover.", handler.uid);
+
+  turnover.get(handler, function(err, result) {
+    log.operation("finish: get turnover.", handler.uid);
+    response.send(res, err, result);
+  });
+}

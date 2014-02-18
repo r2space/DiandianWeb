@@ -13,8 +13,8 @@ var fs        = smart.lang.fs
   , util      = smart.framework.util
   , service  = require('../modules/mod_service.js')
   , desk  = require('../modules/mod_desk.js')
-  , order  = require('../modules/mod_order.js');
-
+  , order  = require('../modules/mod_order.js')
+  , mod_item  = require('../modules/mod_item.js');
 
 /**
  * 获得 一天的营业额
@@ -79,64 +79,95 @@ exports.list = function(handler, callback) {
     keyword = util.quoteRegExp(keyword);
     condition.name = new RegExp(keyword.toLowerCase(), "i");
   }
-
-  var tmpResult = [];
   console.log("start :"  + start);
 
   console.log("limit :"  + limit);
 
   service.getTurnoverList(code,condition,start,limit,function(err,result){
-    for(var i in result){
-      result[i]._index = i;
+
+    if(err){
+      return callback(err,result);
     }
-    async.forEach(result,function(serviceObj,cb){
+    async.each(result,function(doc,cb){
 
-      async.waterfall([
-        function(cb1){
-          if(serviceObj.deskId){
-            desk.get(code,serviceObj.deskId ,function(err,deskObj){
-              serviceObj._doc.desk = deskObj;
-
-              tmpResult[serviceObj._index] = serviceObj;
-              cb1();
+      async.parallel({
+        deskObj:function(subcb){
+          //外卖没有桌台
+          if(doc.deskId == -1){
+            subcb(null,null);
+          }else{
+            desk.get(code,doc.deskId ,function(err,desk_doc){
+              subcb(err,desk_doc);
             });
-          } else {
-            tmpResult[serviceObj._index] = serviceObj;
-            cb1();
           }
         },
-        function(cb2){
-
-         order.total(code,{serviceId:serviceObj._id,back:1},function(err,count){
-
-           tmpResult[serviceObj._index]._doc.orderCount = count;
-           cb2();
-         });
+        orderCount:function(subcb){
+          order.total(code,{serviceId:doc._id,back:1},function(err,count){
+            subcb(err,count);
+          });
         }
-      ], function(err, result){
-        return cb();
+      },function(err,result){
+          if(err){
+            cb(err);
+          }else{
+            doc._doc.desk = result.deskObj;
+            doc._doc.orderCount = result.orderCount;
+            cb(err);
+          }
       });
-
-
-
 
     },function(err){
-      service.total(code,condition,function(err,total){
-        var amountCondition = {
-           createat : {"$gte":startTimpstamp,"$lte":endTimestamp}
-        };
-        service.list(code,amountCondition,function(err,serviceList){
-          var profitService = 0;
-          for(var i in serviceList){
-            if(serviceList[i].profit)
-              profitService = parseInt(profitService) + parseInt(serviceList[i].profit);
+      if(err){
+        return callback(err,null);
+      }else{
+        service.total(code,condition,function(err,total){
+          if(err){
+            return callback(err,null);
           }
-          return callback(err, {items: tmpResult,total:total,profit :profitService });
+          service.list(code,condition,function(err,itmes){
+            if(err){
+              return callback(err,null);
+            }
+            var profitTotal = 0;
+            _.each(itmes, function(item){
+              profitTotal += parseInt(item.profit);
+            });
+            return callback(err, {items: result,total:total,profit :profitTotal});
+          });
         });
-
-      });
-
+      }
     });
   });
+};
+exports.get = function(handler, callback){
 
+  var code = handler.code
+    , params = handler.params
+    , sid = params.sid;
+
+  service.get(code,sid,function(err,doc){
+    if(err){
+      return callback(err);
+    }
+    order.getOrderListByServiceId(code,sid,function(err,orders){
+      if(err){
+        return callback(err);
+      }
+      async.each(orders,function(order,cb){
+        mod_item.get(code,order.itemId,function(err,item){
+          if(!err){
+            order._doc.item = item;
+          }
+          return cb(err);
+        });
+
+      },function(err){
+        if(err){
+          return callback(err);
+        }
+        doc._doc.orders = orders;
+        return callback(err,doc);
+      });
+    });
+  });
 };
