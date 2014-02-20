@@ -44,18 +44,18 @@ function render(start, count, keyword,startTime ,endTime) {
     }
     _.each(result.items, function(row){
       container.append(_.template(tmpl, {
-        "id": row._id ,
-        "billNum": row.billNum ,
-        "people": row.people ,
-        "deskName" : row.desk ? row.desk.name :"外卖" ,
-        "orderCount" : row.orderCount ,
-        "amount" : row.amount ,
-        "profit" : row.profit ,
-        "userPay": row.userPay?row.userPay:row.profit,
-        "agio"  : row.agio,
-        "status" : statusRender(row.status) ,
-        "createat" : smart.date(row.createat) ,
-        "editat" : smart.date(row.editat)
+        "id"        : row._id ,
+        "billNum"   : row.billNum ,
+        "people"    : row.people ,
+        "deskName"  : row.desk ? row.desk.name :"外卖" ,
+        "orderCount": row.orderCount ,
+        "amount"    : row.amount + ".00" ,
+        "profit"    : row.profit ,
+        "userPay"   : row.userPay?row.userPay:row.profit,
+        "agio"      : row.agio == 1 ? "未打折" : parseInt(row.agio * 100) + "%",
+        "status"    : statusRender(row.status) ,
+        "createat"  : smart.date(row.createat) ,
+        "editat"    : smart.date(row.editat)
       }));
 
     });

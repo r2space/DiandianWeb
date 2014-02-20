@@ -155,6 +155,10 @@ exports.guiding = function(app){
     printer.findOne(req,res);
   });
 
+  app.get('/api/printer/lock.json', function (req, res) {
+    printer.lock(req,res);
+  })
+
   app.post("/api/soldout/add.json", function(req,res){
     soldout.add(req,res);
   });

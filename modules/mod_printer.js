@@ -20,7 +20,8 @@ var Printer = new schema({
   , type            :   {type: String, description: "打印类型 1:厨房打印 2：结账打印", default: 1}
   , need            :   {type: Number, description: "0:不打印 1:打印", default: 1}
   , valid           :   {type: Number, description: "删除 0:无效 1:有效", default: 1}
-
+  , lock            :   {type: String, description: "打印机锁,用于控制多个iPad连接打印机时的资源冲突"}
+  , lockTime        :   {type: Date, description: "打印机加锁时间"}
   , createat        :   {type: Date,   description: "创建时间"}
   , createby        :   {type: String, description: "创建者"}
   , editat          :   {type: Date,   description: "最终修改时间"}
