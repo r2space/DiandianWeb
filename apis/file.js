@@ -6,10 +6,13 @@
 
 "use strict";
 
-var context              = smart.framework.context
-  , log                  = smart.framework.log
-  , response             = smart.framework.response
-  , file                 = require("../controllers/ctrl_file");
+var fs        = smart.lang.fs
+  , path      = require('path')
+  , context   = smart.framework.context
+  , log       = smart.framework.log
+  , response  = smart.framework.response
+  , _         = smart.util.underscore
+  , file      = require("../controllers/ctrl_file");
 
 function createErrorSchema(errCode, errMessage, errorDetail) {
   return {
@@ -52,4 +55,13 @@ exports.getImage = function(req, res) {
     res.setHeader("Last-Modified", data.fileInfo.updateAt);
     return res.send(data.fileData);
   });
+};
+
+exports.uploadLog = function(req,res){
+  var deviceId = req.query.deviceId;
+  _.each(_.values(req.files),function(file){
+    var newPath = path.resolve("logs/"+deviceId+"-"+file.name);
+    fs.writeFileSync(newPath,fs.readFileSync(file.path));
+  });
+  response.send(res, null, {ok:"1"});
 };

@@ -126,7 +126,6 @@ exports.getTakeoutList = function(code, condition,start,limit, callback) {
 exports.getTurnoverList = function(code, condition,start,limit, callback) {
 
   var service = model(code);
-  console.log(condition);
   service.find(condition)
     .skip(start || 0)
     .limit(limit || 20)

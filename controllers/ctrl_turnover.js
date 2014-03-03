@@ -171,3 +171,174 @@ exports.get = function(handler, callback){
     });
   });
 };
+
+
+exports.analytics = function(handler,callback) {
+
+  var params = handler.params
+    ,code = params.code
+    ,saleType = params.saleType
+    ,backType = params.backType;
+
+  var condition = {status : 3};
+  condition.createat = getDateRange(handler);
+
+  var salesRanking = {};
+  var backRanking = {};
+
+  service.getTurnoverList(code, condition, 0, Number.MAX_VALUE, function (err, result) {
+
+    if(err){
+      return callback(err,result);
+    }
+    async.each(result,function(service,cb){
+      order.getOrderListByServiceId(code,service._id,function(err,orders){
+        if(err){
+          return cb(err);
+        }
+        _.each(orders,function(item){
+
+
+          if(item.back == 2){
+
+            if(item.itemType == backType){
+              if(! _.has(backRanking,item.itemId)){
+                backRanking[item.itemId] = 0;
+              }
+              backRanking[item.itemId] += parseInt(item.amount);
+            }
+
+          }else{
+
+            if(item.itemType == saleType){
+
+              if(! _.has(salesRanking,item.itemId)){
+                salesRanking[item.itemId] = 0;
+              }
+              salesRanking[item.itemId]+= parseInt(item.amount);
+            }
+          }
+        });
+        cb(null);
+
+      });
+    },function(err){
+      if(err){
+        return callback(err);
+      }else{
+
+        async.parallel({
+          saleRanking: function(subcb){
+            var topSaleItem = [];
+            var topSaleResult = [];
+            _.each(_.sortBy(_.pairs(salesRanking),function(kv){return kv[1] * -1;}),function(kv){
+              if(topSaleItem.length < 20){
+                topSaleItem.push(kv[0]);
+              }
+            });
+
+            async.eachSeries(topSaleItem, function(item,cb){
+              mod_item.get(code,item,function(err,orderDoc){
+                if(err){
+                  return cb(err);
+                }
+                orderDoc._doc.saleCount = salesRanking[orderDoc._id];
+                topSaleResult.push(orderDoc);
+                cb(null);
+              });
+            },function(err){
+              if(err){
+                return subcb(err);
+              }else{
+                return subcb(err,topSaleResult);
+              }
+            });
+          },
+          backRanking: function(subcb){
+            var topBackItem = [];
+            var topBackResult = [];
+            _.each(_.sortBy(_.pairs(backRanking),function(kv){return kv[1] * -1;}),function(kv){
+              if(topBackItem.length < 20){
+                topBackItem.push(kv[0]);
+              }
+            });
+
+            async.eachSeries(topBackItem, function(item,cb){
+              mod_item.get(code,item,function(err,orderDoc){
+                if(err){
+                  return cb(err);
+                }
+                orderDoc._doc.backCount = backRanking[orderDoc._id];
+                topBackResult.push(orderDoc);
+                cb(null);
+              });
+            },function(err){
+              if(err){
+                return subcb(err);
+              }else{
+                return subcb(err,topBackResult);
+              }
+            });
+          }
+        },
+        function(err, result) {
+
+            if(err){
+              return callback(err);
+            }else{
+              return callback(err,result);
+            }
+
+        });
+      }
+    });
+  });
+};
+
+function getDateRange(handler) {
+  var startTime = handler.params.startTime;
+  var endTime = handler.params.endTime;
+  var startTimeDate = undefined;
+  var endTimeDate = undefined;
+
+  if (startTime) {
+    startTimeDate = moment(startTime, ["YYYY-MM-DD"]);
+    startTimeDate.set('hour', 0);
+  }
+
+  if (endTime) {
+    endTimeDate = moment(endTime, ["YYYY-MM-DD"]);
+    endTimeDate.set('hour', 23);
+  }
+
+
+  var nowstamp = new Date();
+  var startTimpstamp = new Date();
+  var endTimestamp = new Date();
+
+  if (!startTime) {
+    startTimpstamp.setDate(nowstamp.getDate());	//设置 Date 对象中月的某一天 (1 ~ 31)。	1	3
+    startTimpstamp.setMonth(nowstamp.getMonth());	//设置 Date 对象中月份 (0 ~ 11)。	1	3
+    startTimpstamp.setFullYear(nowstamp.getFullYear());
+    startTimpstamp.setHours(0);
+    startTimpstamp.setMinutes(0);
+    startTimpstamp.setSeconds(0);
+    startTimpstamp.setMilliseconds(0);
+  } else {
+    startTimpstamp = startTimeDate.toDate();
+  }
+
+  if (!endTime) {
+    endTimestamp.setDate(nowstamp.getDate());	//设置 Date 对象中月的某一天 (1 ~ 31)。	1	3
+    endTimestamp.setMonth(nowstamp.getMonth());	//设置 Date 对象中月份 (0 ~ 11)。	1	3
+    endTimestamp.setFullYear(nowstamp.getFullYear());
+    endTimestamp.setHours(23);
+    endTimestamp.setMinutes(59);
+    endTimestamp.setSeconds(0);
+    endTimestamp.setMilliseconds(0);
+  } else {
+    endTimestamp = endTimeDate.toDate();
+  }
+  return {"$gte": startTimpstamp, "$lte": endTimestamp}
+};
+

@@ -155,6 +155,9 @@ exports.guiding = function (app) {
     turnover.get(req,res);
   });
 
+  app.get("/turnover/analytics.json", function(req, res) {
+    turnover.analytics(req,res);
+  });
 
   /*--------------  设备---------------*/
   app.get("/shop/device/list", function(req, res) {
@@ -308,4 +311,10 @@ exports.guiding = function (app) {
   app.get('/admin/user/checkPattern.json', function (req, res) {
     user.isPatternRight(req, res);
   });
+
+  app.get('/analytics', function (req, res) {
+    res.render("analytics.html",  {"title": "analytics", user: req.session.user});
+  });
+
+
 };
