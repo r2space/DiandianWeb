@@ -229,7 +229,7 @@ exports.getDeskList = function(handler, callback) {
     if (err) {
       return callback(new error.InternalServer(err));
     }
-    order.getList(code, condition, 0,50,null, function (err, result) {
+    order.getList(code, condition, 0,Number.MAX_VALUE,null, function (err, result) {
       if (err) {
         return callback(new error.InternalServer(err));
       }
@@ -284,7 +284,7 @@ exports.getItemList = function(handler, callback) {
   }
 
   var start = 0 ;
-  var limit = 100;
+  var limit = Number.MAX_VALUE;
 
   order.total(code, condition, function (err, count) {
     if (err) {
