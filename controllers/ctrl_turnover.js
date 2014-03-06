@@ -26,62 +26,29 @@ exports.list = function(handler, callback) {
     , start = handler.params.start || 0
     , limit = handler.params.count || 20
     , keyword = handler.params.keyword
-    , condition = {
-      status : 3
-    };
+    , type = handler.params.type//{0:全部,1:打折,2:未结账,3:有退菜,4:有免单}
+    ;
 
-  var startTime = handler.params.startTime;
-  var endTime   = handler.params.endTime;
-  var startTimeDate = undefined;
-  var endTimeDate = undefined;
+  var condition = {};
 
-  if(startTime) {
-    startTimeDate = moment(startTime, ["YYYY-MM-DD"]);
-    startTimeDate.set('hour', 0);
-  }
-
-  if(endTime) {
-    endTimeDate = moment(endTime, ["YYYY-MM-DD"]);
-    endTimeDate.set('hour', 23);
-  }
-
-
-  var nowstamp =  new Date();
-  var startTimpstamp = new Date();
-  var endTimestamp = new Date();
-
-  if(!startTime) {
-    startTimpstamp.setDate(nowstamp.getDate());	//设置 Date 对象中月的某一天 (1 ~ 31)。	1	3
-    startTimpstamp.setMonth(nowstamp.getMonth());	//设置 Date 对象中月份 (0 ~ 11)。	1	3
-    startTimpstamp.setFullYear(nowstamp.getFullYear());
-    startTimpstamp.setHours(0);
-    startTimpstamp.setMinutes(0);
-    startTimpstamp.setSeconds(0);
-    startTimpstamp.setMilliseconds(0);
-  } else {
-    startTimpstamp = startTimeDate.toDate();
-  }
-
-  if(!endTime) {
-    endTimestamp.setDate(nowstamp.getDate());	//设置 Date 对象中月的某一天 (1 ~ 31)。	1	3
-    endTimestamp.setMonth(nowstamp.getMonth());	//设置 Date 对象中月份 (0 ~ 11)。	1	3
-    endTimestamp.setFullYear(nowstamp.getFullYear());
-    endTimestamp.setHours(23);
-    endTimestamp.setMinutes(59);
-    endTimestamp.setSeconds(0);
-    endTimestamp.setMilliseconds(0);
-  } else {
-    endTimestamp = endTimeDate.toDate();
-  }
-
-  condition.createat = {"$gte":startTimpstamp,"$lte":endTimestamp};
+  condition.createat = getDateRange(handler);
   if (keyword) {
     keyword = util.quoteRegExp(keyword);
     condition.name = new RegExp(keyword.toLowerCase(), "i");
   }
-  console.log("start :"  + start);
+  if(type == 0){
 
-  console.log("limit :"  + limit);
+  }else if(type == 1){
+    condition.agio = {$ne:"1.000000"};
+    condition.status = 3;
+  }else if(type == 2){
+    condition.status = 1;
+  }else if(type == 3){
+    condition.hasBackOrder = true;
+  }else if(type == 4){
+    condition.hasFreeOrder = true;
+  }
+
 
   service.getTurnoverList(code,condition,start,limit,function(err,result){
 
@@ -130,7 +97,9 @@ exports.list = function(handler, callback) {
             }
             var profitTotal = 0;
             _.each(itmes, function(item){
-              profitTotal += parseInt(item.profit);
+              if(item.profit){
+                profitTotal += parseInt(item.profit);
+              }
             });
             return callback(err, {items: result,total:total,profit :profitTotal});
           });

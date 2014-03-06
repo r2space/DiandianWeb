@@ -33,7 +33,10 @@ var Service = new schema({
   , agio            :   {type: String, description: "折扣"}
   , preferential    :   {type: String, description: "优惠券"}
 
-  , payType          :   {type: String, description: "支付方式"}
+  , payType         :   {type: String, description: "支付方式"}
+
+  , hasBackOrder    :   {type: Boolean, description:"是否有退单",default:false}
+  , hasFreeOrder    :   {type: Boolean, description:"是否有免单",default:false}
 
   , createat        :   {type: Date, description: "创建时间"}
   , createby        :   {type: String, description: "创建者"}
@@ -102,7 +105,7 @@ exports.delUnfinishedCount = function(code,servicdId,callback){
 exports.list = function(code, condition, callback) {
 
   var service = model(code);
-  console.log(condition);
+  //console.log(condition);
   service.find(condition)
     .sort({editat: -1})
     .exec(function(err, result) {
@@ -113,7 +116,7 @@ exports.list = function(code, condition, callback) {
 exports.getTakeoutList = function(code, condition,start,limit, callback) {
 
   var service = model(code);
-  console.log(condition);
+  //console.log(condition);
   service.find(condition)
     .skip(start || 0)
     .limit(limit || 20)

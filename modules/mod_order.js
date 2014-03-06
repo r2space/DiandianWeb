@@ -114,7 +114,6 @@ exports.getList = function(code, condition, start, limit, sort, callback) {
     }
     conditionSort = sort ;
   }
-  console.log(sort);
   order.find(condition)
     .skip(start || 0)
     .limit(limit || 20)

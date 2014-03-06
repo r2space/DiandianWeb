@@ -15,15 +15,16 @@ var mongo       = smart.util.mongoose
  * @type {schema}
  */
 var Desk = new schema({
-    name        : {type: String, description: "名称"}
-  , type        : {type: Number, description: "类型 0:桌台 1:包间", default: 0}
-  , capacity    : {type: Number, description: "可容纳人数",  default: 4}
-  , sortLevel   : {type: Number, description: "表示顺序",  default: 10}
-  , valid       : {type: Number, description: "删除 0:无效 1:有效", default: 1}
-  , createat    : {type: Date,   description: "创建时间"}
-  , createby    : {type: String, description: "创建者"}
-  , editat      : {type: Date,   description: "最终修改时间"}
-  , editby      : {type: String, description: "最终修改者"}
+    name            : {type: String, description: "名称"}
+  , type            : {type: Number, description: "类型 0:桌台 1:包间", default: 0}
+  , capacity        : {type: Number, description: "可容纳人数",  default: 4}
+  , sortLevel       : {type: Number, description: "表示顺序",  default: 10}
+  , supportPaddling : {type: Boolean,description: "是否在此桌台开启划菜功能,若不开启划菜功能,划菜页面不会显示该桌台的订单", default: true}
+  , valid           : {type: Number, description: "删除 0:无效 1:有效", default: 1}
+  , createat        : {type: Date,   description: "创建时间"}
+  , createby        : {type: String, description: "创建者"}
+  , editat          : {type: Date,   description: "最终修改时间"}
+  , editby          : {type: String, description: "最终修改者"}
   });
 
 /**

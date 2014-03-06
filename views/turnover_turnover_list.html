@@ -115,11 +115,19 @@
         </script>
       </div>
 
-      <div class="row tableheader">
-        <div style="height: 30px ;margin-left: 20px">
-          <span id="serviceTotal" style="margin-right: 30px">账单数量：个</span>   <span id="serviceAmount">总金额：元</span>
-        </div>
 
+      <div class="row tableheader">
+        <div id="service-filter" class="btn-group" value="0">
+          <button value="0" class="btn btn-sm btn-default btn-white" type="button">全部</button>
+          <button value="1" class="btn btn-sm btn-default btn-white"  type="button">打折</button>
+          <button value="2" class="btn btn-sm btn-default btn-white"  type="button">未结账</button>
+          <button value="3" class="btn btn-sm btn-default btn-white"  type="button">有退菜</button>
+          <button value="4" class="btn btn-sm btn-default btn-white"  type="button">有免单</button>
+        </div>
+        <div class="pull-right" style="margin-right: 30px;margin-top: 5px">
+          <span id="serviceTotal" >账单数量：个</span>
+          <span id="serviceAmount">总金额：元</span>
+        </div>
       </div>
 
       <!-- 一览表示 -->
@@ -132,8 +140,8 @@
               <th>桌台</th>
               <th>人数</th>
               <th>点菜个数</th>
-              <th>应支付金额</th>
-              <th>实际支付金额</th>
+              <th>应付</th>
+              <th>实付</th>
               <th>折扣</th>
               <th>状态</th>
               <th>创建时间</th>
