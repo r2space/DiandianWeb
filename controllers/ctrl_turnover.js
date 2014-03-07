@@ -92,14 +92,12 @@ exports.list = function(handler, callback) {
             return callback(err,null);
           }
           service.list(code,condition,function(err,itmes){
-//            console.log(condition);
             if(err){
               return callback(err,null);
             }
             var profitTotal = 0;
             var userPayTotal = 0;
             _.each(itmes, function(item){
-              //console.log(item.profit);
               if(item.profit){
                 profitTotal += parseFloat(item.profit);
               }

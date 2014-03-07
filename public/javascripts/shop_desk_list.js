@@ -53,6 +53,8 @@ function render(start, count,keyword) {
         , "capacity": row.capacity
         , "sort" : row.sortLevel
         , "type" : row.type == 1 ? i18n["html.label.desk.table"] : i18n["html.label.desk.room"]
+        , "supportPaddling" : row.supportPaddling ? "开启" : "关闭"
+        , "supportPaddlingStyle" : row.supportPaddling ? "" : "text-danger"
         , "editat": smart.date(row.editat)
       }));
     });
