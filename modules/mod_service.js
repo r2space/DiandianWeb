@@ -37,6 +37,7 @@ var Service = new schema({
 
   , hasBackOrder    :   {type: Boolean, description:"是否有退单",default:false}
   , hasFreeOrder    :   {type: Boolean, description:"是否有免单",default:false}
+  , hasLessMoney    :   {type: Boolean, description:"是否少收钱",default:false}
 
   , createat        :   {type: Date, description: "创建时间"}
   , createby        :   {type: String, description: "创建者"}

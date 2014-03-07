@@ -26,7 +26,7 @@ exports.list = function(handler, callback) {
     , start = handler.params.start || 0
     , limit = handler.params.count || 20
     , keyword = handler.params.keyword
-    , type = handler.params.type//{0:全部,1:打折,2:未结账,3:有退菜,4:有免单}
+    , type = handler.params.type//{0:全部,1:打折,2:未结账,3:有退菜,4:有免单,5:少收钱}
     ;
 
   var condition = {};
@@ -47,6 +47,8 @@ exports.list = function(handler, callback) {
     condition.hasBackOrder = true;
   }else if(type == 4){
     condition.hasFreeOrder = true;
+  }else if(type == 5){
+    condition.hasLessMoney = true;
   }
 
 

@@ -123,6 +123,7 @@
           <button value="2" class="btn btn-sm btn-default btn-white"  type="button">未结账</button>
           <button value="3" class="btn btn-sm btn-default btn-white"  type="button">有退菜</button>
           <button value="4" class="btn btn-sm btn-default btn-white"  type="button">有免单</button>
+          <button value="5" class="btn btn-sm btn-default btn-white"  type="button">少收钱</button>
         </div>
         <div class="pull-right" style="margin-right: 30px;margin-top: 5px">
           <span id="serviceTotal" >账单数量：个</span>
@@ -141,7 +142,7 @@
               <th>桌台</th>
               <th>人数</th>
               <th>菜数</th>
-              <th>应付</th>
+              <th>应付(折后)</th>
               <th>实付</th>
               <th>折扣</th>
               <th>状态</th>
@@ -213,7 +214,7 @@
     <td>{{deskName}}</td>
     <td>{{people}}</td>
     <td>{{orderCount}}</td>
-    <td>{{amount}}</td>
+    <td>{{profit}}</td>
     <td>{{userPay}}</td>
     <td>{{agio}}</td>
     <td>{{status}}</td>
