@@ -55,8 +55,9 @@ function render(start, count, keyword,startTime ,endTime) {
     var tmpl = $("#tmpl_turnover_list").html()
       , container = $("#turnover_list")
       , index = 1;
-    $("#serviceTotal").html("账单数量：" + result.total + "个");
-    $("#serviceAmount").html("营业额：" +result.profit+ "元");
+    $("#serviceTotal").html("账单数量:" + result.total + "个&nbsp;");
+    $("#serviceAmount").html("营业额:" +result.profit+ "元&nbsp;");
+    $("#serviceUserPay").html("实际收入:" +result.userPay+ "元&nbsp;");
     container.html("");
     var statusRender = function(val){
       if(val == 1) {

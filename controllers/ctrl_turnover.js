@@ -92,16 +92,22 @@ exports.list = function(handler, callback) {
             return callback(err,null);
           }
           service.list(code,condition,function(err,itmes){
+//            console.log(condition);
             if(err){
               return callback(err,null);
             }
             var profitTotal = 0;
+            var userPayTotal = 0;
             _.each(itmes, function(item){
+              //console.log(item.profit);
               if(item.profit){
-                profitTotal += parseInt(item.profit);
+                profitTotal += parseFloat(item.profit);
+              }
+              if(item.userPay){
+                userPayTotal += parseFloat(item.userPay);
               }
             });
-            return callback(err, {items: result,total:total,profit :profitTotal});
+            return callback(err, {items: result,total:total,profit :profitTotal,userPay:userPayTotal});
           });
         });
       }
@@ -278,6 +284,8 @@ function getDateRange(handler) {
   if (endTime) {
     endTimeDate = moment(endTime, ["YYYY-MM-DD"]);
     endTimeDate.set('hour', 23);
+    endTimeDate.set('minute', 59);
+    endTimeDate.set('second', 59);
   }
 
 
@@ -303,7 +311,7 @@ function getDateRange(handler) {
     endTimestamp.setFullYear(nowstamp.getFullYear());
     endTimestamp.setHours(23);
     endTimestamp.setMinutes(59);
-    endTimestamp.setSeconds(0);
+    endTimestamp.setSeconds(59);
     endTimestamp.setMilliseconds(0);
   } else {
     endTimestamp = endTimeDate.toDate();
