@@ -4,18 +4,19 @@
 $(function () {
   'use strict';
 
-//  render();
-  events();
-
-});
-
-function render() {
   new ButtonGroup("sale-ranking-type", "1", function (type) {
     renderData();
   }).init();
   new ButtonGroup("back-ranking-type", "1", function (type) {
     renderData();
   }).init();
+
+  events();
+
+});
+
+function render() {
+
 
   renderData();
 }

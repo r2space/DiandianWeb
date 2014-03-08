@@ -183,6 +183,15 @@ exports.analytics = function(handler,callback) {
               backRanking[item.itemId] += parseInt(item.amount);
             }
 
+            if(item.itemType == saleType){
+
+              if(! _.has(salesRanking,item.itemId)){
+                salesRanking[item.itemId] = 0;
+              }
+              salesRanking[item.itemId] -= parseInt(item.amount);
+            }
+
+
           }else{
 
             if(item.itemType == saleType){
@@ -192,6 +201,7 @@ exports.analytics = function(handler,callback) {
               }
               salesRanking[item.itemId]+= parseInt(item.amount);
             }
+
           }
         });
         cb(null);
