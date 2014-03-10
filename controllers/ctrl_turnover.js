@@ -217,7 +217,7 @@ exports.analytics = function(handler,callback) {
             var topSaleItem = [];
             var topSaleResult = [];
             _.each(_.sortBy(_.pairs(salesRanking),function(kv){return kv[1] * -1;}),function(kv){
-              if(topSaleItem.length < 20){
+              if(topSaleItem.length < 50){
                 topSaleItem.push(kv[0]);
               }
             });
@@ -243,7 +243,7 @@ exports.analytics = function(handler,callback) {
             var topBackItem = [];
             var topBackResult = [];
             _.each(_.sortBy(_.pairs(backRanking),function(kv){return kv[1] * -1;}),function(kv){
-              if(topBackItem.length < 20){
+              if(topBackItem.length < 50){
                 topBackItem.push(kv[0]);
               }
             });
