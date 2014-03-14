@@ -25,12 +25,12 @@ var Order = new schema({
   , itemType        :   {type: String, description: "类型 item 的类型"}
   , itemPrice       :   {type: String, description: "类型 item 的价格"}
   , type            :   {type: Number, description: "类型 0 大份 1 小份", default: 0}
-  , back            :   {type: Number, description: "类型 0:不退 1 已上菜  2:退菜  3: 免单",index:true, default: 0}
-  , hasBack            :   {type: Number, description: "类型 0:未退 1 已退",index:true, default: 0}
+  , back            :   {type: Number, description: "类型 0:未上菜 1 已上菜  2:退菜  3: 免单",index:true, default: 0}
+  , hasBack         :   {type: Number, description: "类型 0:未退 1 已退",index:true, default: 0}
   , backOrderId     :   {type: String, description: "退菜前的OrderId"}
   , valid           :   {type: Number, description: "删除 0:无效 1:有效", default: 1}
   , remark          :   {type: String, description: "备注"}
-  , amount          :   {type: String, description: "数量整数部分", default: "1"}
+  , amount          :   {type: String, description: "数量", default: "1"}
   , amountPrice     :   {type: String, description: "价格"}
   , discount        :   {type: Number, description: "菜品折扣： 0： 无折扣 1： 有折扣", default: 1}
   , createat        :   {type: Date,   description: "创建时间"}
@@ -114,7 +114,6 @@ exports.getList = function(code, condition, start, limit, sort, callback) {
     }
     conditionSort = sort ;
   }
-  console.log(sort);
   order.find(condition)
     .skip(start || 0)
     .limit(limit || 20)

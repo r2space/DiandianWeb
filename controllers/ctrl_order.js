@@ -116,7 +116,10 @@ exports.freeOrder = function(handler, callback) {
 
     order.update(code,orderId,{ back: 3} ,function(err,result){
       tmpResult.push(result);
+
+      service.update(code,result.serviceId,{hasFreeOrder:true},function(err,serviceDoc){
         cb(err,result);
+      });
     });
 
   },function(err,result){
@@ -127,8 +130,6 @@ exports.freeOrder = function(handler, callback) {
 };
 
 
-//_id : ""
-//wileBackAmount :""
 function MyParseFloat(price){
   var priceInt = parseInt(price);
   if(Number(priceInt) < Number(price)) {
@@ -180,15 +181,34 @@ exports.backOrder = function(handler, callback) {
 
 
 
-      add(code,'', newBackOrder, function (err, newBackOrderDocs) {
+      if(orderDocs.back == 1){
+
+        add(code,'', newBackOrder, function (err, newBackOrderDocs) {
           order.update(code,backOrderObj.orderId,{ back: 1,hasBack:1} ,function(err,result){
-            service.delUnfinishedCount(code,result.serviceId,function(err,serviceResult){
-              tmpResult.push(newBackOrderDocs);
+
+            tmpResult.push(newBackOrderDocs);
+            service.update(code,newBackOrderDocs.serviceId,{hasBackOrder:true},function(err,serviceDoc){
               cb(err,null);
             });
-          });
-      });
 
+          });
+        });
+
+      }else{
+
+        add(code,'', newBackOrder, function (err, newBackOrderDocs) {
+          order.update(code,backOrderObj.orderId,{ back: 1,hasBack:1} ,function(err,result){
+            service.delUnfinishedCount(code,result.serviceId,function(err,serviceResult){
+
+              tmpResult.push(newBackOrderDocs);
+              service.update(code,newBackOrderDocs.serviceId,{hasBackOrder:true},function(err,serviceDoc){
+                cb(err,null);
+              });
+
+            });
+          });
+        });
+      }
 
 
     });
@@ -229,7 +249,7 @@ exports.getDeskList = function(handler, callback) {
     if (err) {
       return callback(new error.InternalServer(err));
     }
-    order.getList(code, condition, 0,50,null, function (err, result) {
+    order.getList(code, condition, 0,Number.MAX_VALUE,null, function (err, result) {
       if (err) {
         return callback(new error.InternalServer(err));
       }
@@ -281,11 +301,14 @@ exports.getItemList = function(handler, callback) {
 
   if (serviceId && serviceId.length >0){
     condition.serviceId = serviceId;
+  }else{
+    condition.createat = {"$gte":getYesterDay()};
   }
 
   var start = 0 ;
-  var limit = 100;
+  var limit = Number.MAX_VALUE;
 
+  console.log(condition);
   order.total(code, condition, function (err, count) {
     if (err) {
       return callback(new error.InternalServer(err));
@@ -304,6 +327,14 @@ exports.getItemList = function(handler, callback) {
 
 };
 
+function getYesterDay(){
+  var today = new Date();
+  today.setHours(0);
+  today.setMinutes(0);
+  today.setSeconds(0);
+  today.setMilliseconds(0);
+  return today;
+}
 exports.getList = function (code, deskId, serviceId,back, start, limit, callback) {
   var condition = {
     valid: 1
@@ -340,6 +371,8 @@ exports.getList = function (code, deskId, serviceId,back, start, limit, callback
   });
 
 };
+
+
 
 
 function getItemListByOrderList (code,orderList,callback){

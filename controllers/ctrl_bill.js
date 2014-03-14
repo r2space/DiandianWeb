@@ -37,6 +37,7 @@ exports.stopBill = function(handler, callback) {
       preferential:preferential ,
       status : 3,
       billNum : nextSeq ,
+      hasLessMoney:parseFloat(userPay) < parseFloat(profit),
       editat:now
     },function(err,result){
       callback( null, result);

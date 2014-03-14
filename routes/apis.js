@@ -11,7 +11,8 @@ var desk = require("../apis/desk")
   , printer = require("../apis/printer")
   , tag = require("../apis/tag")
   , soldout = require("../apis/soldout")
-  , menu = require("../apis/menu");
+  , menu = require("../apis/menu")
+  , file = require("../apis/file");
 
 
 exports.guiding = function(app){
@@ -155,6 +156,10 @@ exports.guiding = function(app){
     printer.findOne(req,res);
   });
 
+  app.get('/api/printer/lock.json', function (req, res) {
+    printer.lock(req,res);
+  })
+
   app.post("/api/soldout/add.json", function(req,res){
     soldout.add(req,res);
   });
@@ -170,6 +175,11 @@ exports.guiding = function(app){
   app.get("/api/soldout/list.json", function(req,res){
     soldout.list(req,res);
   });
+
+  app.post("/api/uploadLog.json", function(req,res){
+    file.uploadLog(req,res);
+  });
+
 }
 
 

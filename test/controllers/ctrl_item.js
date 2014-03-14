@@ -12,7 +12,7 @@ describe("../../controllers/ctrl_item.js", function () {
   handler.addParams("start", 0);
   handler.addParams("limit", 20);
   handler.addParams("keyword", "");
-  handler.addParams("tags", ["test"]);
+  handler.addParams("tags", "test2,test1");
   handler.addParams("soldoutType", 2);
   handler.addParams("condition", {});
   handler.addParams("itemName", "test");
@@ -40,7 +40,7 @@ describe("../../controllers/ctrl_item.js", function () {
     , itemMethod        : "test"
     , bigimage          : "52a15d916e9ab04017000009"
     , smallimage        : "52a15d916e9ab04017000009"
-    , tags              : ["test"]
+    , tags              : ["test","test2"]
     , type              : 1
     , pin               : "52d37cf69bb3025f3b000008"
     , printerId         : "1"
@@ -48,7 +48,7 @@ describe("../../controllers/ctrl_item.js", function () {
   var itemlist = {}
   it('should applist ok', function (done) {
 
-    Item.applist(handler, function (err, item) {
+    Item.appList(handler, function (err, item) {
 
       should.not.exist(err);
       itemlist = item;
@@ -57,55 +57,62 @@ describe("../../controllers/ctrl_item.js", function () {
     });
   });
 
-  it('should list ok', function (done) {
-
-    Item.list(handler, function (err, list) {
-      should.not.exist(err);
-      list.items.length.should.be.above(0);
-
-      done();
-    });
-
-  });
-
   it('should add ok', function (done) {
 
-    Item.add(handler, function (err, Item) {
-      should.not.exist(err);
-      Item.should.have.property('name', 'test');
+    Item.add(handler, function (err, itemDocs) {
+        should.not.exist(err);
+
+//        should.not.exist(itemDocs);
+
+        itemDocs.should.have.property('itemName', 'test');
       done();
     });
 
   });
 
-  it('should update ok', function (done) {
-    Item.update(handler, function (err, Item) {
-      should.not.exist(err);
-      Item.should.have.property('itemName', 'test');
-      done();
-    });
+
+  it('should list ok', function (done) {
+
+    handler.addParams("tags", "");
+
+      Item.list(handler, function (err, list) {
+          should.not.exist(err);
+          list.items.length.should.be.above(0);
+
+          done();
+      });
 
   });
 
-  it('should remove ok', function (done) {
-
-    Item.remove(handler, function (err, Item) {
-      should.not.exist(err);
-
-      done();
-    });
-
-  });
-
-  it('should get ok', function (done) {
-
-    Item.get(handler, function (err, Item) {
-      should.not.exist(err);
-
-      done();
-    });
-
-  });
+//
+//  it('should update ok', function (done) {
+//    Item.update(handler, function (err, Item) {
+//      should.not.exist(err);
+//      Item.should.have.property('itemName', 'test');
+//      done();
+//    });
+//
+//  });
+//
+//  it('should remove ok', function (done) {
+//
+//    Item.remove(handler, function (err, Item) {
+//      should.not.exist(err);
+//
+//      done();
+//    });
+//
+//  });
+//
+//  it('should get ok', function (done) {
+//
+//    Item.get(handler, function (err, Item) {
+//      should.not.exist(err);
+//
+//      done();
+//    });
+//
+//  });
 
 
 });

@@ -84,15 +84,6 @@ exports.guiding = function (app) {
   });
 
 
-  app.get('/turnover/list.json', function (req, res) {
-    turnover.list(req,res);
-  });
-
-
-  app.get("/shop/turnover/list", function(req, res) {
-    res.render("turnover_turnover_list", {"title": "menu", user: req.session.user});
-  });
-
   /*-------------- 菜单 ---------------*/
   app.get("/menu/menu/list", function(req, res) {
     res.render("menu_menu_list", {"title": "menu", user: req.session.user});
@@ -149,6 +140,23 @@ exports.guiding = function (app) {
 
   app.get('/shop/desk/edit/:id', function (req, res) {
     res.render("shop_desk_add", {"title": "desk", user: req.session.user, deskId:req.params.id});
+  });
+
+  /*--------------  营业额---------------*/
+  app.get('/turnover/list.json', function (req, res) {
+    turnover.list(req,res);
+  });
+
+  app.get("/shop/turnover/list", function(req, res) {
+    res.render("turnover_turnover_list", {"title": "turnover", user: req.session.user});
+  });
+
+  app.get("/turnover/findOne.json", function(req, res) {
+    turnover.get(req,res);
+  });
+
+  app.get("/turnover/analytics.json", function(req, res) {
+    turnover.analytics(req,res);
   });
 
   /*--------------  设备---------------*/
@@ -303,4 +311,10 @@ exports.guiding = function (app) {
   app.get('/admin/user/checkPattern.json', function (req, res) {
     user.isPatternRight(req, res);
   });
+
+  app.get('/analytics', function (req, res) {
+    res.render("analytics.html",  {"title": "analytics", user: req.session.user});
+  });
+
+
 };

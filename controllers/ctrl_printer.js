@@ -119,3 +119,67 @@ exports.get = function(handler, callback){
   });
 };
 
+exports.lock = function(handler, callback){
+  var params = handler.params
+    , operationType = params.operationType
+    , printerId = params.printerId
+    , owner = params.owner;
+
+  if(operationType == 1){
+    //申请获得锁
+    //console.log("code",handler.code);
+
+    printer.get(handler.code, printerId, function(err, printerDoc){
+
+      if(err){
+        return callback(new error.InternalServer(err), null);
+      }else{
+        var now = new Date();
+        //console.log("====TIME SPAN====");
+        //console.log(now.getTime() - printerDoc.lockTime.getTime());
+
+        if(printerDoc.lock
+          && printerDoc.lock != owner
+          && (now.getTime() - printerDoc.lockTime.getTime() < 30*1000) ){
+
+         //已加锁未超时,此时不能获得新锁
+          return callback (null, {result:"failed"});
+
+        }else{
+          //未加锁 或者 已加锁但是已超时,此时可以获得新锁
+          printer.update(handler.code, printerDoc._id, {lock:owner,lockTime:now}, function(err,newPrinter){
+            //console.log("====NEW DOC====");
+            //console.log(err,newPrinter);
+            if(err){
+              return callback(new error.InternalServer(err), null);
+            }
+            return callback (null, {result:"success"});
+          });
+        }
+      }
+    });
+
+  }else if (operationType == 0){
+    //释放锁
+    printer.get(handler.code, printerId, function(err, printerDoc){
+      //console.log("++++++++++");
+      //console.log(err,printerDoc);
+      if(err){
+        return callback(new error.InternalServer(err), null);
+      }else{
+        if(printerDoc.lock && printerDoc.lock == owner){
+          printer.update(handler.code, printerDoc._id, {lock:null}, function(err,newPrinter){
+            if(err){
+              return callback(new error.InternalServer(err), null);
+            }
+            return callback (null, {result:"success"});
+          });
+        }else{
+          return callback (null, {result:"success"});
+        }
+      }
+    });
+  }
+
+};
+

@@ -68,3 +68,16 @@ exports.findOne = function(req, res) {
   });
 };
 
+
+// 申请加锁或者解锁打印机
+exports.lock = function(req, res) {
+  var handler = new context().bind(req, res);
+  log.operation("begin: lock or unlock an printer.", handler.uid);
+
+  printer.lock(handler, function(err, result) {
+    log.operation("finish: lock or unlock get an printer.", handler.uid);
+    response.send(res, err, result);
+  });
+};
+
+

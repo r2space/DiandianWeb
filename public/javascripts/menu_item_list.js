@@ -106,31 +106,25 @@ function events() {
 
     if (operation == "preview") {
 
-      var jsonUrl = "/item/list.json?";
-      jsonUrl += "start=" + 0;
-      jsonUrl += "&count=" + 20;
+      var jsonUrl = "/item/findOne.json?";
+      jsonUrl += "itemId=" + rowId;
 
       smart.doget(jsonUrl, function(e, result){
         if (smart.error(e, i18n["js.common.search.error"], true)) {
           return;
         }
-        itemList = result.items;
+
         var tmpl = $("#tmpl_pre_img").html()
-          , container = $("#preImg")
-          , index = 1;
+          , container = $("#preImg");
 
         container.html("");
-        _.each(result.items, function(row){
-          var imagetmp = "";
-          if(rowId == row._id) {
-            imagetmp = "/picture/" + row.smallimage;
-            container.append(_.template(tmpl, {
-              "id": row._id
-              ,"cover": imagetmp
-            }));
-          }
 
-        });
+        var imagetmp = "/picture/" + result.smallimage;
+        container.append(_.template(tmpl, {
+          "id": rowId
+          ,"cover": imagetmp
+        }));
+
       });
       $("#itemModal").modal("show");
     }

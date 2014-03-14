@@ -47,7 +47,7 @@
                 <i class="icon-chevron-right arrow-icon"></i>
               </span>
         </li>
-        <li class="active"><%= i('html.label.menu.item') %><!--菜品--></li>
+        <li class="active">营业额</li>
       </ul><!--.breadcrumb-->
     </div>
 
@@ -93,7 +93,7 @@
           <div class="pull-right" style="">
             <form class="search-form" onsubmit="return false;">
               <div class="input-group">
-                <button id="doSearch" type="button" class="btn btn-default">
+                <button id="doSearch" type="button" class="btn btn-default"  style="margin-top: -7px">
                   查看
                 </button>
 
@@ -115,11 +115,21 @@
         </script>
       </div>
 
-      <div class="row tableheader">
-        <div style="height: 44px ;margin-left: 20px">
-          <span id="serviceTotal" style="margin-right: 30px">账单数量：个</span>   <span id="serviceAmount">总金额：元</span>
-        </div>
 
+      <div class="row tableheader">
+        <div id="service-filter" class="btn-group" value="0">
+          <button value="0" class="btn btn-sm btn-default btn-white" type="button">全部</button>
+          <button value="1" class="btn btn-sm btn-default btn-white"  type="button">打折</button>
+          <button value="2" class="btn btn-sm btn-default btn-white"  type="button">未结账</button>
+          <button value="3" class="btn btn-sm btn-default btn-white"  type="button">有退菜</button>
+          <button value="4" class="btn btn-sm btn-default btn-white"  type="button">有免单</button>
+          <button value="5" class="btn btn-sm btn-default btn-white"  type="button">少收钱</button>
+        </div>
+        <div class="pull-right" style="margin-right: 30px;margin-top: 5px">
+          <span id="serviceTotal" >账单数量：个</span>
+          <span id="serviceAmount">总金额：元</span>
+          <span id="serviceUserPay">总金额：元</span>
+        </div>
       </div>
 
       <!-- 一览表示 -->
@@ -128,17 +138,16 @@
           <table class="table table-hover">
             <thead>
             <tr>
-              <th>订单号</th>
               <th>序号</th>
               <th>桌台</th>
               <th>人数</th>
-              <th>点菜个数</th>
-              <th>金额</th>
-              <th>应支付金额</th>
+              <th>菜数</th>
+              <th>应付(折后)</th>
+              <th>实付</th>
               <th>折扣</th>
-              <th>实际支付金额</th>
               <th>状态</th>
               <th>创建时间</th>
+              <th>操作</th>
             </tr>
             </thead>
             <tbody id="turnover_list">  </tbody>
@@ -160,9 +169,27 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title"><%= i('html.label.item.info.preImg') %><!-- item image一覧--></h4>
+        <h4 class="modal-title">订单详细<!-- item image一覧--></h4>
       </div>
-      <div class="modal-body" id="preImg"> </div>
+      <div class="modal-body">
+        <!-- 一览表示 -->
+        <div class="row">
+          <div class="col-lg-12">
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>菜名</th>
+                <th>状态</th>
+                <th>大/小份</th>
+                <th>数量</th>
+                <th>总价</th>
+              </tr>
+              </thead>
+              <tbody id="order_list"></tbody>
+            </table>
+          </div><!--/span-->
+        </div>
+      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-warning" data-dismiss="modal"><%= i('html.button.common.close') %><!-- Close--></button>
       </div>
@@ -171,19 +198,30 @@
 </div><!-- /.modal -->
 
 
+<script type="text/template" id="tmpl_oder_list">
+  <tr>
+    <td>{{name}}</td>
+    <td>{{state}}</td>
+    <td>{{type}}</td>
+    <td>{{amount}}</td>
+    <td>{{amountPrice}}</td>
+  </tr>
+</script>
+
 <script type="text/template" id="tmpl_turnover_list">
   <tr>
-    <td>{{id}}</td>
     <td>{{billNum}}</td>
     <td>{{deskName}}</td>
     <td>{{people}}</td>
     <td>{{orderCount}}</td>
-    <td>{{amount}}</td>
     <td>{{profit}}</td>
-    <td>{{agio}}</td>
     <td>{{userPay}}</td>
+    <td>{{agio}}</td>
     <td>{{status}}</td>
     <td>{{editat}}</td>
+    <td>
+      <a href="#" class="btn btn-default btn-sm" rowId="{{id}}" operation="detail">查看</a>
+    </td>
   </tr>
 </script>
 

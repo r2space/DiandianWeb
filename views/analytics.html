@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <title><%= title %></title>
+  <% include common/required.html %>
+  <link href="/stylesheets/diandian.css" rel="stylesheet" media="screen">
+  <link href="/vendor/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="/vendor/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+  <script type="text/javascript" src="/vendor/bootstrap-datetimepicker/src/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+  <script type="text/javascript" src="/vendor/jquery.blockUI.js"></script>
+  <script type="text/javascript" src="/javascripts/analytics.js"></script>
+  <script  type="text/javascript">
+    var i18n = {
+      "html.label.item.food": "<%=i('html.label.item.food') %>"
+      , "html.label.item.dish": "<%=i('html.label.item.dish') %>"
+      , "html.label.item.drinks": "<%=i('html.label.item.drinks') %>"
+      , "html.label.item.ad": "<%=i('html.label.item.ad') %>"
+      , "js.common.delete.confirm":"<%=i('js.common.delete.confirm') %>"
+      , "js.common.delete.success":"<%=i('js.common.delete.success') %>"
+      , "js.common.dialog.ok":"<%=i('js.common.dialog.ok') %>"
+      , "js.common.dialog.cancel":"<%=i('js.common.dialog.cancel') %>"
+      , "js.common.search.error":"<%=i('js.common.search.error') %>"
+    };
+  </script>
+  <style>
+    .bootstrap-datetimepicker-widget ul{
+      padding-left: 0px;
+    }
+  </style>
+</head>
+<body>
+
+<% include common/navbar.html %>
+
+<div class="main-container container-fluid">
+  <% include common/sidebar.html %>
+
+  <div class="main-content">
+    <div class="breadcrumbs" id="breadcrumbs">
+      <ul class="breadcrumb">
+        <li>
+          <i class="icon-home icon-large"></i>
+          <a href="/diandian"><%= i('html.label.common.home') %></a>
+              <span class="divider">
+                <i class="icon-chevron-right arrow-icon"></i>
+              </span>
+        </li>
+        <li class="active">统计</li>
+      </ul><!--.breadcrumb-->
+    </div>
+
+    <div class="page-content">
+      <%
+      Date.prototype.format = function (fmt) { //author: meizz
+      var o = {
+      "M+": this.getMonth() + 1, //月份
+      "d+": this.getDate(), //日
+      "h+": this.getHours(), //小时
+      "m+": this.getMinutes(), //分
+      "s+": this.getSeconds(), //秒
+      "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+      "S": this.getMilliseconds() //毫秒
+      };
+      if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+      for (var k in o)
+      if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+      return fmt;
+      }
+      var startTime = new Date();
+      var endTime = new Date();
+      %>
+      <div class="row">
+        <div class="well" style="height: 60px;">
+          <div id="datetimepicker2" class="input-append" style="float: left;margin-right: 30px">
+            <span>开始时间：</span><input id="startTime" data-format="yyyy-MM-dd" type="text"  value="<%=startTime.format('yyyy-MM-dd') %>">
+            <span class="add-on">
+              <i data-time-icon="icon-time" data-date-icon="icon-calendar" class="icon-calendar">
+              </i>
+            </span>
+          </div>
+
+          <div id="datetimepicker3" class="input-append" style="float: left;">
+            <span>结束时间：</span><input id="endTime" data-format="yyyy-MM-dd" type="text" value="<%=endTime.format('yyyy-MM-dd') %>">
+            <span class="add-on">
+              <i data-time-icon="icon-time" data-date-icon="icon-calendar" class="icon-calendar">
+              </i>
+            </span>
+          </div>
+
+          <div class="pull-right" style="">
+            <form class="search-form" onsubmit="return false;">
+              <div class="input-group">
+                <button id="doSearch" type="button" class="btn btn-default" style="margin-top: -7px">查看</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <script type="text/javascript">
+          $(function() {
+            $('#datetimepicker2').datetimepicker({
+              language: 'zh-CN'
+            });
+
+            $('#datetimepicker3').datetimepicker({
+              language: 'zh-CN'
+            });
+          });
+        </script>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="row tableheader">
+            <div class="col-sm-4" style="padding-left: 0;margin-top: 5px">
+            菜品销量排行
+            </div>
+            <div class="col-sm-8">
+              <div id="sale-ranking-type" class="btn-group pull-right" value="1">
+                <button value="0" class="btn btn-sm btn-default btn-white" type="button"><%= i('html.label.item.info.food') %><!-- 主食--></button>
+                <button value="1" class="btn btn-sm btn-default btn-white"  type="button"><%= i('html.label.item.info.dish') %><!-- 菜品--></button>
+                <button value="2" class="btn btn-sm btn-default btn-white"  type="button"><%= i('html.label.item.info.drinks') %><!-- 酒水--></button>
+                <button value="3" class="btn btn-sm btn-default btn-white"  type="button"><%= i('html.label.item.info.seafood') %><!-- 海鲜--></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-12">
+          <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>菜品</th>
+            <th>销量(扣除已退)</th>
+          </tr>
+          </thead>
+          <tbody id="sale-ranking-table">
+
+          </tbody>
+          </table>
+          </div>
+        </div>
+        <div class="col-sm-6" >
+          <div class="row tableheader">
+            <div class="col-sm-4" style="padding-left: 0;margin-top: 5px">
+              退菜排行
+            </div>
+            <div class="col-sm-8">
+              <div id="back-ranking-type" class="btn-group pull-right" value="1">
+                <button value="0" class="btn btn-sm btn-default btn-white" type="button"><%= i('html.label.item.info.food') %><!-- 主食--></button>
+                <button value="1" class="btn btn-sm btn-default btn-white"  type="button"><%= i('html.label.item.info.dish') %><!-- 菜品--></button>
+                <button value="2" class="btn btn-sm btn-default btn-white"  type="button"><%= i('html.label.item.info.drinks') %><!-- 酒水--></button>
+                <button value="3" class="btn btn-sm btn-default btn-white"  type="button"><%= i('html.label.item.info.seafood') %><!-- 海鲜--></button>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>菜品</th>
+                <th>退菜数量</th>
+              </tr>
+              </thead>
+              <tbody id="back-ranking-table">
+
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!--/.main-container-->
+
+<script type="text/template" id="tmpl_item_list">
+  <tr>
+    <td>{{name}}</td>
+    <td>{{count}}</td>
+  </tr>
+</script>
+
+</body>
+</html>

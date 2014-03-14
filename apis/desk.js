@@ -10,7 +10,7 @@ exports.appDeskList = function(req_, res_) {
 
   var code = "diandian"
     , start = req_.query.start || 0
-    , limit = req_.query.count || 20
+    , limit = req_.query.count || Number.MAX_VALUE
     , condition = {
       valid: 1
 

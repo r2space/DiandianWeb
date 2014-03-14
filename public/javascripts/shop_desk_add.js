@@ -19,7 +19,9 @@ $(function () {
       , capacity: $("#capacity").val()
       , type: $("#inputType").attr("value")
       , sortLevel: $("#sort").val()
+      , supportPaddling : $("#paddling").attr("value") === "0"
     };
+
 
     if (!check_desk(desk)) {
 
@@ -61,10 +63,16 @@ function render(deskId) {
         $("#capacity").val(result.capacity);
         $("#sort").val(result.sortLevel);
         new ButtonGroup("inputType", result.type).init();
+        if(result.supportPaddling){
+          new ButtonGroup("paddling", "0").init();
+        }else{
+          new ButtonGroup("paddling", "1").init();
+        }
       }
     });
   } else {
     new ButtonGroup("inputType", "0").init();
+    new ButtonGroup("paddling", "0").init();
   }
 }
 
