@@ -33,6 +33,7 @@ var Item = new schema({
  , printerId            : { type: String, description: "打印机IP" }
  , pin                  : {type: [String], description: "类型 1:招牌菜 2:热卖中 3:新品菜 4:营养菜 5:优惠菜", default: null}
  , discount             : {type: Number, description: "菜品折扣： 0： 无折扣 1： 有折扣", default: 1}
+ , option               : {type: [String], description: "菜品口味"}
 });
 
 /**

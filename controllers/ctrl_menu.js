@@ -221,8 +221,29 @@ function getEachMenuList(code,menuList, callback) {
 function getItemListByMenu (code,menu,callback){
   var itemList = menu.items;
   var tempList = [];
-  for(var i in itemList){
-    itemList[i]._index = i;
+  for(var i = 0; i < itemList.length; i++){
+    if (itemList[i].row == 3){
+      itemList[i]._index = i;
+    } else if (itemList[i].row == 2) {
+      itemList[i]._index = i;
+      itemList[i+1]._index = i+3;
+      itemList[i+2]._index = i+4;
+      itemList[i+3]._index = i+1;
+      itemList[i+4]._index = i+2;
+      itemList[i+5]._index = i+5;
+      i = i+5;
+    } else if (itemList[i].row == 1) {
+      itemList[i]._index = i;
+      itemList[i+1]._index = i+3;
+      itemList[i+2]._index = i+6;
+      itemList[i+3]._index = i+1;
+      itemList[i+4]._index = i+4;
+      itemList[i+5]._index = i+7;
+      itemList[i+6]._index = i+2;
+      itemList[i+7]._index = i+5;
+      itemList[i+8]._index = i+8;
+      i = i+8;
+    }
   }
   async.forEach(itemList, function(itemObj,cb){
 

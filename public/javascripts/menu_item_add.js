@@ -76,7 +76,9 @@ function events(itemId) {
 
 //取得菜品信息
 function getItemData() {
-
+  var tmpOption = $("#itemOption").val();
+  var option = [];
+  option = tmpOption.split(/[, ，]/);
   var item = {
       itemName : $("#itemName").val()
     , itemPriceNormal : $("#itemPriceNormal").val()
@@ -91,6 +93,7 @@ function getItemData() {
     , type: $("#inputType").attr("value")
     , printerId: $("#printerType").attr("value")
     , discount: $("#discount").attr("value")
+    , option: option
   };
   var tag = []
     , inputTag = $("#itemType");
@@ -164,6 +167,13 @@ function render(itemId) {
       if (err) {
         smart.error(err,i18n["js.common.search.error"],false);
       } else {
+        var option = "";
+        if(result.option[0]){
+          option = result.option[0];
+          for (var i = 1; i <result.option.length; i++) {
+            option =  option + "，" + result.option[i];
+          }
+        }
         $("#itemName").val(result.itemName);
         $("#itemPriceNormal").val(result.itemPriceNormal);
         $("#itemPriceHalf").val(result.itemPriceHalf);
@@ -174,6 +184,7 @@ function render(itemId) {
         $("#itemMethod").val(result.itemMethod);
         $("#uploadfile_small").val(result.bigimage);
         $("#uploadfile_big").val(result.bigimage);
+        $("#itemOption").val(option);
         new ButtonGroup("inputType", result.type).init();
         new ButtonGroup("printerType", result.printerId).init();
         new ButtonGroup("discount", result.discount).init();

@@ -177,19 +177,6 @@ exports.list = function(handler, callback_) {
   });
 };
 
-
-exports.searchOne = function( compid, callback_) {
-  item.get(compid, function(err, result){
-    if (err) {
-      return callback_(new error.InternalServer(err));
-    }
-    return callback_(err, result);
-  });
-
-};
-
-
-
 exports.add = function(handler, callback){
   var now = new Date()
     , uid = handler.uid
@@ -212,6 +199,7 @@ exports.add = function(handler, callback){
     , pin               : handler.params.pin
     , printerId         : handler.params.printerId
     , discount          : handler.params.discount
+    , option            : handler.params.option
     , editat: now
     , editby: handler.uid
   };
@@ -288,6 +276,7 @@ exports.update = function(handler, callback) {
     , pin               : handler.params.pin
     , printerId         : handler.params.printerId
     , discount          : handler.params.discount
+    , option            : handler.params.option
     , editat: now
     , editby: handler.uid
   };
