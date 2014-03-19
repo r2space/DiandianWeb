@@ -93,13 +93,13 @@ exports.list = function(handler, callback) {
           if(err){
             return callback(err,null);
           }
-          service.list(code,condition,function(err,itmes){
+          service.list(code,condition,function(err,items){
             if(err){
               return callback(err,null);
             }
             var profitTotal = 0;
             var userPayTotal = 0;
-            _.each(itmes, function(item){
+            _.each(items, function(item){
               if(item.profit){
                 profitTotal += parseFloat(item.profit);
               }
@@ -107,7 +107,24 @@ exports.list = function(handler, callback) {
                 userPayTotal += parseFloat(item.userPay);
               }
             });
-            return callback(err, {items: result,total:total,profit :profitTotal,userPay:userPayTotal});
+            var amountPrice = 0;
+            async.forEach(items,function(item,cb){
+              order.getOrderListByServiceId(code,item._id,function(err,results){
+                if(item.status == 1) {
+                  _.each(results,function(order){
+                    if(order.back == 0 || order.back == 1){
+                      amountPrice += parseFloat(order.amountPrice);
+                    }
+                    if (order.back == 2){
+                      amountPrice -= parseFloat(order.amountPrice);
+                    }
+                  });
+                }
+                cb(err,results);
+              });
+            },function(err){
+              return callback(err, {items: result,total:total,profit :profitTotal+amountPrice,userPay:userPayTotal,noPay:amountPrice});
+            });
           });
         });
       }

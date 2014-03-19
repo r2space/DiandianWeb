@@ -58,6 +58,7 @@ function render(start, count, keyword,startTime ,endTime) {
     $("#serviceTotal").html("账单数量:" + result.total + "个&nbsp;");
     $("#serviceAmount").html("营业额:" +result.profit+ "元&nbsp;");
     $("#serviceUserPay").html("实际收入:" +result.userPay+ "元&nbsp;");
+    $("#serviceNoPay").html("未付款:" +result.noPay+ "元&nbsp;");
     container.html("");
     var statusRender = function(val){
       if(val == 1) {
