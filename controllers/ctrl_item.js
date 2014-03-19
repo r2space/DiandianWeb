@@ -184,7 +184,8 @@ exports.add = function(handler, callback){
     , tags = handler.params.tags;
 
   var newItem = {
-    itemName          : handler.params.itemName
+      itemName          : handler.params.itemName
+    , searchIndex       : handler.params.searchIndex
     , itemPriceNormal   : handler.params.itemPriceNormal
     , itemPriceHalf     : handler.params.itemPriceHalf
     , itemPriceDiscount : handler.params.itemPriceDiscount
@@ -267,6 +268,7 @@ exports.update = function(handler, callback) {
 
   var newItem = {
     itemName            : handler.params.itemName
+    , searchIndex       : handler.params.searchIndex
     , itemPriceNormal   : handler.params.itemPriceNormal
     , itemPriceHalf     : handler.params.itemPriceHalf
     , itemPriceDiscount : handler.params.itemPriceDiscount
@@ -356,5 +358,32 @@ exports.get = function(handler, callback){
       return callback(new error.InternalServer(err));
     }
     callback(err, result);
+  });
+};
+
+/**
+ * 获取指定条件菜品列表
+ * @param callback
+ */
+exports.search = function(handler, callback) {
+  var code      = handler.params.code
+    , keyword   = handler.params.keyword
+    , condition = {
+      valid : 1
+    };
+
+  if (keyword) {
+    keyword = util.quoteRegExp(keyword);
+    condition.searchIndex = new RegExp(keyword.toLowerCase(), "i");
+  }
+
+  item.total(code, condition, function (err, count) {
+
+    item.getList(code, condition, 0, count, function (err, result) {
+      if (err) {
+        return callback_(new error.InternalServer(err));
+      }
+      return callback(err, {items: result, totalItems: count});
+    });
   });
 };

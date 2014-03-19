@@ -85,3 +85,14 @@ exports.findOne = function(req, res) {
   });
 };
 
+// 根据条件查找菜品列表
+exports.quickSearch = function(req, res) {
+  var handler = new context().bind(req, res);
+  log.operation("begin: search the list of item.", handler.uid);
+
+  item.search(handler, function(err, result) {
+    log.operation("finish: search the list of item.", handler.uid);
+    response.send(res, err, result);
+  });
+};
+

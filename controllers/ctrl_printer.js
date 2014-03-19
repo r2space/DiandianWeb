@@ -49,6 +49,8 @@ exports.add = function(handler, callback){
   var newPrinter = {
       name          : handler.params.name
     , printerIP     : handler.params.IP
+    , invoiceHead   : handler.params.invoiceHead
+    , invoiceTail   : handler.params.invoiceTail
     , type          : handler.params.type
     , editat: now
     , editby: handler.uid
@@ -75,6 +77,8 @@ exports.update = function(handler, callback){
   var newPrinter = {
       name          : handler.params.name
     , printerIP     : handler.params.IP
+    , invoiceHead   : handler.params.invoiceHead
+    , invoiceTail   : handler.params.invoiceTail
     , type          : handler.params.type
     , editat: now
     , editby: uid

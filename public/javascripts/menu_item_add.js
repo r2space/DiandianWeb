@@ -81,6 +81,7 @@ function getItemData() {
   option = tmpOption.split(/[, ，]/);
   var item = {
       itemName : $("#itemName").val()
+    , searchIndex : $("#searchIndex").val()
     , itemPriceNormal : $("#itemPriceNormal").val()
     , itemPriceHalf : $("#itemPriceHalf").val()
     , itemPriceDiscount : $("#itemPriceDiscount").val()
@@ -175,6 +176,7 @@ function render(itemId) {
           }
         }
         $("#itemName").val(result.itemName);
+        $("#searchIndex").val(result.searchIndex);
         $("#itemPriceNormal").val(result.itemPriceNormal);
         $("#itemPriceHalf").val(result.itemPriceHalf);
         $("#itemPriceDiscount").val(result.itemPriceDiscount);

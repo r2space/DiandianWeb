@@ -30,6 +30,11 @@ exports.guiding = function(app){
     item.appList(req, res);
   });
 
+  //  /api/item/quickSearch.json?keyword=""
+  app.get('/api/item/quickSearch.json', function(req, res){
+    item.quickSearch(req, res);
+  });
+
   app.get('/api/tag/list.json', function(req, res){
     tag.appSearch(req, res);
   });

@@ -13,6 +13,8 @@ $(function () {
     var printer = {
       name: $("#name").val()
       , IP: $("#IP").val()
+      , invoiceHead: $("#invoiceHead").val()
+      , invoiceTail: $("#invoiceTail").val()
       , type: $("#inputType").attr("value")
     };
 
@@ -54,6 +56,8 @@ function render(printerId) {
 
         $("#name").val(result.name);
         $("#IP").val(result.printerIP);
+        $("#invoiceHead").val(result.invoiceHead);
+        $("#invoiceTail").val(result.invoiceTail);
         new ButtonGroup("inputType", result.type).init();
       }
     });
