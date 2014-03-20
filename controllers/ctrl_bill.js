@@ -26,7 +26,8 @@ exports.stopBill = function(handler, callback) {
     , profit    = handler.params.profit
     , userPay    = handler.params.userPay
     , agio      = handler.params.agio
-    , preferential = handler.params.preferential;
+    , preferential = handler.params.preferential
+    , serviceNote = handler.params.serviceNote;
   var now = new Date();
   seq.getNextVal(code,"BillSEQ",function(err,nextSeq){
     service.update(code,serviceId,{
@@ -38,7 +39,8 @@ exports.stopBill = function(handler, callback) {
       status : 3,
       billNum : nextSeq ,
       hasLessMoney:parseFloat(userPay) < parseFloat(profit),
-      editat:now
+      editat:now,
+      serviceNote:serviceNote
     },function(err,result){
       callback( null, result);
     });

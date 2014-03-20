@@ -93,7 +93,7 @@ function render(start, count, keyword,startTime ,endTime) {
           "orderCount": row.orderCount ,
           "amount"    : row.amount + ".00" ,
           "profit"    : row.profit ,
-          "userPay"   : row.userPay ? row.userPay : row.profit,
+          "userPay"   : row.userPay ,
           "agio"      : row.agio == 1 ? "未打折" : parseInt(row.agio * 100) + "%",
           "status"    : statusRender(row.status) ,
           "createat"  : smart.date(row.createat) ,
