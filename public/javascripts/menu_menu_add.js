@@ -22,15 +22,15 @@ $(function () {
 
     // 大格页
     $('#addLargeMenuScreen').on("click", function(){
-      insertLandscapeScreenAfter(1, null, null);
+      insertLandscapeScreenAfterCur(1);
     });
     // 中格页
     $('#addMediumMenuScreen').on("click", function(){
-      insertLandscapeScreenAfter(2, null, null);
+      insertLandscapeScreenAfterCur(6);
     });
     // 小格页
     $('#addSmallMenuScreen').on("click", function(){
-      insertLandscapeScreenAfter(3, null, null);
+      insertLandscapeScreenAfterCur(9);
     });
     // pop x按钮
     $('#pickThumbPicClose').on("click", function(){
@@ -268,6 +268,150 @@ $(function () {
     space.animate({
       scrollLeft: main.width()-549
     }, 400);
+  }
+
+  function insertLandscapeScreenAfterCur(screenNum){
+
+    var space = $("#layoutLandscape");
+    var currentPage = parseInt(space.scrollLeft()/549+2);
+    var indexCounter = 0;
+    if(pages > 0) {
+      for (var i = 0; i < parseInt(space.scrollLeft()/549+1); i++) {
+        if($("#gridPageDiv_"+ parseInt(i)).hasClass("landscapePageLarge")) {
+          indexCounter += 1;
+        }
+        if($("#gridPageDiv_"+ parseInt(i)).hasClass("landscapePageMedium")) {
+          indexCounter += 6;
+        }
+        if($("#gridPageDiv_"+ parseInt(i)).hasClass("landscapePageSmall")) {
+          indexCounter += 9;
+        }
+      }
+    }
+
+    if (indexCounter == 0) {
+      currentPage = 1;
+    }
+    var pageDiv = $('<div/>');
+    pageDiv.attr('id', 'gridPageDiv_' + pages);
+    main.css( "width", "+=549" );
+
+    // 加一页
+    pages++;
+
+    var it = {};
+    if (screenNum === 1) {
+      it = {index: indexCounter+1, row:3, column:3};
+      it.currentPageIdx = currentPage;
+      pageDiv.addClass("landscapePageLarge");
+
+      var gridDiv = $('<div/>');
+      gridDiv.attr('id', 'gridPageDiv_' + pages + '_' + 1);
+      gridDiv.attr('index', indexCounter+1);
+      gridDiv.attr('divType', 3);
+      gridDiv.addClass("itemDiv");
+
+      pageDiv.append(gridDiv);
+
+    } else if(screenNum === 6){
+      var  tmpIndexCounterHtml = indexCounter+1;
+      it = {index: indexCounter + 1, row:2, column:2};
+      it.currentPageIdx = currentPage;
+
+      pageDiv.addClass("landscapePageMedium");
+      var gridDiv = $('<div/>');
+      gridDiv.attr('id', 'gridPageDiv_' + pages + '_' + 1);
+      gridDiv.attr('index', tmpIndexCounterHtml);
+      gridDiv.attr('divType', 2);
+      gridDiv.addClass("itemDiv");
+      pageDiv.append(gridDiv);
+      for (var i = 2; i < 7; i++){
+        var grid = $('<div/>');
+        grid.attr('id', 'gridPageDiv_' + pages + '_' + i);
+        grid.attr('index', ++tmpIndexCounterHtml);
+        grid.attr('divType', 1);
+        grid.addClass("itemDiv");
+        pageDiv.append(grid);
+      }
+    } else if (screenNum === 9){
+      var tmpIndexCounterHtml = indexCounter+1;
+      it = {index: indexCounter + 1, row:1, column:1};
+      it.currentPageIdx = currentPage;
+      pageDiv.addClass("landscapePageSmall");
+      for (var i = 1; i < 10; i++){
+        var grid = $('<div/>');
+        grid.attr('id', 'gridPageDiv_' + pages + '_' + i);
+        grid.attr('index', tmpIndexCounterHtml++);
+        grid.attr('divType', 1);
+        grid.addClass("itemDiv");
+        pageDiv.append(grid);
+      }
+    }
+
+    var tmp = [];
+    var i = 0;
+    var tmpIndexCounter = indexCounter + 1;
+    for (i = 0; i < indexCounter; i++) {
+      tmp[i] = items[i];
+    }
+    for (var j = 0; j < screenNum; j++) {
+      if (j == 0) {
+        tmp[i] = it;
+      } else {
+        var it2 = {index: ++tmpIndexCounter, row:1, column:1}
+        it2.currentPageIdx = currentPage;
+        tmp[i] = it2;
+      }
+      i++;
+    }
+    for (; i<items.length+screenNum; i++) {
+      tmp[i]  = items[indexCounter];
+      indexCounter++;
+      tmp[i].index += screenNum;
+      tmp[i].currentPageIdx += 1;
+    }
+    items = [];
+    items = tmp;
+
+    main.append(pageDiv);
+
+    if (pages > 1) {
+      pageDiv.insertBefore($("#gridPageDiv_"+ parseInt(space.scrollLeft()/549+1)));
+      for (var i = pages-2; i >= parseInt(space.scrollLeft()/549+1); i--) {
+        $("#gridPageDiv_" + i).attr("id","gridPageDiv_"+ (i+1));
+        for (var j = 1; j<=9; j++) {
+          if($("#gridPageDiv_"+ (i+1) + "_"+j).hasClass("itemDiv")){
+            $("#gridPageDiv_"+ (i+1) + "_"+j ).attr("index",parseInt($("#gridPageDiv_"+ (i+1) + "_"+j).attr("index"))+1);
+            $("#gridPageDiv_" + (i+1) + "_"+j).attr("id","gridPageDiv_"+ (i+2) + "_"+j);
+          }
+        }
+      }
+      $("#gridPageDiv_" + (pages - 1)).attr("id","gridPageDiv_"+ parseInt(space.scrollLeft()/549+1));
+      for (var j=1; j<=9; j++) {
+        if($("#gridPageDiv_" + (pages) + "_"+j)){
+          $("#gridPageDiv_" + (pages) + "_"+j).attr("id","gridPageDiv_"+ parseInt(space.scrollLeft()/549+2) + "_"+j);
+        }
+      }
+    }
+    space.animate({
+      scrollLeft:549*parseInt(space.scrollLeft()/549+1)
+    }, 400);
+
+    // 菜品选择
+    $.each($(".itemDiv"), function(idx, it) {
+
+      it.onclick = function(event){
+        var size =  $(it).attr('divType');
+        var index=  $(it).attr('index');
+        var selectedEvent = function(selectItem){
+          setImg($(it),selectItem.fileid, size);
+          items[index-1].itemId = selectItem.item_id;
+        };
+
+        var _popup = new ImagePopup({ type: 'single', tpl: 'image', el: 'itemModal' }, selectedEvent);
+        _popup.show();
+      };
+    });
   }
 
   function render(menuId) {
