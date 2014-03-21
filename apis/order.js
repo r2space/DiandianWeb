@@ -60,6 +60,22 @@ exports.doneOrder = function (req,res) {
   });
 };
 
+exports.doneOrderAndGetDishOrderList = function (req,res) {
+  var handler = new context().bind(req, res);
+  log.operation("begin: get deskList.", handler.uid);
+  order.doneOrderAndGetDishOrderList(handler, function(err, result){
+    log.operation("finish: get deskList.", handler.uid);
+
+
+    response.send(res, err, result);
+
+  },function(err,result){
+    ws.broadcast(act.dataBroadcast("refresh_desk", {}));
+    ws.broadcast(act.dataBroadcast("refresh_order", {}));
+  });
+};
+
+
 exports.deskList = function (req,res) {
   var handler = new context().bind(req, res);
   log.operation("begin: get deskList.", handler.uid);
@@ -82,6 +98,16 @@ exports.itemList = function (req, res) {
     response.send(res, err, result);
   });
 
+};
+
+exports.dishItemList = function (req, res) {
+  var handler = new context().bind(req, res);
+  log.operation("begin: get appfoodAndDrinkList.", handler.uid);
+  order.dishItemList(handler, function (err, result) {
+
+    log.operation("finish: get appfoodAndDrinkList.", handler.uid);
+    response.send(res, err, result);
+  });
 
 };
 

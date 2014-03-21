@@ -99,6 +99,37 @@ exports.doneOrder = function(handler, callback,sokcet) {
 
 };
 
+/**
+ * 上菜机能 可以传入数组 或者  单独的OrderId
+ * @param handler
+ * @param callback
+ */
+exports.doneOrderAndGetDishOrderList = function(handler, callback,sokcet) {
+  var code = handler.params.code
+    , orderId = handler.params.orderId;
+
+  order.get(code,orderId,function(err,orderDoc){
+    if(orderDoc.back == 1){
+      exports.dishItemList(handler,function(err,result){
+        return callback(err,result);
+      });
+    }else{
+      order.update(code,orderId,{ back: 1 ,editby:handler.uid} ,function(err,orderUpdated){
+        if(err){
+          return callback(new error.InternalServer(err));
+        }else{
+          service.delUnfinishedCount(code,orderDoc.serviceId,function(err,count){
+            exports.dishItemList(handler,function(err,result){
+              sokcet(null,"ok");
+              return callback(err,result);
+            });
+          });
+        }
+      });
+    }
+  });
+};
+
 
 /**
  * 免单
@@ -326,6 +357,51 @@ exports.getItemList = function(handler, callback) {
   });
 
 };
+
+exports.dishItemList = function(handler, callback) {
+  var code = handler.params.code
+    , condition = {
+      valid: 1
+      , back : 0
+      , itemType : {$in: [1,3]}
+      , createat : {"$gte":getYesterDay()}
+    };
+  var start = 0 ;
+  var limit = Number.MAX_VALUE;
+
+  console.log(condition);
+
+  order.getList(code, condition, start, limit,null, function (err, result) {
+    if (err) {
+      return callback(new error.InternalServer(err));
+    }
+    async.each(result,function(orderDoc,cb){
+      item.get(code, orderDoc.itemId,function(err,itemDoc){
+        if(err){
+            cb(err);
+        }else{
+          orderDoc._doc.item = itemDoc;
+          desk.get(code,orderDoc.deskId,function(err,deskDoc){
+            if(err){
+              cb(err);
+            }else{
+              orderDoc._doc.desk = deskDoc;
+              cb(null);
+            }
+          });
+        }
+      });
+
+    },function(err){
+      if(err){
+        return callback(new error.InternalServer(err));
+      }else{
+        return callback(null, {items: result, totalItems: result.length})
+      }
+    });
+  });
+};
+
 
 function getYesterDay(){
   var today = new Date();
