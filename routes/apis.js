@@ -71,12 +71,21 @@ exports.guiding = function(app){
       order.itemList(req,res);
   });
 
+  //order
+  app.get("/api/order/dishItemList.json" ,function(req,res){
+    order.dishItemList(req,res);
+  });
+
   app.get("/api/order/deskList.json" ,function(req,res){
     order.deskList(req,res);
   });
 
   app.get("/api/order/doneOrder.json" ,function(req,res){
     order.doneOrder(req,res);
+  });
+
+  app.get("/api/order/doneOrderAndGetDishOrderList.json" ,function(req,res){
+    order.doneOrderAndGetDishOrderList(req,res);
   });
 
   app.get("/api/order/backOrder.json" ,function(req,res){

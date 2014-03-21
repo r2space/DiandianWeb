@@ -56,7 +56,7 @@ function render(start, count, keyword,startTime ,endTime) {
       , container = $("#turnover_list")
       , index = 1;
     $("#serviceTotal").html("账单数量:" + result.total + "个&nbsp;");
-    $("#serviceAmount").html("营业额:" +result.profit+ "元&nbsp;");
+    $("#serviceAmount").html("营业额(包含未付款):" +result.profit+ "元&nbsp;");
     $("#serviceUserPay").html("实际收入:" +result.userPay+ "元&nbsp;");
     $("#serviceNoPay").html("未付款:" +result.noPay+ "元&nbsp;");
     container.html("");
