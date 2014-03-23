@@ -346,3 +346,34 @@ function getDateRange(handler) {
   return {"$gte": startTimpstamp, "$lte": endTimestamp}
 };
 
+exports.drinkRanking = function(handler,callback){
+  handler.addParams("saleType",2);
+  handler.addParams("backType",2);
+  var today = moment().format("YYYY-MM-DD");
+  handler.addParams("endTime",today);
+  handler.addParams("startTime",today);
+  exports.analytics(handler,function(err,result){
+    if(err){
+      return callback(err);
+    }else{
+      var str = "";
+      _.each(result.saleRanking,function(item){
+        var name = item.itemName;
+        var length  = "　　　"+name.length;
+        for (var i = 0;i < 13 - length;i++){
+          name+="　";
+        }
+
+        var count = item._doc.saleCount;
+        length = count.toString().length;
+        for (var i = 0;i< 3 - length;i++){
+          count=" "+count;
+        }
+        str += name + count +"\n";
+      });
+      return callback(err,str);
+    }
+  });
+
+};
+

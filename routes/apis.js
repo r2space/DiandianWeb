@@ -12,6 +12,7 @@ var desk = require("../apis/desk")
   , tag = require("../apis/tag")
   , soldout = require("../apis/soldout")
   , menu = require("../apis/menu")
+  , turnover   = require("../apis/turnover")
   , file = require("../apis/file");
 
 
@@ -194,6 +195,9 @@ exports.guiding = function(app){
     file.uploadLog(req,res);
   });
 
+  app.get("/turnover/drinkRanking.json", function(req,res){
+    turnover.drinkRanking(req,res);
+  });
 }
 
 

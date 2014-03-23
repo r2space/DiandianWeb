@@ -35,3 +35,12 @@ exports.analytics = function(req,res){
     response.send(res, err, result);
   });
 }
+exports.drinkRanking = function(req,res){
+  var handler = new context().bind(req, res);
+  log.operation("begin: drinkRanking.", handler.uid);
+
+  turnover.drinkRanking(handler, function(err, result) {
+    log.operation("finish: drinkRanking.", handler.uid);
+    response.send(res, err, result);
+  });
+}
