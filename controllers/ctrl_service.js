@@ -7,6 +7,7 @@ var _           = smart.util.underscore
   , group       = smart.ctrl.group
   , error       = smart.framework.errors
   , service  = require('../modules/mod_service.js')
+  , desk = require('../modules/mod_desk.js')
   , order  = require('../modules/mod_order.js');
 
 exports.startService = function(handler, callback) {
@@ -96,7 +97,7 @@ exports.getTakeoutList = function(handler, callback) {
   service.total(code, condition, function (err, count) {
 
     service.getTakeoutList(code,condition,0,100,function(err,result){
-      console.log(result);
+
       callback(err,{items: result, totalItems:count});
 
     });
@@ -106,6 +107,40 @@ exports.getTakeoutList = function(handler, callback) {
 
 }
 
+exports.recentList = function(handler, callback) {
+  var code = handler.params.code
+    , condition = {
+      status : 3,
+      createat : {"$gte":getYesterDay()}
+    };
+    service.getRecentList(code,condition,0,5,function(err,result){
+      async.each(result,function(item,cb){
+        desk.get(code,item.deskId,function(err,deskDoc){
+          if(err){
+            cb(err);
+          }else{
+            item._doc.deskName = deskDoc.name;
+            cb(null);
+          }
+        });
+      },function(err){
+        if(err){
+          callback(new error.InternalServer(err));
+        }else{
+          callback(err,{items: result, totalItems:result.length});
+        }
+      });
+    });
+}
+
+function getYesterDay(){
+  var today = new Date();
+  today.setHours(0);
+  today.setMinutes(0);
+  today.setSeconds(0);
+  today.setMilliseconds(0);
+  return today;
+}
 
 
 exports.addUnfinishedCount = function(code,serviceId,callback){

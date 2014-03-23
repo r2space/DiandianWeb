@@ -67,3 +67,14 @@ exports.takeoutList = function(req,res) {
   });
 
 };
+
+exports.recentList = function(req,res) {
+  var handler = new context().bind(req, res);
+  log.operation("begin: recentList.", handler.uid);
+  service.recentList(handler, function(err, result) {
+
+    log.operation("finish: recentList.", handler.uid);
+    response.send(res, err, result);
+  });
+
+};

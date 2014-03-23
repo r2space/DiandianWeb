@@ -129,6 +129,19 @@ exports.getTakeoutList = function(code, condition,start,limit, callback) {
     });
 };
 
+exports.getRecentList = function(code, condition,start,limit, callback) {
+
+  var service = model(code);
+
+  service.find(condition)
+    .skip(start || 0)
+    .limit(limit || 20)
+    .sort({editat: -1})
+    .exec(function(err, result) {
+      callback(err, result);
+    });
+};
+
 exports.getTurnoverList = function(code, condition,start,limit, callback) {
 
   var service = model(code);

@@ -140,6 +140,10 @@ exports.guiding = function(app){
     service.takeoutList(req,res);
   });
 
+  app.get("/api/service/recentList.json" ,function(req,res){
+    service.recentList(req,res);
+  });
+
   app.post('/api/order/add.json', function (req, res) {
     order.orderAdd(req, res);
   });
