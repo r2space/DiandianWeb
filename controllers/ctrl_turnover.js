@@ -369,8 +369,9 @@ exports.drinkRanking = function(handler,callback){
         for (var i = 0;i< 3 - length;i++){
           count=" "+count;
         }
-        str += name + count +"\n";
+        str += name + count +"\n----------------------------------------\n";
       });
+      str = "              "+moment().format("YYYY-MM-DD日 酒水饮料销量")+"\n\n"+ str;
       return callback(err,str);
     }
   });
