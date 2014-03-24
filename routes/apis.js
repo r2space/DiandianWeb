@@ -89,6 +89,10 @@ exports.guiding = function(app){
     order.doneOrderAndGetDishOrderList(req,res);
   });
 
+  app.get("/api/order/doneOrderAndGetDeskList.json" ,function(req,res){
+    order.doneOrderAndGetDeskList(req,res);
+  });
+
   app.get("/api/order/backOrder.json" ,function(req,res){
     order.backOrder(req,res);
   });

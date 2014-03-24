@@ -65,16 +65,12 @@ exports.doneOrder = function(handler, callback,sokcet) {
               order.get(code,idStr,function(err,orderDocs1){
                 if(orderDocs1.back == 1 && orderDocs1.editby == handler.uid){
                   service.delUnfinishedCount(code,orderDocs1.serviceId,function(err,serviceResult) {
-                    console.log("delete  ok");
                     sokcet(null,"ok");
                   });
                 } else {
                   sokcet(null,"ok");
                 }
-
-
               });
-              console.log("timeou");
 
             },wait+1000);
 
@@ -100,7 +96,7 @@ exports.doneOrder = function(handler, callback,sokcet) {
 };
 
 /**
- * 上菜机能 可以传入数组 或者  单独的OrderId
+ * 菜品划菜
  * @param handler
  * @param callback
  */
@@ -130,7 +126,37 @@ exports.doneOrderAndGetDishOrderList = function(handler, callback,sokcet) {
   });
 };
 
+/**
+ * 酒水主食划菜
+ * @param handler
+ * @param callback
+ */
+exports.doneOrderAndGetDeskList = function(handler, callback,sokcet) {
+  var code = handler.params.code
+    , orderId = handler.params.orderId;
 
+  handler.addParams("type","neItem");
+  order.get(code,orderId,function(err,orderDoc){
+    if(orderDoc.back == 1){
+      exports.getDeskList(handler,function(err,result){
+        return callback(err,result);
+      });
+    }else{
+      order.update(code,orderId,{ back: 1 ,editby:handler.uid} ,function(err,orderUpdated){
+        if(err){
+          return callback(new error.InternalServer(err));
+        }else{
+          service.delUnfinishedCount(code,orderDoc.serviceId,function(err,count){
+            exports.getDeskList(handler,function(err,result){
+              sokcet(null,"ok");
+              return callback(err,result);
+            });
+          });
+        }
+      });
+    }
+  });
+};
 /**
  * 免单
  * @param handler
@@ -274,6 +300,7 @@ exports.getDeskList = function(handler, callback) {
     condition.itemType = { $in: [1,3] };
   } else {
     condition.itemType = { $in: [0,2] };
+    condition.createat = {"$gte":getYesterDay()};
   }
 
   order.total(code, condition, function (err, count) {
@@ -339,7 +366,6 @@ exports.getItemList = function(handler, callback) {
   var start = 0 ;
   var limit = Number.MAX_VALUE;
 
-  console.log(condition);
   order.total(code, condition, function (err, count) {
     if (err) {
       return callback(new error.InternalServer(err));

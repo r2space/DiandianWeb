@@ -62,9 +62,9 @@ exports.doneOrder = function (req,res) {
 
 exports.doneOrderAndGetDishOrderList = function (req,res) {
   var handler = new context().bind(req, res);
-  log.operation("begin: get deskList.", handler.uid);
+  log.operation("begin: get doneOrderAndGetDishOrderList.", handler.uid);
   order.doneOrderAndGetDishOrderList(handler, function(err, result){
-    log.operation("finish: get deskList.", handler.uid);
+    log.operation("finish: get doneOrderAndGetDishOrderList.", handler.uid);
 
 
     response.send(res, err, result);
@@ -75,6 +75,20 @@ exports.doneOrderAndGetDishOrderList = function (req,res) {
   });
 };
 
+exports.doneOrderAndGetDeskList = function (req,res) {
+  var handler = new context().bind(req, res);
+  log.operation("begin: get doneOrderAndGetDeskList.", handler.uid);
+  order.doneOrderAndGetDeskList(handler, function(err, result){
+    log.operation("finish: get doneOrderAndGetDeskList.", handler.uid);
+
+
+    response.send(res, err, result);
+
+  },function(err,result){
+    ws.broadcast(act.dataBroadcast("refresh_desk", {}));
+    ws.broadcast(act.dataBroadcast("refresh_order", {}));
+  });
+};
 
 exports.deskList = function (req,res) {
   var handler = new context().bind(req, res);
