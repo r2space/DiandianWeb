@@ -16,7 +16,7 @@ var mongo       = smart.util.mongoose
  */
 var Item = new schema({
    itemName             : { type: String, description: "菜品名称" }
- , searchIndex          : { type: String, description: "快速索引关键字" }
+ , searchIndex          : { type: String, description: "快速索引关键字",default: "" }
  , itemMethod           : { type: String, description: "菜品作法" }
  , smallimage           : { type: String, description: "小图" }
  , bigimage             : { type: String, description: "大图" }
@@ -30,7 +30,7 @@ var Item = new schema({
  , itemMaterial         : { type: String, description: "菜品材料" }
  , valid                : {type: Number, description: "删除 0:无效 1:有效", default: 1}
  , tags                 : [String]
- , type                 :  {type: Number, description: "类型 0:主食 1:菜品 2:酒水 3:海鲜 10:广告", default: 1}
+ , type                 : {type: Number, description: "类型 0:主食 1:菜品 2:酒水 3:海鲜 10:广告", default: 1}
  , printerId            : { type: String, description: "打印机IP" }
  , pin                  : {type: [String], description: "类型 1:招牌菜 2:热卖中 3:新品菜 4:营养菜 5:优惠菜", default: null}
  , discount             : {type: Number, description: "菜品折扣： 0： 无折扣 1： 有折扣", default: 1}

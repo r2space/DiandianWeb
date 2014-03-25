@@ -76,7 +76,7 @@ exports.simpleLogin = function(req, res){
  */
 exports.simpleLogout = function(req, res){
 
-
+  auth.logout(req);
   // TODO
   res.render("login", {"title": "login"});
 };
