@@ -349,9 +349,8 @@ function getDateRange(handler) {
 exports.drinkRanking = function(handler,callback){
   handler.addParams("saleType",2);
   handler.addParams("backType",2);
-  var today = moment().format("YYYY-MM-DD");
-  handler.addParams("endTime",today);
-  handler.addParams("startTime",today);
+  handler.addParams("endTime",handler.params.date);
+  handler.addParams("startTime",handler.params.date);
   exports.analytics(handler,function(err,result){
     if(err){
       return callback(err);
@@ -371,7 +370,7 @@ exports.drinkRanking = function(handler,callback){
         }
         str += name + count +"\n----------------------------------------\n";
       });
-      str = "              "+moment().format("YYYY-MM-DD日 酒水饮料销量")+"\n\n"+ str;
+      str = "              "+handler.params.date+"日 酒水饮料销量"+"\n\n"+ str;
       return callback(err,str);
     }
   });
