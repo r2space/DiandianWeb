@@ -245,7 +245,17 @@ exports.backOrder = function(handler, callback) {
 
             tmpResult.push(newBackOrderDocs);
             service.update(code,newBackOrderDocs.serviceId,{hasBackOrder:true},function(err,serviceDoc){
-              cb(err,null);
+              if(serviceDoc.status == 3){
+                service.update(code,newBackOrderDocs.serviceId,{
+                  amount:parseFloat(serviceDoc.amount) - parseFloat(amountPrice)
+                  ,profit:parseFloat(serviceDoc.profit) - parseFloat(amountPrice)
+                  ,userPay:parseFloat(serviceDoc.userPay) - parseFloat(amountPrice)
+                },function(err,serviceDoc2){
+                  cb(err,null);
+                });
+              }else{
+                cb(err,null);
+              }
             });
 
           });
@@ -259,7 +269,19 @@ exports.backOrder = function(handler, callback) {
 
               tmpResult.push(newBackOrderDocs);
               service.update(code,newBackOrderDocs.serviceId,{hasBackOrder:true},function(err,serviceDoc){
-                cb(err,null);
+
+                if(serviceDoc.status == 3){
+                  service.update(code,newBackOrderDocs.serviceId,{
+                    amount:parseFloat(serviceDoc.amount) - parseFloat(amountPrice)
+                    ,profit:parseFloat(serviceDoc.profit) - parseFloat(amountPrice)
+                    ,userPay:parseFloat(serviceDoc.userPay) - parseFloat(amountPrice)
+                  },function(err,serviceDoc2){
+                    cb(err,null);
+                  });
+                }else{
+                  cb(err,null);
+                }
+
               });
 
             });

@@ -401,16 +401,27 @@ exports.updatePattern = function(req, res) {
 exports.isPatternRight = function(req, res) {
 
   var handler = new context().bind(req, res);
-
+  log.operation("begin: check pattern  .", handler.uid);
   ctrlUser.get(handler, function(err, result) {
 
     if (err) {
+      log.operation("end: check pattern with error .", err);
       return response.send(res, err);
+
     }
 
     if (!result.extend || !result.extend.pattern) {
+      log.operation("end: check pattern", handler.uid);
       return response.send(res, err, {isRight: -1});
     }
+    log.operation("end: check pattern", handler.uid);
+
+
+//    setTimeout(function() {
+//      return response.send(res, err, {isRight: (result.extend.pattern === handler.params.pattern)});
+//    }, 5000);
+
+
 
     return response.send(res, err, {isRight: (result.extend.pattern === handler.params.pattern)});
   });

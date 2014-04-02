@@ -113,7 +113,7 @@ exports.recentList = function(handler, callback) {
       status : 3,
       createat : {"$gte":getYesterDay()}
     };
-    service.getRecentList(code,condition,0,5,function(err,result){
+    service.getRecentList(code,condition,0,20,function(err,result){
       async.each(result,function(item,cb){
         desk.get(code,item.deskId,function(err,deskDoc){
           if(err){
