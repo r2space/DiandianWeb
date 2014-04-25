@@ -197,7 +197,7 @@ exports.analytics = function(handler,callback) {
               if(! _.has(backRanking,item.itemId)){
                 backRanking[item.itemId] = 0;
               }
-              backRanking[item.itemId] += parseInt(item.amount);
+              backRanking[item.itemId] += Number(item.amount);
             }
 
             if(item.itemType == saleType){
@@ -205,7 +205,7 @@ exports.analytics = function(handler,callback) {
               if(! _.has(salesRanking,item.itemId)){
                 salesRanking[item.itemId] = 0;
               }
-              salesRanking[item.itemId] -= parseInt(item.amount);
+              salesRanking[item.itemId] -= Number(item.amount);
             }
 
 
@@ -216,7 +216,7 @@ exports.analytics = function(handler,callback) {
               if(! _.has(salesRanking,item.itemId)){
                 salesRanking[item.itemId] = 0;
               }
-              salesRanking[item.itemId]+= parseInt(item.amount);
+              salesRanking[item.itemId] += Number(item.amount);
             }
 
           }
@@ -244,7 +244,7 @@ exports.analytics = function(handler,callback) {
                 if(err){
                   return cb(err);
                 }
-                orderDoc._doc.saleCount = salesRanking[orderDoc._id];
+                orderDoc._doc.saleCount = salesRanking[orderDoc._id].toFixed(1);
                 topSaleResult.push(orderDoc);
                 cb(null);
               });

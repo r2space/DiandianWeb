@@ -43,7 +43,8 @@ function renderData() {
     _.each(result.saleRanking, function (row) {
       container.append(_.template(tmpl, {
         "name": row.itemName,
-        "count": row.saleCount
+        "count": row.saleCount,
+        "price": (row.itemPriceNormal * row.saleCount).toFixed(1) || 0
       }));
     });
 
@@ -52,7 +53,8 @@ function renderData() {
     _.each(result.backRanking, function (row) {
       container.append(_.template(tmpl, {
         "name": row.itemName,
-        "count": row.backCount
+        "count": row.backCount ,
+        "price": (row.itemPriceNormal * row.backCount).toFixed(1) || 0
       }));
     });
 
