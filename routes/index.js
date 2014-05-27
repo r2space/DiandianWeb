@@ -316,5 +316,10 @@ exports.guiding = function (app) {
     res.render("analytics.html",  {"title": "analytics", user: req.session.user});
   });
 
+  app.get('/analyze_items', function (req, res) {
+    res.render("analyze_items.html",  {"title": "analyze_items", user: req.session.user});
+  });
+
+
 
 };

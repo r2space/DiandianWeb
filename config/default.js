@@ -2,12 +2,14 @@ module.exports = {
 
   "db": {
     "host":"115.28.161.172"
-//      "host": "112.124.23.114"
-    , "port": 27017
+    , "port": 7017
     , "dbname": "diandian"
     , "pool": 5
   },
-
+  "zookeeper":{
+    host: "115.28.161.172:2181",
+    timeout: 1
+  },
   "testdb": {
     "host": "112.124.23.114"
     , "port": 27017
@@ -50,6 +52,8 @@ module.exports = {
       , "^\/login.*"
       , "^\/register.*"
       , "^\/archive"
+      , "^\/common/seq/nextVal.json"
+
     ]
   }
 

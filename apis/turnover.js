@@ -43,4 +43,15 @@ exports.drinkRanking = function(req,res){
     log.operation("finish: drinkRanking.", handler.uid);
     response.send(res, err, result);
   });
-}
+};
+
+exports.itemRanking = function(req,res){
+
+  var handler = new context().bind(req, res);
+  log.operation("begin: itemRanking.", handler.uid);
+
+  turnover.itemRanking(handler, function(err, result) {
+    log.operation("finish: itemRanking.", handler.uid);
+    response.send(res, err, result);
+  });
+};

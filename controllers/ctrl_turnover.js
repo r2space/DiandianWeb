@@ -168,9 +168,9 @@ exports.get = function(handler, callback){
 exports.analytics = function(handler,callback) {
 
   var params = handler.params
-    ,code = params.code
-    ,saleType = params.saleType
-    ,backType = params.backType;
+    , code = params.code
+    , saleType = params.saleType
+    , backType = params.backType;
 
   var condition = {status : 3};
   condition.createat = getDateRange(handler);
@@ -377,3 +377,87 @@ exports.drinkRanking = function(handler,callback){
 
 };
 
+exports.itemRanking = function (handler, callback) {
+  var code = handler.params.code
+    , start = handler.params.start || 0
+    , limit = handler.params.limit || 20
+    , keyword = handler.params.keyword
+    , type = handler.params.type//{0:全部,1:打折,2:未结账,3:有退菜,4:有免单,5:少收钱}
+
+//  return callback(null, {itemList: [], itemTotal: 0});
+
+    , saleType = handler.params.saleType
+
+  var condition = {
+    valid: 1
+  }
+
+  console.log(saleType);
+
+  if(saleType != '-1') {
+    condition.type = saleType;
+  }
+
+  mod_item.getList(code, condition, start, Number.MAX_VALUE, function (err, result) {
+
+
+    var tmpList = [];
+    console.log(new Date().getTime());
+    async.each(result, function (itemDoc, cb) {
+
+
+      var orderCondition = { };
+
+      orderCondition.createat = getDateRange(handler);
+      orderCondition.itemId = itemDoc._id;
+
+      order.total(code, orderCondition, function (err, orderTotal) {
+
+        itemDoc._doc.orderTotal = orderTotal;
+        tmpList.push({itemName: itemDoc.itemName, itemId: itemDoc._id, orderTotal: orderTotal});
+        cb();
+      });
+    }, function () {
+
+      console.log(new Date().getTime());
+
+      var resultList = tmpList.sort(function (a, b) {
+
+        if (limit == "all") {
+          return b.orderTotal - a.orderTotal;
+        } else if (limit == "s10") {
+          return b.orderTotal - a.orderTotal;
+        } else if (limit == "s20") {
+          return b.orderTotal - a.orderTotal;
+        } else if (limit == "b10") {
+          return a.orderTotal - b.orderTotal;
+        } else if (limit == "b20") {
+          return a.orderTotal - b.orderTotal;
+        }
+      });
+
+
+      if(limit == "all") {
+
+        return callback(null, {itemList: resultList, itemTotal: resultList.length});
+      } else if(limit == "s10") {
+        //取前十
+        resultList = resultList.splice(0,10);
+        return callback(null, {itemList: resultList, itemTotal: resultList.length});
+      } else if(limit == "s20") {
+
+        resultList = resultList.splice(0,20);
+        return callback(null, {itemList: resultList, itemTotal: resultList.length});
+      } else if(limit == "b10") {
+
+        resultList = resultList.splice(0,10);
+
+        return callback(null, {itemList: resultList, itemTotal: resultList.length});
+      } else if(limit == "b20") {
+
+        resultList = resultList.splice(0,20);
+        return callback(null, {itemList: resultList, itemTotal: resultList.length});
+      }
+    });
+  });
+};

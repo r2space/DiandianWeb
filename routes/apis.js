@@ -13,12 +13,29 @@ var desk = require("../apis/desk")
   , soldout = require("../apis/soldout")
   , menu = require("../apis/menu")
   , turnover   = require("../apis/turnover")
-  , file = require("../apis/file");
+  , file = require("../apis/file")
+  , lock = require("../apis/lock");
 
 
 exports.guiding = function(app){
 
+  app.get('/api/lock/remove.json', function(req, res){
+    lock.remove(req, res);
+  });
+
   // APIs
+  app.get('/api/lock/set.json', function(req, res){
+    lock.set(req, res);
+  });
+
+  app.get('/api/lock/get.json', function(req, res){
+    lock.get(req, res);
+  });
+
+  app.get('/api/lock/create.json', function(req, res){
+    lock.createLock(req, res);
+  });
+
   app.get('/api/menu/list.json', function(req, res){
     menu.appList(req, res);
   });
@@ -40,18 +57,20 @@ exports.guiding = function(app){
     tag.appSearch(req, res);
   });
 
-//  /common/seq/initSeq.json?name=BillSEQ&start=0&increment=1
-
+///common/seq/initSeq.json?name=BillSEQ&start=0&increment=1
   app.get('/common/seq/initSeq.json', function(req, res){
     seq.initSeq(req, res);
   });
+
 //http://115.28.161.172:3000/common/seq/resetSeq.json?name=BillSEQ&start=54
   app.get('/common/seq/resetSeq.json', function(req, res){
     seq.resetSeqSeq(req, res);
   });
+
   app.get('/common/seq/currVal.json', function(req, res){
     seq.currVal(req, res);
   });
+
   app.get('/common/seq/nextVal.json', function(req, res){
     seq.nextVal(req, res);
   });
@@ -60,12 +79,10 @@ exports.guiding = function(app){
     service.start(req, res);
   });
 
-
   //order
   app.get("/api/order/list.json" ,function(req,res){
     order.appList(req,res);
   });
-
 
   //order
   app.get("/api/order/itemList.json" ,function(req,res){
@@ -138,8 +155,6 @@ exports.guiding = function(app){
     service.changeDesk(req, res);
   });
 
-
-
   app.get("/api/service/takeoutList.json" ,function(req,res){
     service.takeoutList(req,res);
   });
@@ -151,7 +166,6 @@ exports.guiding = function(app){
   app.post('/api/order/add.json', function (req, res) {
     order.orderAdd(req, res);
   });
-
 
   app.post('/api/schedule/add.json', function (req, res) {
     schedule.addSchedule(req, res);
@@ -205,6 +219,10 @@ exports.guiding = function(app){
 
   app.get("/turnover/drinkRanking.json", function(req,res){
     turnover.drinkRanking(req,res);
+  });
+
+  app.get("/turnover/itemRanking.json", function(req,res){
+    turnover.itemRanking(req,res);
   });
 }
 

@@ -96,6 +96,7 @@ exports.appList = function(code_, condition_, start_, limit_, callback_) {
       if (err) {
         return callback_(new error.InternalServer(err));
       }
+
       getServiceStatus(code_,result,function(err,docs){
         return callback_(err, {items: docs, totalItems: count});
       });
