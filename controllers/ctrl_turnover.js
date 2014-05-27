@@ -381,20 +381,14 @@ exports.itemRanking = function (handler, callback) {
   var code = handler.params.code
     , start = handler.params.start || 0
     , limit = handler.params.limit || 20
-    , keyword = handler.params.keyword
-    , type = handler.params.type//{0:全部,1:打折,2:未结账,3:有退菜,4:有免单,5:少收钱}
-
-//  return callback(null, {itemList: [], itemTotal: 0});
-
     , saleType = handler.params.saleType
 
   var condition = {
     valid: 1
   }
 
-  console.log(saleType);
 
-  if(saleType != '-1') {
+  if (saleType != '-1') {
     condition.type = saleType;
   }
 
@@ -402,7 +396,6 @@ exports.itemRanking = function (handler, callback) {
 
 
     var tmpList = [];
-    console.log(new Date().getTime());
     async.each(result, function (itemDoc, cb) {
 
 
@@ -419,7 +412,6 @@ exports.itemRanking = function (handler, callback) {
       });
     }, function () {
 
-      console.log(new Date().getTime());
 
       var resultList = tmpList.sort(function (a, b) {
 
@@ -437,25 +429,25 @@ exports.itemRanking = function (handler, callback) {
       });
 
 
-      if(limit == "all") {
+      if (limit == "all") {
 
         return callback(null, {itemList: resultList, itemTotal: resultList.length});
-      } else if(limit == "s10") {
+      } else if (limit == "s10") {
         //取前十
-        resultList = resultList.splice(0,10);
+        resultList = resultList.splice(0, 10);
         return callback(null, {itemList: resultList, itemTotal: resultList.length});
-      } else if(limit == "s20") {
+      } else if (limit == "s20") {
 
-        resultList = resultList.splice(0,20);
+        resultList = resultList.splice(0, 20);
         return callback(null, {itemList: resultList, itemTotal: resultList.length});
-      } else if(limit == "b10") {
+      } else if (limit == "b10") {
 
-        resultList = resultList.splice(0,10);
+        resultList = resultList.splice(0, 10);
 
         return callback(null, {itemList: resultList, itemTotal: resultList.length});
-      } else if(limit == "b20") {
+      } else if (limit == "b20") {
 
-        resultList = resultList.splice(0,20);
+        resultList = resultList.splice(0, 20);
         return callback(null, {itemList: resultList, itemTotal: resultList.length});
       }
     });
