@@ -320,6 +320,9 @@ exports.guiding = function (app) {
     res.render("analyze_items.html",  {"title": "analyze_items", user: req.session.user});
   });
 
+  app.get('/analyze_items_user', function (req, res) {
+    res.render("analyze_items_user.html",  {"title": "analyze_items_user", user: req.session.user});
+  });
 
 
 };

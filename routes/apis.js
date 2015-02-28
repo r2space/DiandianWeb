@@ -224,6 +224,10 @@ exports.guiding = function(app){
   app.get("/turnover/itemRanking.json", function(req,res){
     turnover.itemRanking(req,res);
   });
+
+  app.get("/turnover/itemUserRanking.json", function(req,res){
+    turnover.itemUserRanking(req,res);
+  });
 }
 
 

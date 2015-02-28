@@ -453,3 +453,62 @@ exports.itemRanking = function (handler, callback) {
     });
   });
 };
+
+
+exports.itemUserRanking = function (handler, callback) {
+
+  var condition = { valid: 1 };
+  condition.createat = getDateRange(handler);
+
+  // find order ----
+  order.getList2(undefined, condition, 0, Number.MAX_VALUE, {itemId: 1, userId: 1}, function (err, allOrders) {
+
+    var itemList = [], itemIds = [];
+    _.each(allOrders, function(item) {
+
+      var idx = _.findIndex(itemList, function(val) {
+        return val.user == item.userId && val.item == item.itemId;
+      });
+
+      if (idx < 0) {
+        itemList.push({
+            user: item.userId,
+            item: item.itemId,
+            date: item.createat,
+            count: 1
+          }
+        );
+      } else {
+        itemList[idx].count = itemList[idx].count + 1;
+        itemIds.push(item.itemId);
+      }
+    });
+
+    // find item name ----
+    mod_item.getList(undefined, { valid: 1 }, 0, Number.MAX_VALUE, function (err, allItems) {
+
+      _.each(itemList, function(item) {
+        var itm = _.find(allItems, function(one) {
+          return one._id.toString() == item.item;
+        });
+
+        item.itemName = itm ? itm.itemName : "";
+      });
+
+      // find user name ----
+      handler.params.limit = Number.MAX_VALUE;
+      user.getList(handler, function(err, allUsers) {
+        _.each(itemList, function(item) {
+          var itm = _.find(allUsers.items, function(one) {
+            return one._id.toString() == item.user;
+          });
+
+          item.userName = itm ? itm.first : "";
+        });
+
+        callback(null, {itemList: itemList, itemTotal: itemList.length});
+      });
+    });
+  });
+
+};

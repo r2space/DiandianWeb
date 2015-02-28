@@ -55,3 +55,14 @@ exports.itemRanking = function(req,res){
     response.send(res, err, result);
   });
 };
+
+exports.itemUserRanking = function(req,res){
+
+  var handler = new context().bind(req, res);
+  log.operation("begin: itemUserRanking.", handler.uid);
+
+  turnover.itemUserRanking(handler, function(err, result) {
+    log.operation("finish: itemUserRanking.", handler.uid);
+    response.send(res, err, result);
+  });
+};

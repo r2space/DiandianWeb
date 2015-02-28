@@ -137,5 +137,17 @@ exports.get = function(code,orderId,callback){
   order.findById(orderId,function(err,result){
     callback(err, result);
   });
-}
+};
 
+exports.getList2 = function(code, condition, start, limit, sort, callback) {
+
+  var order = model(code);
+
+  order.find(condition)
+    .skip(start || 0)
+    .limit(limit || 20)
+    .sort(sort)
+    .exec(function(err, result) {
+      callback(err, result);
+    });
+};
