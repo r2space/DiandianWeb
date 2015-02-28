@@ -493,6 +493,7 @@ exports.itemUserRanking = function (handler, callback) {
         });
 
         item.itemName = itm ? itm.itemName : "";
+        item.price = itm ? itm.itemPriceNormal : "";
       });
 
       // find user name ----

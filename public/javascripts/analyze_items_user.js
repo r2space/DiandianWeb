@@ -13,10 +13,14 @@ $(function () {
 
 function render() {
 
-  var jsonUrl = "/turnover/itemUserRanking.json";
-  var startTime = $("#startTime").val();
+  var jsonUrl = "/turnover/itemUserRanking.json?start=1";
+  var startTime = $("#startTime").val()
+    , endTime = $("#endTime").val();
   if (startTime) {
-    jsonUrl += "?startTime=" + startTime;
+    jsonUrl += "&startTime=" + startTime;
+  }
+  if (endTime) {
+    jsonUrl += "&endTime=" + endTime;
   }
 
   $.blockUI({ message: '<h4>数据加载中...</h4>' });
@@ -30,7 +34,10 @@ function render() {
       , container = $("#sale-ranking-table");
 
     container.html("");
-    _.each(result.itemList, function (row) {
+    var list = _.sortBy(result.itemList, function(item) {
+      return item.price * -1;
+    });
+    _.each(list, function (row) {
       container.append(_.template(tmpl, row));
     });
   });

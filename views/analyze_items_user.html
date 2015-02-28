@@ -74,7 +74,14 @@
       <div class="row">
         <div class="well" style="height: 60px;">
           <div id="datetimepicker2" class="input-append" style="float: left;margin-right: 30px">
-            <span>日期：</span><input id="startTime" data-format="yyyy-MM-dd" type="text"  value="<%=startTime.format('yyyy-MM-dd') %>">
+            <span>开始日期：</span><input id="startTime" data-format="yyyy-MM-dd" type="text"  value="<%=startTime.format('yyyy-MM-dd') %>">
+            <span class="add-on">
+              <i data-time-icon="icon-time" data-date-icon="icon-calendar" class="icon-calendar">
+              </i>
+            </span>
+          </div>
+          <div id="datetimepicker3" class="input-append" style="float: left;">
+            <span>结束时间：</span><input id="endTime" data-format="yyyy-MM-dd" type="text" value="<%=endTime.format('yyyy-MM-dd') %>">
             <span class="add-on">
               <i data-time-icon="icon-time" data-date-icon="icon-calendar" class="icon-calendar">
               </i>
@@ -93,6 +100,9 @@
         <script type="text/javascript">
           $(function() {
             $('#datetimepicker2').datetimepicker({
+              language: 'zh-CN'
+            });
+            $('#datetimepicker3').datetimepicker({
               language: 'zh-CN'
             });
           });
